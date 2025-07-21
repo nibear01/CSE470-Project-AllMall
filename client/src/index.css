@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+
+:root {
+  --font-color: #3f3f3fe4;
+  --font-color-dark: #2f2f2fe4;
+  --hover-color: #29a55f;
+}
+
+*{
+  margin: 0%;
+  padding: 0%;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Outfit","Roboto","Poppins", sans-serif;
+  font-optical-sizing: auto;
+  color: var(--font-color);
+  background: rgb(244, 244, 244);
+  /* overflow-x: hidden; */
+}
+
+::-webkit-scrollbar {height: 8px; width: 8px;}
+::-webkit-scrollbar-thumb {background: #10b981}
+::-webkit-scrollbar-track {background: #ccc;}
+
+.container {
+  /* background: white; */
+  border-bottom: 1px solid rgba(203, 203, 203, 0.659);
+  margin: auto;
+}
+
+.custom-gradient {
+  background-image: linear-gradient(
+    to right,
+    #6366f1 10%,
+    #0ea5e9 30%,
+    #10b981 90%
+  );
+}
+
+
+.cat {height: 17px !important; width: 17px !important;}
+
+.link {gap: 3px;}
+
+.link:hover {color: var(--hover-color);}
+
+.link.active {color: var(--hover-color);}
+
+.searchBox {background: #dfdfdf9c;}
+
+.searchIcon {background-color: #cececea0 !important; color: black !important;}
+
+.MuiButton-text {color: var(--font-color-dark) !important;}
+
+.links {font-size: 14px; font-weight: 500;}
+
+.links:hover {color: var(--hover-color);}

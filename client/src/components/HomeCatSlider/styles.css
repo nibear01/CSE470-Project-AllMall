@@ -1,0 +1,7 @@
+.item {padding-top: calc(var(--spacing) * 5); padding-bottom: calc(var(--spacing) * 5);}
+
+.homecatslider .swiper-button-prev {padding: 12px; height: 12px !important; width: 12px !important; min-width: 10px;} 
+.homecatslider .swiper-button-prev::after {font-size: 15px !important;}
+
+.homecatslider .swiper-button-next {padding: 12px; height: 12px !important; width: 12px !important; min-width: 10px;} 
+.homecatslider .swiper-button-next::after {font-size: 15px !important;}
