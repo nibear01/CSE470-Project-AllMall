@@ -2,6 +2,7 @@
 
 
 :root {
+  --primary: #29a55f
   --font-color: #3f3f3fe4;
   --font-color-dark: #2f2f2fe4;
   --hover-color: #29a55f;
@@ -11,10 +12,11 @@
   margin: 0%;
   padding: 0%;
   box-sizing: border-box;
+  font-family: "Outfit","Roboto","Poppins", sans-serif !important;
 }
 
 body {
-  font-family: "Outfit","Roboto","Poppins", sans-serif;
+  font-family: "Outfit","Roboto","Poppins", sans-serif !important;
   font-optical-sizing: auto;
   color: var(--font-color);
   background: rgb(244, 244, 244);

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { RiMenuFold2Fill } from "react-icons/ri";
 import { FaAngleDown } from "react-icons/fa6";
@@ -27,69 +27,65 @@ const Navigation = () => {
             <ul className="flex items-center max-h-full  gap-3">
               <li className="list-none">
                 <Button>
-                  <Link to="/" className="links">
+                  <NavLink to="/" className="links link">
                     Home
-                  </Link>
+                  </NavLink>
                 </Button>
               </li>
               <li className="list-none relative">
                 <Button>
-                  <Link to="/" className="links">
+                  <NavLink to="/category/fashion" className="links link">
                     Fashion
-                  </Link>
+                  </NavLink>
                 </Button>
-                {/* <ul className="absolute !min-w-[260%] top-[101%] bg-white flex-col items-center !p-3 font-[500]">
-                    <li><Link>Men</Link></li>
-                    <li><Link>Women</Link></li>
-                </ul> */}
               </li>
               <li className="list-none">
                 <Button>
-                  <Link to="/" className="links">
+                  <NavLink to="/category/electronics" className="links link">
                     Electronics
-                  </Link>
+                  </NavLink>
                 </Button>
               </li>
               <li className="list-none">
                 <Button>
-                  <Link to="/" className="links">
+                  <NavLink to="/category/bags" className="links link">
                     Bags
-                  </Link>
+                  </NavLink>
                 </Button>
               </li>
               <li className="list-none">
                 <Button>
-                  <Link to="/" className="links">
+                  <NavLink to="/category/footwear" className="links link">
                     Footwear
-                  </Link>
+                  </NavLink>
                 </Button>
               </li>
               <li className="list-none">
                 <Button>
-                  <Link to="/" className="links">
+                  <NavLink to="/category/groceries" className="links link">
                     Groceries
-                  </Link>
+                  </NavLink>
                 </Button>
               </li>
               <li className="list-none">
                 <Button>
-                  <Link to="/" className="links">
+                  <NavLink to="/category/beauty" className="links link">
                     Beauty
-                  </Link>
+                  </NavLink>
                 </Button>
               </li>
               <li className="list-none">
                 <Button>
-                  <Link to="/" className="links">
+                  <NavLink to="/category/wellness" className="links link">
                     Wellness
-                  </Link>
+                  </NavLink>
                 </Button>
               </li>
               <li className="list-none">
                 <Button>
-                  <Link to="/" className="links">
+                  <NavLink to="/category/jewellery" className="links link">
                     Jewellery
-                  </Link>
+                  </NavLink>
                 </Button>
               </li>
             </ul>
@@ -97,7 +93,11 @@ const Navigation = () => {
         </div>
       </nav>
 
-      <CategoryPanel  isOpenCategory = {isOpenCategory} openCategoryPanel = {openCategoryPanel} setIsOpenCategory={setIsOpenCategory} />
+      <CategoryPanel
+        isOpenCategory={isOpenCategory}
+        openCategoryPanel={openCategoryPanel}
+        setIsOpenCategory={setIsOpenCategory}
+      />
     </>
   );
 };

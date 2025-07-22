@@ -11,7 +11,7 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { storeTokenInLS } = useAuth();
+  const { storeTokenInLS, setUserName } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -30,14 +30,16 @@ const LoginPage = () => {
       });
 
       if (response.ok) {
-        console.log("response data: ", response)
+        console.log("response data: ", response);
         const res_data = await response.json();
-        console.log("res_data: ",res_data);
-        
+        console.log("res_data: ", res_data);
         storeTokenInLS(res_data.token);
+        setUserName(res_data.username);
 
         navigate("/");
       } else {
+        setEmail("");
+        setPassword("");
         setError("Invalid Credentials! Please try again.");
       }
     } catch (error) {

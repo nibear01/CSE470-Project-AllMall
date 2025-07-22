@@ -66,6 +66,7 @@ const login = async (req, res) => {
       msg: "Login SuccessFull",
       token: await userExist.generateToken(),
       userId: userExist._id.toString(),
+      username: userExist.username.toString(),
     });
     
   } catch (error) {

@@ -4,4 +4,4 @@
 
 .productitem { margin-right: 10px; border-radius: 5px 5px 0px 0px;}
 
-.info {box-shadow: 0px 1px 6px rgba(236, 236, 236, 0.174) !important; border-radius: 0px 0px 5px 5px;}
+.info {box-shadow: 0px 0px 6px rgba(247, 247, 247, 0.174) !important; border-radius: 0px 0px 5px 5px !important;}

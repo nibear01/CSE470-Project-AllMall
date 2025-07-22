@@ -5,22 +5,33 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
+  const [userName, setUsername] = useState(localStorage.getItem("userId"));
+
   //storing JWT
   const storeTokenInLS = (serverToken) => {
-    setToken(serverToken)
+    setToken(serverToken);
     return localStorage.setItem("token", serverToken);
+  };
+  //userId data store
+  const setUserName = (name) => {
+    setUsername(name);
+    return localStorage.setItem("userId", name)
   };
 
   //logout
   const logoutUser = () => {
     setToken("");
-    return localStorage.removeItem("token");
+    localStorage.removeItem("token");
+    return;
   };
 
+  const name = userName;
   let isLoggedIn = !!token;
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, storeTokenInLS, logoutUser }}>
+    <AuthContext.Provider
+      value={{ isLoggedIn, storeTokenInLS, logoutUser, setUserName, name }}
+    >
       {children}
     </AuthContext.Provider>
   );
