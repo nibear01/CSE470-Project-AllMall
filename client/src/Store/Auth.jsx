@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
     setToken(serverToken);
     return localStorage.setItem("token", serverToken);
   };
-  //userId data store
+  //username data store
   const setUserName = (name) => {
     setUsername(name);
     return localStorage.setItem("userId", name)
