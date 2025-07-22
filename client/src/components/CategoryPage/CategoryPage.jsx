@@ -6,39 +6,39 @@ const allProducts = [
   {
     id: 1,
     type: "Fashion",
-    name: "Embroidered Satin Saree",
+    name: "Men Opaque Casual Shirt",
     image1:
-      "https://serviceapi.spicezgold.com/download/1742462552741_siril-georgette-pink-color-saree-with-blouse-piece-product-images-rvrk9p11sk-3-202308161432.webp",
+      "https://serviceapi.spicezgold.com/download/1742463096955_hbhb1.jpg",
     image2:
-      "https://serviceapi.spicezgold.com/download/1742462552743_siril-georgette-pink-color-saree-with-blouse-piece-product-images-rvrk9p11sk-2-202308161432.webp",
-    price: 1200,
-    oldPrice: 1900,
+      "https://serviceapi.spicezgold.com/download/1742463096960_hbhb3.jpg",
+    price: 500,
+    oldPrice: 1650,
     rating: 4,
     stock: 5,
   },
   {
     id: 2,
     type: "Bags",
-    name: "Embroidered Satin Saree",
+    name: "Large 33 L Laptop Backpack 33 L Waterproof 5-Zipper",
     image1:
-      "https://serviceapi.spicezgold.com/download/1742462552741_siril-georgette-pink-color-saree-with-blouse-piece-product-images-rvrk9p11sk-3-202308161432.webp",
+      "https://serviceapi.spicezgold.com/download/1742447215241_blubags-waterproof-school-backpack-36-l-laptop-bag-college-backpack-school-bag-product-images-rvxyzquw2b-0-202312201359.webp",
     image2:
-      "https://serviceapi.spicezgold.com/download/1742462552743_siril-georgette-pink-color-saree-with-blouse-piece-product-images-rvrk9p11sk-2-202308161432.webp",
-    price: 1200,
-    oldPrice: 1900,
+      "https://serviceapi.spicezgold.com/download/1742447215242_blubags-waterproof-school-backpack-36-l-laptop-bag-college-backpack-school-bag-product-images-rvxyzquw2b-1-202312201359.webp",
+    price: 1800,
+    oldPrice: 2900,
     rating: 4,
     stock: 5,
   },
   {
     id: 3,
     type: "Electronics",
-    name: "Embroidered Satin Saree",
+    name: "Apple iPhone 15 (Blue, 128 GB)",
     image1:
-      "https://serviceapi.spicezgold.com/download/1742462552741_siril-georgette-pink-color-saree-with-blouse-piece-product-images-rvrk9p11sk-3-202308161432.webp",
+      "https://serviceapi.spicezgold.com/download/1742446875533_app3.jpeg",
     image2:
-      "https://serviceapi.spicezgold.com/download/1742462552743_siril-georgette-pink-color-saree-with-blouse-piece-product-images-rvrk9p11sk-2-202308161432.webp",
-    price: 1200,
-    oldPrice: 1900,
+      "https://serviceapi.spicezgold.com/download/1742446875533_app2.jpeg",
+    price: 135999,
+    oldPrice: 145999,
     rating: 4,
     stock: 5,
   },
@@ -207,11 +207,13 @@ const CategoryPage = () => {
             onChange={(e) => setSortType(e.target.value)}
             className="!border !border-gray-300 !rounded-md !px-3 !py-2 !w-full sm:!w-[200px] outline-0"
           >
-            <option value="priceLowToHigh">Price: Low to High</option>
-            <option value="priceHighToLow">Price: High to Low</option>
-            <option value="nameAToZ">Name: A to Z</option>
-            <option value="nameZToA">Name: Z to A</option>
+             <option value="priceLowToHigh" className="!rounded-lg">Price: Low to High</option>
+              <option value="priceHighToLow">Price: High to Low</option>
+              <option value="nameAToZ">Name: A to Z</option>
+              <option value="nameZToA">Name: Z to A</option>
           </select>
+
+          {/* <ListBox/> */}
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
@@ -228,4 +230,4 @@ const CategoryPage = () => {
   );
 };
 
-export default CategoryPage;
+export default CategoryPage;      

@@ -33,10 +33,10 @@ const Header = () => {
               Get up to 50% off new season styles, limited time only
             </p>
             <ul className="flex gap-3">
-              <NavLink className=" text-[14px] hover:text-[var(--hover-color)] transition-all duration-300" to="/help-center">
+              <NavLink className=" text-[14px] hover:text-[var(--hover-color)] transition-all duration-200" to="/help-center">
                 Help Center
               </NavLink>
-              <NavLink className=" text-[14px] hover:text-[var(--hover-color)] transition-all duration-300" to="/order-track">
+              <NavLink className=" text-[14px] hover:text-[var(--hover-color)] transition-all duration-200" to="/order-track">
                 Order Tracking
               </NavLink>
             </ul>
@@ -68,13 +68,13 @@ const Header = () => {
                 ) : (
                   <>
                     <li>
-                      <NavLink className="link" to="/login">
+                      <NavLink className="link text-gray-700 hover:text-[var(--hover-color)] transition-all duration-200" to="/login">
                         Login
                       </NavLink>
                     </li>
 
                     <li>
-                      <NavLink className="link" to="/register">
+                      <NavLink className="link text-gray-700 hover:text-[var(--hover-color)] transition-all duration-200" to="/register">
                         Register
                       </NavLink>
                     </li>

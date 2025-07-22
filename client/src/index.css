@@ -45,7 +45,7 @@ body {
 
 .cat {height: 17px !important; width: 17px !important;}
 
-.link {gap: 3px;}
+.link {gap: 3px; }
 
 .link:hover {color: var(--hover-color);}
 
