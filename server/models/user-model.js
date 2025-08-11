@@ -18,13 +18,23 @@ const userschema = new mongoose.Schema({
     type: String,
     require: true,
   },
+  description: {
+    type: String,
+    default: "",
+  },
+  image: {
+    type: String, 
+    default: "",
+  },
+  address : {
+    type: String,
+    default: "AboyNagar, Dhaka-Bangladesh"
+  },
   isAdmin: {
     type: Boolean,
     default: false,
   },
-});
-
-
+}, {timestamps: true} );
 
 //JSON web tokens
 userschema.methods.generateToken = async function () {

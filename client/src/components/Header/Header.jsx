@@ -2,7 +2,6 @@ import { Link, NavLink } from "react-router-dom";
 import Searchbox from "../Searchbox";
 import { FaRegHeart } from "react-icons/fa";
 import Tooltip from "@mui/material/Tooltip";
-
 import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
@@ -10,6 +9,8 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Navigation from "/src/components/Header/Navigation/Navigation";
 import { useAuth } from "../../Store/Auth";
 import ProfileDropdown from "../../pages/ProfiledDropDown";
+import { FiMenu } from "react-icons/fi";
+import { useState } from "react";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -21,98 +22,186 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 const Header = () => {
-  const { name } = useAuth();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, user } = useAuth();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
     <>
-      <div className="">
-        {/* head1 */}
-        <div className=" flex items-center justify-center min-w-full h-[40px] text-gray-700 container bg-white">
-          <div className="flex justify-between items-center w-[90%] ">
-            <p className="text-[12px]">
-              Get up to 50% off new season styles, limited time only
-            </p>
-            <ul className="flex gap-3">
-              <NavLink className=" text-[14px] hover:text-[var(--hover-color)] transition-all duration-200" to="/help-center">
-                Help Center
-              </NavLink>
-              <NavLink className=" text-[14px] hover:text-[var(--hover-color)] transition-all duration-200" to="/order-track">
-                Order Tracking
-              </NavLink>
+      <div className="!sticky !top-0 !z-500 !bg-white !shadow-sm">
+        {/* Top Announcement Bar */}
+        <div className="!hidden md:!flex !items-center !justify-center !w-full !h-8 !bg-gray-100 !text-gray-700 !text-[10px] sm:!text-[11px]">
+          <div className="!flex !justify-between !items-center !w-full !max-w-7xl !px-4">
+            <p>Get up to 50% off new season styles, limited time only</p>
+            <ul className="!flex !gap-4">
+              <li>
+                <NavLink
+                  className="hover:!text-[var(--hover-color)] !transition-colors !duration-200"
+                  to="/help-center"
+                >
+                  Help Center
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  className="hover:!text-[var(--hover-color)] !transition-colors !duration-200"
+                  to="/order-track"
+                >
+                  Order Tracking
+                </NavLink>
+              </li>
             </ul>
           </div>
         </div>
 
-        {/* head2 */}
-        <div className="border-b-[1px] border-[#ffffff50] bg-white">
-          <div className="h-19 flex items-center justify-around p-10">
-            <div className="w-[11%]">
+        {/* Main Header */}
+        <div className="!border-b !border-gray-200 !bg-white">
+          <div className="!flex !items-center !justify-between !px-4 !py-4 sm:!px-6 lg:!px-12 !max-w-7xl !mx-auto">
+            {/* Mobile Menu Button */}
+            <div className="md:!hidden !mr-2">
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="!text-gray-700 hover:!text-[var(--hover-color)]"
+              >
+                <FiMenu size={24} />
+              </button>
+            </div>
+
+            {/* Logo */}
+            <div className="!flex-shrink-0 !w-24 md:!w-32">
               <NavLink to="/">
                 <img
-                  className="h-14 w-full"
+                  className="!h-12 !w-auto"
                   src="/src/assets/logo_png.png"
                   alt="AllMall"
                 />
               </NavLink>
             </div>
-            <div className="max-w-[70%]">
+
+            {/* Search Box - Hidden on mobile */}
+            <div className="!hidden md:!block !flex-1 !mx-4 lg:!mx-8">
               <Searchbox />
             </div>
-            <div className="max-w=[25%]">
-              <ul className="flex justify-between items-center gap-3">
-                {isLoggedIn ? (
-                  <li className="flex items-center justify-between gap-2">
-                    <div className="font-[400] text-gray-700">{name}</div>
-                    <ProfileDropdown />
-                  </li>
-                ) : (
-                  <>
-                    <li>
-                      <NavLink className="link text-gray-700 hover:text-[var(--hover-color)] transition-all duration-200" to="/login">
-                        Login
-                      </NavLink>
-                    </li>
 
-                    <li>
-                      <NavLink className="link text-gray-700 hover:text-[var(--hover-color)] transition-all duration-200" to="/register">
-                        Register
-                      </NavLink>
-                    </li>
-                  </>
-                )}
-
-                {/* cart */}
-                <li className="">
-                  <Link to="/cart-view">
-                    <Tooltip title="Cart">
-                      <IconButton aria-label="cart">
-                        <StyledBadge badgeContent={2} color="primary">
-                          <ShoppingCartIcon />
-                        </StyledBadge>
-                      </IconButton>
-                    </Tooltip>
+            {/* User Actions */}
+            <div className="!flex !items-center !space-x-2 sm:!space-x-4">
+              {isLoggedIn ? (
+                <div className="!hidden sm:!flex !items-center !space-x-2">
+                  <Link
+                    className="!text-gray-700 hover:!text-[var(--hover-color)] !transition-colors !duration-200 !text-sm"
+                    to="/profile"
+                  >
+                    {user?.username || "Loading..."}
                   </Link>
-                </li>
+                  <ProfileDropdown />
+                </div>
+              ) : (
+                <>
+                  <NavLink
+                    className="!hidden sm:!block !text-gray-700 hover:!text-[var(--hover-color)] !transition-colors !duration-200 !text-sm"
+                    to="/login"
+                  >
+                    Login
+                  </NavLink>
+                  <NavLink
+                    className="!hidden sm:!block !text-gray-700 hover:!text-[var(--hover-color)] !transition-colors !duration-200 !text-sm"
+                    to="/register"
+                  >
+                    Register
+                  </NavLink>
+                </>
+              )}
 
-                {/* wishlist */}
-                <li>
-                  <Tooltip title="Wishlist">
-                    <IconButton aria-label="wishlist">
-                      <StyledBadge badgeContent={0} color="secondary">
-                        <FaRegHeart />
-                      </StyledBadge>
+              {/* Mobile Search Button */}
+              <div className="md:!hidden">
+                <Link to="/search">
+                  <Tooltip title="Search">
+                    <IconButton aria-label="search">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="!h-5 !w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                        />
+                      </svg>
                     </IconButton>
                   </Tooltip>
-                </li>
-              </ul>
+                </Link>
+              </div>
+
+              {/* Cart */}
+              <Link to="/cart-view">
+                <Tooltip title="Cart">
+                  <IconButton aria-label="cart">
+                    <StyledBadge badgeContent={2} color="primary">
+                      <ShoppingCartIcon className="!text-gray-700" />
+                    </StyledBadge>
+                  </IconButton>
+                </Tooltip>
+              </Link>
+
+              {/* Wishlist */}
+              <Tooltip title="Wishlist">
+                <IconButton aria-label="wishlist">
+                  <StyledBadge badgeContent={0} color="secondary">
+                    <FaRegHeart className="!text-gray-700" />
+                  </StyledBadge>
+                </IconButton>
+              </Tooltip>
             </div>
+          </div>
+
+          {/* Mobile Search */}
+          <div className="md:!hidden !px-4 !pb-3">
+            <Searchbox />
           </div>
         </div>
 
-        {/* navigation */}
-        <div>
+        {/* Navigation */}
+        <div className="!hidden md:!block">
           <Navigation />
         </div>
+
+        {/* Mobile Navigation Menu */}
+        {mobileMenuOpen && (
+          <div className="md:!hidden !bg-white !border-t !border-gray-200">
+            <div className="!px-4 !py-2">
+              {isLoggedIn ? (
+                <div className="!flex !items-center !justify-between !py-4 !border-b !border-gray-100">
+                  <Link
+                    className="!text-gray-700 hover:!text-[var(--hover-color)]"
+                    to="/profile"
+                  >
+                    {user?.username || "Loading..."}
+                  </Link>
+                  <ProfileDropdown />
+                </div>
+              ) : (
+                <div className="!flex !space-x-4 !py-2 !border-b !border-gray-100">
+                  <NavLink
+                    className="!text-gray-700 hover:!text-[var(--hover-color)]"
+                    to="/login"
+                  >
+                    Login
+                  </NavLink>
+                  <NavLink
+                    className="!text-gray-700 hover:!text-[var(--hover-color)]"
+                    to="/register"
+                  >
+                    Register
+                  </NavLink>
+                </div>
+              )}
+              <Navigation mobile />
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

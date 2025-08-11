@@ -19,21 +19,21 @@ const HomeSlider = () => {
               disableOnInteraction: false,
             }}
             modules={[Navigation, Autoplay]}
-            className="mySwiper max-h-[70vh] max-w-[90%] "
+            className="mySwiper !max-h-[50vh] md:!max-h-[60vh] lg:!max-h-[70vh] !w-[95%] sm:!w-[90%] lg:!w-[85%]"
           >
             <SwiperSlide>
               <div className="rounded-[20px]">
                 <img
-                  className="custom-height "
+                  className="custom-height w-full h-full object-cover"
                   src="https://serviceapi.spicezgold.com/download/1751685164864_NewProject(10).jpg"
                   alt=""
                 />
               </div>
             </SwiperSlide>
             <SwiperSlide>
-              <div className="rounded-[20px] ">
+              <div className="rounded-[20px]">
                 <img
-                  className="custom-height"
+                  className="custom-height w-full h-full object-cover"
                   src="https://serviceapi.spicezgold.com/download/1748955932914_NewProject(1).jpg"
                   alt=""
                 />
@@ -42,25 +42,25 @@ const HomeSlider = () => {
             <SwiperSlide>
               <div className="rounded-[20px]">
                 <img
-                  className="custom-height"
+                  className="custom-height w-full h-full object-cover"
                   src="https://serviceapi.spicezgold.com/download/1751685183248_NewProject(6).jpg"
                   alt=""
                 />
               </div>
             </SwiperSlide>
             <SwiperSlide>
-              <div className="rounded-[20px] ">
+              <div className="rounded-[20px]">
                 <img
-                  className="custom-height"
+                  className="custom-height w-full h-full object-cover"
                   src="https://serviceapi.spicezgold.com/download/1751685144346_NewProject(11).jpg"
                   alt=""
                 />
               </div>
             </SwiperSlide>
             <SwiperSlide>
-              <div className="rounded-[20px] ">
+              <div className="rounded-[20px]">
                 <img
-                  className="custom-height"
+                  className="custom-height w-full h-full object-cover"
                   src="https://serviceapi.spicezgold.com/download/1751685130717_NewProject(8).jpg"
                   alt=""
                 />

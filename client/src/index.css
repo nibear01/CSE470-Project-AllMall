@@ -12,11 +12,11 @@
   margin: 0%;
   padding: 0%;
   box-sizing: border-box;
-  font-family: "Outfit","Roboto","Poppins", sans-serif !important;
+  font-family: "system-ui","Outfit","Roboto","Poppins", sans-serif !important;
 }
 
 body {
-  font-family: "Outfit","Roboto","Poppins", sans-serif !important;
+  font-family: "system-ui","Outfit","Roboto","Poppins", sans-serif !important;
   font-optical-sizing: auto;
   color: var(--font-color);
   background: rgb(244, 244, 244);
@@ -33,30 +33,57 @@ body {
   margin: auto;
 }
 
-.custom-gradient {
-  background-image: linear-gradient(
-    to right,
-    #6366f1 10%,
-    #0ea5e9 30%,
-    #10b981 90%
-  );
-}
-
 
 .cat {height: 17px !important; width: 17px !important;}
+.searchBox { background: #dfdfdf9c; }
+.searchIcon { background-color: #cececea0 !important; color: black !important; }
+.MuiButton-text { color: var(--font-color-dark) !important; }
+.links { font-size: 14px; font-weight: 500; }
+.links:hover { color: var(--hover-color); }
 
-.link {gap: 3px; }
+.link { gap: 3px; }
+.link:hover { color: var(--hover-color) !important; }
+.link.active { color: var(--hover-color) !important; }
 
-.link:hover {color: var(--hover-color);}
+/* Sidebar specific styles */
+.sidebar-transition { transition: transform 0.3s ease-in-out; }
+.overlay-transition { transition: opacity 0.3s ease-in-out; }
 
-.link.active {color: var(--hover-color);}
+/* Active link indicator */
+.active-link { position: relative; }
 
-.searchBox {background: #dfdfdf9c;}
+.active-link::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 4px;
+  background-color: var(--hover-color);
+  border-radius: 2px 0 0 2px;
+}
 
-.searchIcon {background-color: #cececea0 !important; color: black !important;}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
 
-.MuiButton-text {color: var(--font-color-dark) !important;}
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
-.links {font-size: 14px; font-weight: 500;}
+.animate-shake {
+  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
 
-.links:hover {color: var(--hover-color);}
+.animate-fade {
+  animation: fade 0.3s ease-in-out;
+}
+/* Mobile responsiveness */
+@media (max-width: 767px) {
+  .sidebar {
+    width: 280px;
+  }
+}

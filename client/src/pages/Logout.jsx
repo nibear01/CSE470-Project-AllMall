@@ -1,15 +1,17 @@
-import React from "react";
 import { useEffect } from "react";
-import { Navigate } from "react-router-dom";
 import { useAuth } from "../Store/Auth";
+import { useNavigate } from "react-router-dom";
 
 const Logout = () => {
   const { logoutUser } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     logoutUser();
-  }, [logoutUser]);
-  return <Navigate to="/login" />;
+    navigate("/login", { replace: true }); 
+  }, [logoutUser, navigate]);
+
+  return null; 
 };
 
 export default Logout;

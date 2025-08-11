@@ -80,7 +80,8 @@ const Cart = ({ cartItems = dummyItems, onRemoveItem = () => {} }) => {
             <div className="text-center !my-5">
               <Link
                 to="/checkout"
-                className="inline-block font-[500] !p-2 border-2 hover:border-[var(--hover-color)] hover:text-[var(--hover-color)] hover:bg-white bg-[var(--hover-color)] text-white rounded transition-all"
+                className="inline-block font-[500] 
+                !p-2 border-1 hover:border-[var(--hover-color)] hover:text-[var(--hover-color)] hover:bg-white bg-[var(--hover-color)] text-white rounded transition-all"
               >
                 Proceed to Checkout
               </Link>

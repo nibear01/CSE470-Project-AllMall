@@ -22,3 +22,6 @@ server/build/
 # System
 .DS_Store
 Thumbs.db
+
+# Uploads folder (contains DB files)
+upload/

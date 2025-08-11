@@ -14,80 +14,50 @@ const Navigation = () => {
 
   return (
     <>
-      <nav>
-        <div className="flex justify-end items-center min-w-full container p-3 bg-white">
-          <div className="col1 w-[20%]">
-            <Button className="gap-2" onClick={openCategoryPanel}>
-              <RiMenuFold2Fill className="h-5 w-5" />
-              Show Item Categories
-              <FaAngleDown />
+      <nav className="!bg-white">
+        <div className="!flex !flex-col md:!flex-row !justify-around !m-auto !items-center !min-w-full !container !p-2 lg:!p-1">
+          {/* Categories Button - Responsive */}
+          <div className="!w-full text-center md:!w-[20%] !mb-2 md:!mb-0">
+            <Button 
+              className="!gap-2 !text-xs sm:!text-sm md:!text-[10px] lg:!text-[14px] !normal-case !p-1 md:!p-2"
+              onClick={openCategoryPanel}
+            >
+              <RiMenuFold2Fill className="!h-5 !w-5" />
+              <span className="!hidden sm:!inline">Show Item Categories</span>
+              <span className="!inline sm:!hidden">Categories</span>
+              <FaAngleDown className="!h-4 !w-4" />
             </Button>
           </div>
-          <div className="col2 w-[70%]">
-            <ul className="flex items-center max-h-full  gap-3">
-              <li className="list-none">
-                <Button>
-                  <NavLink to="/" className="links link">
-                    Home
-                  </NavLink>
-                </Button>
-              </li>
-              <li className="list-none relative">
-                <Button>
-                  <NavLink to="/category/fashion" className="links link">
-                    Fashion
-                  </NavLink>
-                </Button>
-              </li>
-              <li className="list-none">
-                <Button>
-                  <NavLink to="/category/electronics" className="links link">
-                    Electronics
-                  </NavLink>
-                </Button>
-              </li>
-              <li className="list-none">
-                <Button>
-                  <NavLink to="/category/bags" className="links link">
-                    Bags
-                  </NavLink>
-                </Button>
-              </li>
-              <li className="list-none">
-                <Button>
-                  <NavLink to="/category/footwear" className="links link">
-                    Footwear
-                  </NavLink>
-                </Button>
-              </li>
-              <li className="list-none">
-                <Button>
-                  <NavLink to="/category/groceries" className="links link">
-                    Groceries
-                  </NavLink>
-                </Button>
-              </li>
-              <li className="list-none">
-                <Button>
-                  <NavLink to="/category/beauty" className="links link">
-                    Beauty
-                  </NavLink>
-                </Button>
-              </li>
-              <li className="list-none">
-                <Button>
-                  <NavLink to="/category/wellness" className="links link">
-                    Wellness
-                  </NavLink>
-                </Button>
-              </li>
-              <li className="list-none">
-                <Button>
-                  <NavLink to="/category/jewellery" className="links link">
-                    Jewellery
-                  </NavLink>
-                </Button>
-              </li>
+
+          {/* Navigation Links - Responsive */}
+          <div className="!w-full md:!w-[70%] !overflow-x-auto">
+            <ul className="!flex !items-center justify-around !gap-1 sm:!gap-1 md:!gap-2 !py-1">
+              {[
+                { name: "Home", path: "/" },
+                { name: "Fashion", path: "/category/fashion" },
+                { name: "Electronics", path: "/category/electronics" },
+                { name: "Bags", path: "/category/bags" },
+                { name: "Footwear", path: "/category/footwear" },
+                { name: "Groceries", path: "/category/groceries" },
+                { name: "Beauty", path: "/category/beauty" },
+                { name: "Wellness", path: "/category/wellness" },
+                { name: "Jewellery", path: "/category/jewellery" }
+              ].map((item) => (
+                <li key={item.name} className="!list-none !flex-shrink-0">
+                  <Button className="!min-w-0 !p-1 md:!p-2">
+                    <NavLink 
+                      to={item.path}
+                      className={({ isActive }) => 
+                        `links link !text-xs sm:!text-sm md:!text-[10px] lg:!text-[13px] ${
+                          isActive ? '!text-[var(--hover-color)]' : '!text-inherit'
+                        }`
+                      }
+                    >
+                      {item.name}
+                    </NavLink>
+                  </Button>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

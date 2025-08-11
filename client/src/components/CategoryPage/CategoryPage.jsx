@@ -2,127 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import ProductItem from "../../components/ProductItem/ProductItem";
 
-const allProducts = [
-  {
-    id: 1,
-    type: "Fashion",
-    name: "Men Opaque Casual Shirt",
-    image1:
-      "https://serviceapi.spicezgold.com/download/1742463096955_hbhb1.jpg",
-    image2:
-      "https://serviceapi.spicezgold.com/download/1742463096960_hbhb3.jpg",
-    price: 500,
-    oldPrice: 1650,
-    rating: 4,
-    stock: 5,
-  },
-  {
-    id: 2,
-    type: "Bags",
-    name: "Large 33 L Laptop Backpack 33 L Waterproof 5-Zipper",
-    image1:
-      "https://serviceapi.spicezgold.com/download/1742447215241_blubags-waterproof-school-backpack-36-l-laptop-bag-college-backpack-school-bag-product-images-rvxyzquw2b-0-202312201359.webp",
-    image2:
-      "https://serviceapi.spicezgold.com/download/1742447215242_blubags-waterproof-school-backpack-36-l-laptop-bag-college-backpack-school-bag-product-images-rvxyzquw2b-1-202312201359.webp",
-    price: 1800,
-    oldPrice: 2900,
-    rating: 4,
-    stock: 5,
-  },
-  {
-    id: 3,
-    type: "Electronics",
-    name: "Apple iPhone 15 (Blue, 128 GB)",
-    image1:
-      "https://serviceapi.spicezgold.com/download/1742446875533_app3.jpeg",
-    image2:
-      "https://serviceapi.spicezgold.com/download/1742446875533_app2.jpeg",
-    price: 135999,
-    oldPrice: 145999,
-    rating: 4,
-    stock: 5,
-  },
-  {
-    id: 4,
-    type: "Fashion",
-    name: "Embroidered Satin Saree",
-    image1:
-      "https://serviceapi.spicezgold.com/download/1742462552741_siril-georgette-pink-color-saree-with-blouse-piece-product-images-rvrk9p11sk-3-202308161432.webp",
-    image2:
-      "https://serviceapi.spicezgold.com/download/1742462552743_siril-georgette-pink-color-saree-with-blouse-piece-product-images-rvrk9p11sk-2-202308161432.webp",
-    price: 200,
-    oldPrice: 1900,
-    rating: 4,
-    stock: 5,
-  },
-  {
-    id: 5,
-    type: "Fashion",
-    name: "Embroidered Satin Saree",
-    image1:
-      "https://serviceapi.spicezgold.com/download/1742462552741_siril-georgette-pink-color-saree-with-blouse-piece-product-images-rvrk9p11sk-3-202308161432.webp",
-    image2:
-      "https://serviceapi.spicezgold.com/download/1742462552743_siril-georgette-pink-color-saree-with-blouse-piece-product-images-rvrk9p11sk-2-202308161432.webp",
-    price: 12000,
-    oldPrice: 1900,
-    rating: 4,
-    stock: 5,
-  },
-  {
-    id: 6,
-    type: "Fashion",
-    name: "Embroidered Satin Saree",
-    image1:
-      "https://serviceapi.spicezgold.com/download/1742462552741_siril-georgette-pink-color-saree-with-blouse-piece-product-images-rvrk9p11sk-3-202308161432.webp",
-    image2:
-      "https://serviceapi.spicezgold.com/download/1742462552743_siril-georgette-pink-color-saree-with-blouse-piece-product-images-rvrk9p11sk-2-202308161432.webp",
-    price: 1200,
-    oldPrice: 1900,
-    rating: 4,
-    stock: 5,
-  },
-  {
-    id: 7,
-    type: "Fashion",
-    name: "Embroidered Satin Saree",
-    image1:
-      "https://serviceapi.spicezgold.com/download/1742462552741_siril-georgette-pink-color-saree-with-blouse-piece-product-images-rvrk9p11sk-3-202308161432.webp",
-    image2:
-      "https://serviceapi.spicezgold.com/download/1742462552743_siril-georgette-pink-color-saree-with-blouse-piece-product-images-rvrk9p11sk-2-202308161432.webp",
-    price: 1500,
-    oldPrice: 1900,
-    rating: 4,
-    stock: 5,
-  },
-  {
-    id: 8,
-    type: "Fashion",
-    name: "Z Embroidered Satin Saree",
-    image1:
-      "https://serviceapi.spicezgold.com/download/1742462552741_siril-georgette-pink-color-saree-with-blouse-piece-product-images-rvrk9p11sk-3-202308161432.webp",
-    image2:
-      "https://serviceapi.spicezgold.com/download/1742462552743_siril-georgette-pink-color-saree-with-blouse-piece-product-images-rvrk9p11sk-2-202308161432.webp",
-    price: 1200,
-    oldPrice: 1900,
-    rating: 4,
-    stock: 5,
-  },
-  {
-    id: 9,
-    type: "Fashion",
-    name: "Ambroidered Satin Saree",
-    image1:
-      "https://serviceapi.spicezgold.com/download/1742462552741_siril-georgette-pink-color-saree-with-blouse-piece-product-images-rvrk9p11sk-3-202308161432.webp",
-    image2:
-      "https://serviceapi.spicezgold.com/download/1742462552743_siril-georgette-pink-color-saree-with-blouse-piece-product-images-rvrk9p11sk-2-202308161432.webp",
-    price: 300,
-    oldPrice: 1900,
-    rating: 4,
-    stock: 5,
-  },
-  // Add more dummy products as needed
-];
-
 const categories = [
   "fashion",
   "electronics",
@@ -139,18 +18,24 @@ const CategoryPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortType, setSortType] = useState("priceLowToHigh");
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    console.log("category from URL:", category);
-
-    let filtered = allProducts.filter(
-      (product) =>
-        category &&
-        product.type?.toLowerCase() === category.toLowerCase() &&
-        product.name?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-    console.log(filtered);
+    // Filter products based on category and search term
+    let filtered = allProducts.filter((product) => {
+      // Check if the product has a category that matches the URL param
+      const matchesCategory = category 
+        ? product.category?.toLowerCase() === category.toLowerCase()
+        : true;
+      
+      // Check if the product name matches the search term
+      const matchesSearch = searchTerm
+        ? product.name?.toLowerCase().includes(searchTerm.toLowerCase())
+        : true;
+      
+      return matchesCategory && matchesSearch;
+    });
 
     // Sorting
     if (sortType === "priceLowToHigh") {
@@ -164,7 +49,42 @@ const CategoryPage = () => {
     }
 
     setFilteredProducts(filtered);
-  }, [category, searchTerm, sortType]);
+  }, [category, searchTerm, sortType, allProducts]);
+
+  const fetchProductData = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch("http://localhost:5000/api/products", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setAllProducts(data);
+      } else {
+        console.log("Error fetching products");
+      }
+    } catch (error) {
+      console.log(`Could not fetch data. Error: ${error}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProductData();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--hover-color)]"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex !min-h-screen !bg-gray-50">
@@ -191,7 +111,9 @@ const CategoryPage = () => {
 
       {/* Main Content */}
       <main className="flex-1 !p-6">
-        <h1 className="!text-2xl !font-bold !mb-6 !capitalize">{category}</h1>
+        <h1 className="!text-2xl !font-bold !mb-6 !capitalize">
+          {category || "All Products"}
+        </h1>
 
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between !mb-6 gap-4">
           <input
@@ -207,22 +129,37 @@ const CategoryPage = () => {
             onChange={(e) => setSortType(e.target.value)}
             className="!border !border-gray-300 !rounded-md !px-3 !py-2 !w-full sm:!w-[200px] outline-0"
           >
-             <option value="priceLowToHigh" className="!rounded-lg">Price: Low to High</option>
-              <option value="priceHighToLow">Price: High to Low</option>
-              <option value="nameAToZ">Name: A to Z</option>
-              <option value="nameZToA">Name: Z to A</option>
+            <option value="priceLowToHigh" className="!rounded-lg">
+              Price: Low to High
+            </option>
+            <option value="priceHighToLow">Price: High to Low</option>
+            <option value="nameAToZ">Name: A to Z</option>
+            <option value="nameZToA">Name: Z to A</option>
           </select>
-
-          {/* <ListBox/> */}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
-              <ProductItem key={product.id} product={product} />
+              <ProductItem key={product._id} product={product} />
             ))
           ) : (
-            <p className="!text-gray-500">No products found.</p>
+            <div className="col-span-full text-center py-10">
+              <p className="!text-gray-500 text-lg">
+                {isLoading ? "Loading products..." : "No products found."}
+              </p>
+              {!isLoading && (
+                <button
+                  onClick={() => {
+                    setSearchTerm("");
+                    setSortType("priceLowToHigh");
+                  }}
+                  className="mt-4 px-4 py-2 bg-[var(--hover-color)] text-white rounded hover:bg-opacity-90"
+                >
+                  Reset Filters
+                </button>
+              )}
+            </div>
           )}
         </div>
       </main>
@@ -230,4 +167,4 @@ const CategoryPage = () => {
   );
 };
 
-export default CategoryPage;      
+export default CategoryPage;

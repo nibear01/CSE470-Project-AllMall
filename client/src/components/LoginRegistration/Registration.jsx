@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useEffect } from "react";
-import { useAuth } from "../../Store/Auth";
 
 const Registration = () => {
   const [formData, setFormData] = useState({
@@ -13,11 +12,10 @@ const Registration = () => {
     password: "",
   });
 
-  // const navigate = useNavigate();
-  const { storeTokenInLS } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
-  const [registerSucces, setRegisterSuccess] = useState("");
+  const [registerSuccess, setRegisterSuccess] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -26,6 +24,7 @@ const Registration = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     setError("");
+    setIsLoading(true);
 
     try {
       const response = await fetch(`http://localhost:5000/api/auth/register`, {
@@ -36,8 +35,6 @@ const Registration = () => {
         body: JSON.stringify(formData),
       });
 
-      console.log(response);
-
       if (response.ok) {
         setFormData({
           username: "",
@@ -45,23 +42,16 @@ const Registration = () => {
           phone: "",
           password: "",
         });
-        setRegisterSuccess("Registration Successful! Please Login.");
-
-        const res_data = await response.json();
-        storeTokenInLS(res_data.token);
-
-        // navigate("/login")
+        setRegisterSuccess("Registration Successful! You can now login.");
       } else {
-        setFormData({
-          username: "",
-          email: "",
-          phone: "",
-          password: "",
-        });
-        setError("Invalid Registration! Please try again");
+        const errorData = await response.json();
+        setError(errorData.message || "Registration failed. Please try again.");
       }
     } catch (error) {
       console.log("Register: ", error);
+      setError("An error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -74,7 +64,7 @@ const Registration = () => {
       }, 5000);
     }
 
-    if (registerSucces) {
+    if (registerSuccess) {
       successTimer = setTimeout(() => {
         setRegisterSuccess("");
       }, 5000);
@@ -84,107 +74,135 @@ const Registration = () => {
       clearTimeout(errorTimer);
       clearTimeout(successTimer);
     };
-  }, [error, registerSucces]);
+  }, [error, registerSuccess]);
 
   return (
-    <div className="min-h-[80vh] h-auto bg-gradient-to-br from-emerald-100 to-blue-100 flex items-center justify-center px-4">
-      <div className="bg-white rounded-[5px] shadow-xl !pb-10 !h-auto w-[350px] max-w-md">
-        <div className="text-center !p-6 !mt-4 !min-h-22 !h-auto">
-          <h2 className="text-3xl font-bold text-gray-800 !mb-3">
-            Create Account
+    <div className="!min-h-screen !bg-gradient-to-br !from-emerald-50 !to-blue-100 !flex !items-center !justify-center !px-4 !py-12">
+      <div className="!bg-white !rounded-xl !shadow-2xl !pb-8 !pt-6 !w-full !max-w-md !relative !overflow-hidden">
+        {/* Decorative elements */}
+        <div className="!absolute !-top-20 !-right-20 !w-40 !h-40 !bg-emerald-200 !rounded-full !opacity-20"></div>
+        <div className="!absolute !-bottom-20 !-left-20 !w-40 !h-40 !bg-blue-200 !rounded-full !opacity-20"></div>
+        
+        <div className="!relative !z-10 !text-center !px-8 !mb-6">
+          <h2 className="!text-3xl !font-bold !text-gray-800 !mb-2 !tracking-tight">
+            Join <span className="!text-emerald-600">AllMall</span>
           </h2>
-          <p className="text-sm text-gray-500">
-            Join AllMall for the best experience
+          <p className="!text-sm !text-gray-500 !font-medium">
+            Create your account to get started
           </p>
         </div>
 
-        <form onSubmit={handleRegister} className="space-y-4 !h-auto !m-4">
+        <form onSubmit={handleRegister} className="!px-8 !space-y-5">
           {error && (
-            <div className="h-10 !py-2 !my-4 text-center bg-red-100 border border-red-300 text-red-700 px-4 rounded !text-sm">
+            <div className="!p-3 !mb-4 !text-center !bg-red-50 !border !border-red-200 !text-red-600 !rounded-lg !text-sm !font-medium !animate-shake">
               {error}
             </div>
           )}
 
-          {registerSucces && (
-            <div className="h-10 !py-2 !my-4 text-center bg-green-100 border border-green-300 text-green-700 px-4 rounded !text-sm">
-              {registerSucces}
+          {registerSuccess && (
+            <div className="!p-3 !mb-4 !text-center !bg-green-50 !border !border-green-200 !text-green-600 !rounded-lg !text-sm !font-medium !animate-fade">
+              {registerSuccess}
             </div>
           )}
 
           {/* Username */}
-          <div className="relative !mb-4">
+          <div className="!space-y-1">
+            <label className="!text-sm !font-medium !text-gray-700">Username</label>
             <input
               type="text"
               name="username"
-              placeholder="Username"
+              placeholder="Choose a username"
               value={formData.username}
               onChange={handleChange}
-              className="w-full !p-2 border border-gray-300 rounded-[5px] focus:ring-2 focus:ring-emerald-500 outline-none"
+              className="!w-full !p-3 !border !border-gray-300 !rounded-lg !focus:ring-2 !focus:ring-emerald-500 !focus:border-emerald-500 !outline-none !transition-all !duration-200"
               required
             />
           </div>
 
           {/* Email */}
-          <div className="relative !mb-4">
+          <div className="!space-y-1">
+            <label className="!text-sm !font-medium !text-gray-700">Email</label>
             <input
               type="email"
               name="email"
-              placeholder="Email"
+              placeholder="your@email.com"
               value={formData.email}
               onChange={handleChange}
-              className="w-full !p-2 border border-gray-300 rounded-[5px] focus:ring-2 focus:ring-emerald-500 outline-none"
+              className="!w-full !p-3 !border !border-gray-300 !rounded-lg !focus:ring-2 !focus:ring-emerald-500 !focus:border-emerald-500 !outline-none !transition-all !duration-200"
               required
             />
           </div>
 
           {/* Phone */}
-          <div className="relative !mb-4">
+          <div className="!space-y-1">
+            <label className="!text-sm !font-medium !text-gray-700">Phone Number</label>
             <input
               type="tel"
               name="phone"
-              placeholder="Phone"
+              placeholder="+880 1234 567890"
               value={formData.phone}
               onChange={handleChange}
-              className="w-full !p-2 border border-gray-300 rounded-[5px] focus:ring-2 focus:ring-emerald-500 outline-none"
+              className="!w-full !p-3 !border !border-gray-300 !rounded-lg !focus:ring-2 !focus:ring-emerald-500 !focus:border-emerald-500 !outline-none !transition-all !duration-200"
               required
             />
           </div>
 
           {/* Password */}
-          <div className="relative">
-            <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full !p-2 border border-gray-300 rounded-[5px] focus:ring-2 focus:ring-emerald-500 outline-none"
-              required
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-            >
-              {showPassword ? <VisibilityOff /> : <Visibility />}
-            </button>
+          <div className="!space-y-1 !relative">
+            <label className="!text-sm !font-medium !text-gray-700">Password</label>
+            <div className="!relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="••••••••"
+                value={formData.password}
+                onChange={handleChange}
+                className="!w-full !p-3 !border !border-gray-300 !rounded-lg !focus:ring-2 !focus:ring-emerald-500 !focus:border-emerald-500 !outline-none !transition-all !duration-200 !pr-10"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="!absolute !right-3 !top-1/2 !transform !-translate-y-1/2 !text-gray-400 !hover:text-gray-600 !transition-colors"
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </button>
+            </div>
           </div>
 
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full !py-2 !mt-4 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700 transition-colors"
+            disabled={isLoading}
+            className={`!w-full !py-3 !mt-2 !bg-gradient-to-r !from-emerald-500 !to-emerald-600 !text-white !rounded-lg !font-semibold !hover:from-emerald-600 !hover:to-emerald-700 !transition-all !duration-300 !shadow-md !hover:shadow-lg ${
+              isLoading ? "!opacity-80 !cursor-not-allowed" : ""
+            }`}
           >
-            Register
+            {isLoading ? (
+              <span className="!flex !items-center !justify-center">
+                <svg className="!animate-spin !-ml-1 !mr-3 !h-5 !w-5 !text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="!opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="!opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Creating account...
+              </span>
+            ) : (
+              "Register"
+            )}
           </button>
         </form>
 
-        <p className="text-sm text-center !h-auto text-gray-500">
-          Already have an account?
-          <Link to="/login" className="text-emerald-600 cursor-pointer">
-            Login here
-          </Link>
-        </p>
+        <div className="!mt-6 !text-center !text-sm !text-gray-500 !px-8">
+          <p>
+            Already have an account?{" "}
+            <Link 
+              to="/login" 
+              className="!text-emerald-600 !font-medium !hover:text-emerald-800 !transition-colors"
+            >
+              Login here
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
