@@ -324,20 +324,22 @@ const ViewOrders = () => {
                     </div>
 
                     {/* Action Button */}
-                    <button
-                      onClick={() => openOrderDetails(order)}
-                      className="!px-4 !py-2 !bg-[var(--hover-color)] !text-white !rounded-lg !hover:bg-[var(--hover-color-dark)] !transition-colors !font-medium"
-                    >
-                      View Details
-                    </button>
-                    {["pending", "confirmed"].includes(order.orderStatus) && (
+                    <div>
                       <button
-                        onClick={() => cancelOrder(order)}
-                        className="!px-4 !py-2 !bg-red-600 !text-white !rounded-lg !hover:bg-red-700 !transition-colors !font-medium !ml-2"
+                        onClick={() => openOrderDetails(order)}
+                        className="!px-4 !py-2 !bg-[var(--hover-color)] !text-white !rounded-lg !hover:bg-[var(--hover-color-dark)] !transition-colors !font-medium"
                       >
-                        Cancel Order
+                        View Details
                       </button>
-                    )}
+                      {["pending", "confirmed"].includes(order.orderStatus) && (
+                        <button
+                          onClick={() => cancelOrder(order)}
+                          className="!px-4 !py-2 !bg-red-500 !text-white !rounded-lg !hover:bg-red-700 !transition-colors !font-medium !ml-2"
+                        >
+                          Cancel Order
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               </motion.div>

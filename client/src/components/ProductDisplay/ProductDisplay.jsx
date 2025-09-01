@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   Button,
@@ -22,8 +22,10 @@ import {
 } from "react-icons/fa";
 import { MdCompareArrows } from "react-icons/md";
 import axios from "axios";
+import { useAuth } from "../../Store/Auth";
 
 const ProductDisplay = () => {
+  const { url } = useAuth();
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -38,9 +40,7 @@ const ProductDisplay = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5000/api/products/${id}`
-        );
+        const response = await axios.get(`${url}/api/products/${id}`);
         setProduct(response.data);
         setLoading(false);
       } catch (err) {
@@ -140,7 +140,7 @@ const ProductDisplay = () => {
                     onClick={() => setSelectedImage(index)}
                   >
                     <img
-                      src={`http://localhost:5000${img}`}
+                      src={`${url}${img}`}
                       alt={`Thumbnail ${index + 1}`}
                       className="w-full h-20 object-cover"
                       onError={(e) => {
@@ -156,7 +156,7 @@ const ProductDisplay = () => {
             {/* Main Image */}
             <div className="flex-1 bg-gray-100 rounded-lg overflow-hidden">
               <img
-                src={`http://localhost:5000${
+                src={`${url}${
                   [product.imageUrl, ...(product.additionalImages || [])][
                     selectedImage
                   ]
@@ -214,7 +214,9 @@ const ProductDisplay = () => {
                   >
                     -
                   </button>
-                  <span className="!px-4 !py-2 text-center w-12">{quantity}</span>
+                  <span className="!px-4 !py-2 text-center w-12">
+                    {quantity}
+                  </span>
                   <button
                     className="!px-3 !py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
                     onClick={() => handleQuantityChange("increment")}

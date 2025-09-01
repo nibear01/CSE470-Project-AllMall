@@ -8,7 +8,6 @@ const ProfileDropdown = () => {
   const dropdownRef = useRef();
   const { user, url } = useAuth();
 
-  // Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {

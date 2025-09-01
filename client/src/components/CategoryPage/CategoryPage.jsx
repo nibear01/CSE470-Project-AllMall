@@ -25,7 +25,6 @@ const CategoryPage = () => {
 
   useEffect(() => {
     let filtered = products.filter((product) => {
-      // Check if the product has a category that matches the URL param
       const matchesCategory = category
         ? product.category?.toLowerCase() === category.toLowerCase()
         : true;
