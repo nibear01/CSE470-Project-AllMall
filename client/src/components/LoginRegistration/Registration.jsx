@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { useEffect } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "../../Store/Auth";
 
 const Registration = () => {
+  const { url } = useAuth();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -13,8 +16,6 @@ const Registration = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
-  const [registerSuccess, setRegisterSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -23,58 +24,31 @@ const Registration = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    setError("");
     setIsLoading(true);
 
     try {
-      const response = await fetch(`http://localhost:5000/api/auth/register`, {
+      const response = await fetch(`${url}/api/auth/register`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
-        setFormData({
-          username: "",
-          email: "",
-          phone: "",
-          password: "",
-        });
-        setRegisterSuccess("Registration Successful! You can now login.");
+        setFormData({ username: "", email: "", phone: "", password: "" });
+        toast.success("Registration successful! You can now login.");
       } else {
         const errorData = await response.json();
-        setError(errorData.message || "Registration failed. Please try again.");
+        toast.error(
+          errorData.message || "Registration failed. Please try again."
+        );
       }
     } catch (error) {
-      console.log("Register: ", error);
-      setError("An error occurred. Please try again.");
+      console.log("Register Error: ", error);
+      toast.error("An error occurred. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    let errorTimer, successTimer;
-
-    if (error) {
-      errorTimer = setTimeout(() => {
-        setError("");
-      }, 5000);
-    }
-
-    if (registerSuccess) {
-      successTimer = setTimeout(() => {
-        setRegisterSuccess("");
-      }, 5000);
-    }
-
-    return () => {
-      clearTimeout(errorTimer);
-      clearTimeout(successTimer);
-    };
-  }, [error, registerSuccess]);
 
   return (
     <div className="!min-h-screen !bg-gradient-to-br !from-emerald-50 !to-blue-100 !flex !items-center !justify-center !px-4 !py-12">
@@ -82,7 +56,7 @@ const Registration = () => {
         {/* Decorative elements */}
         <div className="!absolute !-top-20 !-right-20 !w-40 !h-40 !bg-emerald-200 !rounded-full !opacity-20"></div>
         <div className="!absolute !-bottom-20 !-left-20 !w-40 !h-40 !bg-blue-200 !rounded-full !opacity-20"></div>
-        
+
         <div className="!relative !z-10 !text-center !px-8 !mb-6">
           <h2 className="!text-3xl !font-bold !text-gray-800 !mb-2 !tracking-tight">
             Join <span className="!text-emerald-600">AllMall</span>
@@ -93,21 +67,11 @@ const Registration = () => {
         </div>
 
         <form onSubmit={handleRegister} className="!px-8 !space-y-5">
-          {error && (
-            <div className="!p-3 !mb-4 !text-center !bg-red-50 !border !border-red-200 !text-red-600 !rounded-lg !text-sm !font-medium !animate-shake">
-              {error}
-            </div>
-          )}
-
-          {registerSuccess && (
-            <div className="!p-3 !mb-4 !text-center !bg-green-50 !border !border-green-200 !text-green-600 !rounded-lg !text-sm !font-medium !animate-fade">
-              {registerSuccess}
-            </div>
-          )}
-
           {/* Username */}
           <div className="!space-y-1">
-            <label className="!text-sm !font-medium !text-gray-700">Username</label>
+            <label className="!text-sm !font-medium !text-gray-700">
+              Username
+            </label>
             <input
               type="text"
               name="username"
@@ -121,7 +85,9 @@ const Registration = () => {
 
           {/* Email */}
           <div className="!space-y-1">
-            <label className="!text-sm !font-medium !text-gray-700">Email</label>
+            <label className="!text-sm !font-medium !text-gray-700">
+              Email
+            </label>
             <input
               type="email"
               name="email"
@@ -135,7 +101,9 @@ const Registration = () => {
 
           {/* Phone */}
           <div className="!space-y-1">
-            <label className="!text-sm !font-medium !text-gray-700">Phone Number</label>
+            <label className="!text-sm !font-medium !text-gray-700">
+              Phone Number
+            </label>
             <input
               type="tel"
               name="phone"
@@ -149,7 +117,9 @@ const Registration = () => {
 
           {/* Password */}
           <div className="!space-y-1 !relative">
-            <label className="!text-sm !font-medium !text-gray-700">Password</label>
+            <label className="!text-sm !font-medium !text-gray-700">
+              Password
+            </label>
             <div className="!relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -180,9 +150,25 @@ const Registration = () => {
           >
             {isLoading ? (
               <span className="!flex !items-center !justify-center">
-                <svg className="!animate-spin !-ml-1 !mr-3 !h-5 !w-5 !text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="!opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="!opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <svg
+                  className="!animate-spin !-ml-1 !mr-3 !h-5 !w-5 !text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="!opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="!opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
                 </svg>
                 Creating account...
               </span>
@@ -195,8 +181,8 @@ const Registration = () => {
         <div className="!mt-6 !text-center !text-sm !text-gray-500 !px-8">
           <p>
             Already have an account?{" "}
-            <Link 
-              to="/login" 
+            <Link
+              to="/login"
               className="!text-emerald-600 !font-medium !hover:text-emerald-800 !transition-colors"
             >
               Login here

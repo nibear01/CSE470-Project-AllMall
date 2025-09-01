@@ -2,27 +2,53 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../Store/Auth";
 import { FiEdit, FiMail, FiPhone, FiUser } from "react-icons/fi";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Profile = () => {
-  const { user, logoutUser } = useAuth();
-  axios.defaults.baseURL = "http://localhost:5000";
-  // console.log(user);
+  const { user, logoutUser, url } = useAuth();
+  axios.defaults.baseURL = url;
 
   const handleDelete = async () => {
-    try {
-      if (!window.confirm("Are you sure you want to delete this product?"))
-        return;
-
-      const deleteUser = await axios.delete(`api/auth/user/${user._id}`);
-      if (deleteUser.request.statusText === "OK") {
-        logoutUser();
-      } else {
-        alert("User account failed to delete!");
+    toast.info(
+      <div>
+        Are you sure you want to delete your profile?
+        <div className="!mt-2 !flex !gap-2 ">
+          <button
+            onClick={async () => {
+              try {
+                const deleteUser = await axios.delete(
+                  `api/auth/user/${user._id}`
+                );
+                if (deleteUser.request.statusText === "OK") {
+                  logoutUser();
+                  toast.success("Profile deleted successfully!");
+                } else {
+                  toast.error("Failed to delete profile!");
+                }
+              } catch (error) {
+                toast.error(`Can't delete profile: ${error.message}`);
+              } finally {
+                toast.dismiss(); // close the toast
+              }
+            }}
+            className="!px-3 !py-1 !bg-red-500 !text-white !rounded-md"
+          >
+            Yes
+          </button>
+          <button
+            onClick={() => toast.dismiss()}
+            className="!px-3 !py-1 !bg-gray-300 !text-black !rounded-md"
+          >
+            No
+          </button>
+        </div>
+      </div>,
+      {
+        autoClose: false,
+        closeOnClick: false,
+        draggable: false,
       }
-      // console.log(deleteUser.request.statusText);
-    } catch (error) {
-      console.log(`Can't delete profile ${error}`);
-    }
+    );
   };
 
   return (
@@ -30,7 +56,9 @@ const Profile = () => {
       <div className="!w-full !min-h-[60vh] !max-w-3xl !bg-white !rounded-[5px] !shadow-2xl !overflow-hidden !transition-all !duration-300 hover:!shadow-lg">
         {/* Profile Header */}
         <div className="!bg-emerald-500 !border !text-white !p-4 md:!p-6">
-          <h1 className="!text-xl md:!text-2xl !font-bold">User Profile</h1>
+          <h1 className="!text-xl md:!text-2xl !font-bold">
+            AllMall User Profile
+          </h1>
           <p className="!text-emerald-100 !text-sm md:!text-base">
             Manage your account information
           </p>
@@ -44,7 +72,7 @@ const Profile = () => {
               <img
                 src={
                   user?.image
-                    ? `http://localhost:5000${user.image}`
+                    ? `${url}${user.image}`
                     : "/src/assets/demo_user.png"
                 }
                 alt="Profile"
@@ -106,7 +134,6 @@ const Profile = () => {
           </div>
         </div>
 
-        {/* Stats Bar (optional) */}
         <div className="!bg-gray-50 !px-4 md:!px-6 !py-3 md:!py-4 !h-full !border-t !border-gray-200 !flex !flex-col sm:!flex-row !justify-around !gap-2 sm:!gap-0">
           <div className="!text-center">
             <p className="!text-gray-500 !text-xs sm:!text-sm">Member Since</p>

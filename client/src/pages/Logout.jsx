@@ -7,11 +7,11 @@ const Logout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    logoutUser();
-    navigate("/login", { replace: true }); 
+    logoutUser();     
+    navigate("/login");
   }, [logoutUser, navigate]);
 
-  return null; 
+  return null; // nothing to render
 };
 
 export default Logout;

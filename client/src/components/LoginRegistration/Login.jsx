@@ -2,60 +2,47 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { useEffect } from "react";
 import { useAuth } from "../../Store/Auth";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { storeTokenInLS } = useAuth();
+  const { storeTokenInLS, url } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError("");
     setIsLoading(true);
     try {
-      const data = {
-        email: email,
-        password: password,
-      };
-      const response = await fetch(`http://localhost:5000/api/auth/login`, {
+      const data = { email, password };
+
+      const response = await fetch(`${url}/api/auth/login`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
 
       if (response.ok) {
         const res_data = await response.json();
         storeTokenInLS(res_data.token);
+        toast.success("Login successful!");
         navigate("/");
       } else {
         setEmail("");
         setPassword("");
-        setError("Invalid Credentials! Please try again.");
+        toast.error("Invalid credentials! Please try again.");
       }
     } catch (error) {
-      console.log("Login: ", error);
-      setError("An error occurred. Please try again.");
+      console.log("Login Error: ", error);
+      toast.error("An error occurred. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (!error) return;
-    const timer = setTimeout(() => {
-      setError("");
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, [error]);
 
   return (
     <div className="!min-h-[80vh] !bg-gradient-to-br !from-emerald-50 !to-blue-100 !flex !items-center !justify-center !px-4 !py-12">
@@ -74,17 +61,9 @@ const LoginPage = () => {
         </div>
 
         <form onSubmit={handleLogin} className="!px-8 !space-y-5">
-          {error && (
-            <div className="!p-3 !mb-4 !text-center !bg-red-50 !border !border-red-200 !text-red-600 !rounded-lg !text-sm !font-medium !animate-shake">
-              {error}
-            </div>
-          )}
-
           {/* Email Input */}
           <div className="!space-y-1">
-            <label className="!text-sm !font-medium !text-gray-700">
-              Email
-            </label>
+            <label className="!text-sm !font-medium !text-gray-700">Email</label>
             <input
               type="email"
               placeholder="your@email.com"
@@ -97,9 +76,7 @@ const LoginPage = () => {
 
           {/* Password Input */}
           <div className="!space-y-1 !relative">
-            <label className="!text-sm !font-medium !text-gray-700">
-              Password
-            </label>
+            <label className="!text-sm !font-medium !text-gray-700">Password</label>
             <div className="!relative">
               <input
                 type={showPassword ? "text" : "password"}

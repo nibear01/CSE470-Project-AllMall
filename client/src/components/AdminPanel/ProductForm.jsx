@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { X, Save, Package } from "lucide-react";
+import { X, Save, Package, ImagePlus, Loader2 } from "lucide-react";
+import { useAuth } from "../../Store/Auth";
 
 const categories = [
   "Fashion",
@@ -19,6 +21,8 @@ const ProductForm = ({
   product,
   isEditing = false,
 }) => {
+  const { url } = useAuth();
+
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -30,10 +34,10 @@ const ProductForm = ({
   });
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
-
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
     if (product && isEditing) {
@@ -46,31 +50,33 @@ const ProductForm = ({
         status: product.status || "active",
         imageUrl: product.imageUrl || "",
       });
-      setImageFile(null);
-      // Set preview URL - handle both full URLs and relative paths
       setImagePreview(
         product.imageUrl
           ? product.imageUrl.startsWith("http")
             ? product.imageUrl
-            : `http://localhost:5000${product.imageUrl}`
+            : `${url}${product.imageUrl}`
           : null
       );
     } else {
-      setFormData({
-        name: "",
-        description: "",
-        price: 0,
-        stock: 0,
-        category: "",
-        status: "active",
-        imageUrl: "",
-      });
-      setImageFile(null);
-      setImagePreview(null);
+      resetForm();
     }
+  }, [product, isEditing, isOpen]);
+
+  const resetForm = () => {
+    setFormData({
+      name: "",
+      description: "",
+      price: 0,
+      stock: 0,
+      category: "",
+      status: "active",
+      imageUrl: "",
+    });
+    setImageFile(null);
+    setImagePreview(null);
     setErrors({});
     setSubmitError(null);
-  }, [product, isEditing, isOpen]);
+  };
 
   const validateForm = () => {
     const newErrors = {};
@@ -91,14 +97,13 @@ const ProductForm = ({
     e.preventDefault();
     if (!validateForm()) return;
 
-    setLoading(true);
+    setIsSubmitting(true);
     setSubmitError(null);
 
     try {
       const payload = new FormData();
       Object.entries(formData).forEach(([key, value]) => {
         if (key !== "imageUrl" || !imageFile) {
-          // Don't send imageUrl if we have a new image file
           payload.append(key, value);
         }
       });
@@ -109,10 +114,14 @@ const ProductForm = ({
 
       await onSave(payload);
       onClose();
+      resetForm();
     } catch (error) {
-      setSubmitError(error.response?.data?.message || "Something went wrong");
+      setSubmitError(
+        error.response?.data?.message ||
+          "Failed to save product. Please try again."
+      );
     } finally {
-      setLoading(false);
+      setIsSubmitting(false);
     }
   };
 
@@ -124,7 +133,7 @@ const ProductForm = ({
   };
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files?.[0];
     if (file) {
       setImageFile(file);
       setImagePreview(URL.createObjectURL(file));
@@ -134,82 +143,75 @@ const ProductForm = ({
     }
   };
 
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file && file.type.startsWith("image/")) {
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
-    <div
-      className="!fixed !inset-0 !bg-black/50 !flex !items-center !justify-center !p-4 !z-50"
-      aria-modal="true"
-      role="dialog"
-    >
-      <div className="!bg-white !rounded-[3px] !shadow-2xl !w-full !max-w-2xl !max-h-[90vh] !overflow-y-auto">
-        <div className="!flex !items-center !justify-between !p-6 !border-b !border-gray-200">
+    <div className="!fixed !inset-0 !bg-black/50 !flex !items-center !justify-center !p-4 !z-50 !animate-fadeIn">
+      <div className="!bg-white !rounded-xl !shadow-xl !w-full !max-w-2xl !max-h-[90vh] !overflow-y-auto !animate-slideUp">
+        {/* Header */}
+        <div className="!flex !items-center !justify-between !p-6 !border-b !border-gray-200 !sticky !top-0 !bg-white !z-10">
           <div className="!flex !items-center">
-            <Package className="!w-6 !h-6 !text-[var(--hover-color)] !mr-3" />
+            <Package className="!w-6 !h-6 !text-emerald-600 !mr-3" />
             <h2 className="!text-2xl !font-bold !text-gray-900">
               {isEditing ? "Edit Product" : "Add New Product"}
             </h2>
           </div>
           <button
             onClick={onClose}
-            disabled={loading}
-            aria-label="Close form"
-            className="!text-gray-400 !hover:!text-gray-600 !transition-colors !duration-200"
+            disabled={isSubmitting}
+            className="!p-1 !rounded-full !text-gray-400 hover:!bg-gray-100 hover:!text-gray-600 !transition-colors"
           >
             <X className="!w-6 !h-6" />
           </button>
         </div>
 
-        <form
-          onSubmit={handleSubmit}
-          className="!p-6"
-          autoComplete="off"
-          noValidate
-        >
+        <form onSubmit={handleSubmit} className="!p-6" noValidate>
           <div className="!grid !grid-cols-1 md:!grid-cols-2 !gap-6">
             {/* Product Name */}
             <div className="md:!col-span-2">
-              <label
-                htmlFor="name"
-                className="!block !text-sm !font-medium !text-gray-700 !mb-2"
-              >
-                Product Name
+              <label className="!block !text-sm !font-medium !text-gray-700 !mb-2">
+                Product Name *
               </label>
               <input
-                id="name"
-                name="name"
                 type="text"
                 value={formData.name}
                 onChange={(e) => handleInputChange("name", e.target.value)}
-                className={`!w-full !px-4 !py-2 !border !rounded-[3px] !focus:ring-2 !focus:ring-[var(--hover-color)] !focus:border-[var(--hover-color)] !transition-colors !duration-200 ${
-                  errors.name ? "!border-[#cc1030]" : "!border-gray-300"
+                className={`!w-full !px-4 !py-2.5 !border !rounded-lg !focus:ring-2 !focus:ring-emerald-500 !focus:border-emerald-500 !transition-all ${
+                  errors.name ? "!border-rose-500" : "!border-gray-300"
                 }`}
                 placeholder="Enter product name"
-                disabled={loading}
-                aria-invalid={!!errors.name}
-                aria-describedby={errors.name ? "name-error" : undefined}
+                disabled={isSubmitting}
               />
               {errors.name && (
-                <p
-                  id="name-error"
-                  className="!text-[#cc1030] !text-sm !mt-1"
-                  role="alert"
-                >
-                  {errors.name}
-                </p>
+                <p className="!text-rose-600 !text-sm !mt-1">{errors.name}</p>
               )}
             </div>
+
             {/* Price */}
             <div>
-              <label
-                htmlFor="price"
-                className="!block !text-sm !font-medium !text-gray-700 !mb-2"
-              >
-                Price (Tk)
+              <label className="!block !text-sm !font-medium !text-gray-700 !mb-2">
+                Price (Tk) *
               </label>
               <input
-                id="price"
-                name="price"
                 type="number"
                 step="0.01"
                 min="0"
@@ -217,80 +219,52 @@ const ProductForm = ({
                 onChange={(e) =>
                   handleInputChange("price", parseFloat(e.target.value) || 0)
                 }
-                className={`!w-full !px-4 !py-2 !border !rounded-[3px] !focus:ring-2 !focus:ring-[var(--hover-color)] !focus:border-[var(--hover-color)] !transition-colors !duration-200 ${
-                  errors.price ? "!border-[#cc1030]" : "!border-gray-300"
+                className={`!w-full !px-4 !py-2.5 !border !rounded-lg !focus:ring-2 !focus:ring-emerald-500 !focus:border-emerald-500 !transition-all ${
+                  errors.price ? "!border-rose-500" : "!border-gray-300"
                 }`}
                 placeholder="0.00"
-                disabled={loading}
-                aria-invalid={!!errors.price}
-                aria-describedby={errors.price ? "price-error" : undefined}
+                disabled={isSubmitting}
               />
               {errors.price && (
-                <p
-                  id="price-error"
-                  className="!text-[#cc1030] !text-sm !mt-1"
-                  role="alert"
-                >
-                  {errors.price}
-                </p>
+                <p className="!text-rose-600 !text-sm !mt-1">{errors.price}</p>
               )}
             </div>
+
             {/* Stock */}
             <div>
-              <label
-                htmlFor="stock"
-                className="!block !text-sm !font-medium !text-gray-700 !mb-2"
-              >
-                Stock Quantity
+              <label className="!block !text-sm !font-medium !text-gray-700 !mb-2">
+                Stock Quantity *
               </label>
               <input
-                id="stock"
-                name="stock"
                 type="number"
                 min="0"
                 value={formData.stock}
                 onChange={(e) =>
                   handleInputChange("stock", parseInt(e.target.value) || 0)
                 }
-                className={`!w-full !px-4 !py-2 !border !rounded-[3px] !focus:ring-2 !focus:ring-[var(--hover-color)] !focus:border-[var(--hover-color)] !transition-colors !duration-200 ${
-                  errors.stock ? "!border-[#cc1030]" : "!border-gray-300"
+                className={`!w-full !px-4 !py-2.5 !border !rounded-lg !focus:ring-2 !focus:ring-emerald-500 !focus:border-emerald-500 !transition-all ${
+                  errors.stock ? "!border-rose-500" : "!border-gray-300"
                 }`}
                 placeholder="0"
-                disabled={loading}
-                aria-invalid={!!errors.stock}
-                aria-describedby={errors.stock ? "stock-error" : undefined}
+                disabled={isSubmitting}
               />
               {errors.stock && (
-                <p
-                  id="stock-error"
-                  className="!text-[#cc1030] !text-sm !mt-1"
-                  role="alert"
-                >
-                  {errors.stock}
-                </p>
+                <p className="!text-rose-600 !text-sm !mt-1">{errors.stock}</p>
               )}
             </div>
+
             {/* Category */}
             <div>
-              <label
-                htmlFor="category"
-                className="!block !text-sm !font-medium !text-gray-700 !mb-2"
-              >
-                Category
+              <label className="!block !text-sm !font-medium !text-gray-700 !mb-2">
+                Category *
               </label>
               <select
-                id="category"
-                name="category"
                 value={formData.category}
                 onChange={(e) => handleInputChange("category", e.target.value)}
-                className={`!w-full !px-4 !py-2 !border !rounded-[3px] !focus:ring-2 !focus:ring-[var(--hover-color)] !focus:border-[var(--hover-color)] !transition-colors !duration-200 ${
-                  errors.category ? "!border-[#cc1030]" : "!border-gray-300"
+                className={`!w-full !px-4 !py-2.5 !border !rounded-lg !focus:ring-2 !focus:ring-emerald-500 !focus:border-emerald-500 !transition-all ${
+                  errors.category ? "!border-rose-500" : "!border-gray-300"
                 }`}
-                disabled={loading}
-                aria-invalid={!!errors.category}
-                aria-describedby={
-                  errors.category ? "category-error" : undefined
-                }
+                disabled={isSubmitting}
               >
                 <option value="">Select a category</option>
                 {categories.map((category) => (
@@ -300,112 +274,107 @@ const ProductForm = ({
                 ))}
               </select>
               {errors.category && (
-                <p
-                  id="category-error"
-                  className="!text-[#cc1030] !text-sm !mt-1"
-                  role="alert"
-                >
+                <p className="!text-rose-600 !text-sm !mt-1">
                   {errors.category}
                 </p>
               )}
             </div>
+
             {/* Status */}
             <div>
-              <label
-                htmlFor="status"
-                className="!block !text-sm !font-medium !text-gray-700 !mb-2"
-              >
+              <label className="!block !text-sm !font-medium !text-gray-700 !mb-2">
                 Status
               </label>
               <select
-                id="status"
-                name="status"
                 value={formData.status}
                 onChange={(e) => handleInputChange("status", e.target.value)}
-                className="!w-full !px-4 !py-2 !border !border-gray-300 !rounded-[3px] !focus:ring-2 !focus:ring-[var(--hover-color)] !focus:border-[var(--hover-color)] !transition-colors !duration-200"
-                disabled={loading}
+                className="!w-full !px-4 !py-2.5 !border !border-gray-300 !rounded-lg !focus:ring-2 !focus:ring-emerald-500 !focus:border-emerald-500 !transition-all"
+                disabled={isSubmitting}
               >
                 <option value="active">Active</option>
                 <option value="inactive">Inactive</option>
               </select>
             </div>
 
+            {/* Image Upload */}
             <div className="md:!col-span-2">
-              <label
-                htmlFor="imageUpload"
-                className="!block !text-sm !font-medium !text-gray-700 !mb-2"
-              >
-                Product Image
+              <label className="!block !text-sm !font-medium !text-gray-700 !mb-2">
+                Product Image *
               </label>
 
-              {/* Preview */}
-              {imagePreview && (
-                <div className="!mb-2 !h-48 !flex !items-center !justify-center !bg-gray-100 !rounded !border !border-gray-300 !overflow-hidden">
-                  <img
-                    src={imagePreview}
-                    alt="Preview"
-                    className="!max-h-full !max-w-full !object-contain"
-                  />
-                </div>
-              )}
-
-              <input
-                id="imageUpload"
-                name="imageUpload"
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-                className={`!w-full !border !rounded-[3px] !focus:ring-2 !focus:ring-[var(--hover-color)] !focus:border-[var(--hover-color)] !transition-colors !duration-200 ${
-                  errors.imageUrl ? "!border-[#cc1030]" : "!border-gray-300"
+              <div
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                onClick={() => document.getElementById("imageUpload").click()}
+                className={`!cursor-pointer !border-2 !border-dashed !rounded-lg !p-6 !text-center !transition-all ${
+                  isDragging
+                    ? "!border-emerald-500 !bg-emerald-50"
+                    : errors.imageUrl
+                    ? "!border-rose-500 !bg-rose-50"
+                    : "!border-gray-300 hover:!border-emerald-500"
                 }`}
-                disabled={loading}
-                aria-invalid={!!errors.imageUrl}
-                aria-describedby={
-                  errors.imageUrl ? "imageUrl-error" : undefined
-                }
-              />
+              >
+                {imagePreview ? (
+                  <div className="!relative !group">
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      className="!w-full !h-48 !object-contain !rounded"
+                    />
+                    <div className="!absolute !inset-0 !bg-black/50 !flex !items-center !justify-center !opacity-0 group-hover:!opacity-100 !transition-opacity">
+                      <div className="!text-white !text-center !p-4">
+                        <ImagePlus className="!w-8 !h-8 !mx-auto !mb-2" />
+                        <p>Click or drag to change image</p>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="!space-y-2">
+                    <ImagePlus className="!w-10 !h-10 !mx-auto !text-gray-400" />
+                    <p className="!text-sm !text-gray-600">
+                      Drag & drop an image here, or click to select
+                    </p>
+                    <p className="!text-xs !text-gray-500">
+                      Recommended size: 800x800px
+                    </p>
+                  </div>
+                )}
+                <input
+                  id="imageUpload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="!hidden"
+                  disabled={isSubmitting}
+                />
+              </div>
               {errors.imageUrl && (
-                <p
-                  id="imageUrl-error"
-                  className="!text-[#cc1030] !text-sm !mt-1"
-                  role="alert"
-                >
+                <p className="!text-rose-600 !text-sm !mt-1">
                   {errors.imageUrl}
                 </p>
               )}
             </div>
+
             {/* Description */}
             <div className="md:!col-span-2">
-              <label
-                htmlFor="description"
-                className="!block !text-sm !font-medium !text-gray-700 !mb-2"
-              >
-                Description
+              <label className="!block !text-sm !font-medium !text-gray-700 !mb-2">
+                Description *
               </label>
               <textarea
-                id="description"
-                name="description"
                 value={formData.description}
                 onChange={(e) =>
                   handleInputChange("description", e.target.value)
                 }
                 rows={4}
-                className={`!w-full !px-4 !py-2 !border !rounded-[3px] !focus:ring-2 !focus:ring-[var(--hover-color)] !focus:border-[var(--hover-color)] !transition-colors !duration-200 ${
-                  errors.description ? "!border-[#cc1030]" : "!border-gray-300"
+                className={`!w-full !px-4 !py-2.5 !border !rounded-lg !focus:ring-2 !focus:ring-emerald-500 !focus:border-emerald-500 !transition-all ${
+                  errors.description ? "!border-rose-500" : "!border-gray-300"
                 }`}
-                placeholder="Write a short description of the product"
-                disabled={loading}
-                aria-invalid={!!errors.description}
-                aria-describedby={
-                  errors.description ? "description-error" : undefined
-                }
+                placeholder="Write a detailed description of the product..."
+                disabled={isSubmitting}
               />
               {errors.description && (
-                <p
-                  id="description-error"
-                  className="!text-[#cc1030] !text-sm !mt-1"
-                  role="alert"
-                >
+                <p className="!text-rose-600 !text-sm !mt-1">
                   {errors.description}
                 </p>
               )}
@@ -413,33 +382,36 @@ const ProductForm = ({
           </div>
 
           {submitError && (
-            <p className="!text-[#cc1030] !mt-4 !text-center" role="alert">
+            <div className="!mt-4 !p-3 !bg-rose-50 !border !border-rose-200 !text-rose-600 !rounded-lg !text-sm">
               {submitError}
-            </p>
+            </div>
           )}
 
-          <div className="!flex !justify-end !mt-6 !space-x-4">
+          <div className="!flex !justify-end !mt-8 !space-x-3">
             <button
               type="button"
               onClick={onClose}
-              disabled={loading}
-              className="!px-4 !py-2 !rounded-[3px] !border !border-gray-300 !text-gray-700 !hover:!bg-gray-100 !transition !font-medium"
+              disabled={isSubmitting}
+              className="!px-6 !py-2.5 !border !border-gray-300 !rounded-lg !text-gray-700 hover:!bg-gray-50 !font-medium !transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
-              disabled={loading}
-              className="!px-4 !py-2 !rounded-[3px] !border-1 !hover:!border-[var(--hover-color)] !hover:!text-[var(--hover-color)] !hover:!bg-white !bg-[var(--hover-color)] !text-white !transition-all !font-medium !flex !items-center"
+              disabled={isSubmitting}
+              className="!px-6 !py-2.5 !bg-gradient-to-r !from-emerald-500 !to-emerald-600 !text-white !rounded-lg hover:!from-emerald-600 hover:!to-emerald-700 !font-medium !transition-all !flex !items-center"
             >
-              <Save className="!w-4 !h-4 !mr-2" />
-              {loading
-                ? isEditing
-                  ? "Saving..."
-                  : "Adding..."
-                : isEditing
-                ? "Save Changes"
-                : "Add Product"}
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="!w-4 !h-4 !mr-2 !animate-spin" />
+                  {isEditing ? "Saving..." : "Adding..."}
+                </>
+              ) : (
+                <>
+                  <Save className="!w-4 !h-4 !mr-2" />
+                  {isEditing ? "Save Changes" : "Add Product"}
+                </>
+              )}
             </button>
           </div>
         </form>

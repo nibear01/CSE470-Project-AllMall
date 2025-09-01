@@ -10,6 +10,7 @@ import CategoryPage from "./components/CategoryPage/CategoryPage";
 import Cart from "./pages/Cart";
 import Profile from "./pages/Profile";
 import EditProfile from "./pages/EditProfile";
+import ProductDisplay from "./components/ProductDisplay/ProductDisplay";
 
 // Admin Panel Pages
 import Dashboard from "./components/AdminPanel/Dashboard";
@@ -17,6 +18,9 @@ import Sidebar from "./components/AdminPanel/Sidebar";
 import ProductManagement from "./components/AdminPanel/ProductManagement";
 import OrderManagement from "./components/AdminPanel/OrderManagement";
 import CustomerManagement from "./components/AdminPanel/CustomerManagement";
+import Checkout from "./pages/Checkout";
+import Wishlist from "./pages/Wishlist";
+import ViewOrders from "./pages/ViewOrders";
 
 function App() {
   const { user, isLoggedIn } = useAuth();
@@ -25,7 +29,7 @@ function App() {
   const isAuthPage =
     location.pathname === "/login" || location.pathname === "/register";
 
-  // If admin
+  //If admin
   if (isLoggedIn && user?.isAdmin) {
     return (
       <div className="h-screen bg-gray-50 flex overflow-hidden">
@@ -59,7 +63,7 @@ function App() {
     );
   }
 
-  // If normal logged-in user OR guest
+  //If customer or guest
   return (
     <>
       {!user?.isAdmin && <Header />}
@@ -77,7 +81,20 @@ function App() {
           path="/cart-view"
           element={isLoggedIn ? <Cart /> : <Navigate to="/" replace />}
         />
-        {isLoggedIn && <Route path="/logout" element={<Logout />} />}
+        <Route
+          path="/wishlist"
+          element={isLoggedIn ? <Wishlist /> : <Navigate to="/" replace />}
+        />
+        <Route
+          path="/my-orders"
+          element={isLoggedIn ? <ViewOrders/> : <Navigate to="/" replace />}
+        />
+        <Route
+          path="/checkout"
+          element={isLoggedIn ? <Checkout /> : <Navigate to="/" replace />}
+        />
+        <Route path="/product/:id" element={<ProductDisplay />} />
+        <Route path="/logout" element={<Logout />} />
 
         {/*Prevent access to admin routes for non-admins*/}
         <Route

@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import ProductItem from "../../components/ProductItem/ProductItem";
+import ProductItem from "../ProductItem/ProductItem";
+import { useAuth } from "../../Store/Auth";
 
 const categories = [
   "fashion",
@@ -18,22 +20,21 @@ const CategoryPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortType, setSortType] = useState("priceLowToHigh");
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [allProducts, setAllProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { products } = useAuth();
 
   useEffect(() => {
-    // Filter products based on category and search term
-    let filtered = allProducts.filter((product) => {
+    let filtered = products.filter((product) => {
       // Check if the product has a category that matches the URL param
-      const matchesCategory = category 
+      const matchesCategory = category
         ? product.category?.toLowerCase() === category.toLowerCase()
         : true;
-      
+
       // Check if the product name matches the search term
       const matchesSearch = searchTerm
         ? product.name?.toLowerCase().includes(searchTerm.toLowerCase())
         : true;
-      
+
       return matchesCategory && matchesSearch;
     });
 
@@ -49,42 +50,7 @@ const CategoryPage = () => {
     }
 
     setFilteredProducts(filtered);
-  }, [category, searchTerm, sortType, allProducts]);
-
-  const fetchProductData = async () => {
-    try {
-      setIsLoading(true);
-      const response = await fetch("http://localhost:5000/api/products", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setAllProducts(data);
-      } else {
-        console.log("Error fetching products");
-      }
-    } catch (error) {
-      console.log(`Could not fetch data. Error: ${error}`);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchProductData();
-  }, []);
-
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--hover-color)]"></div>
-      </div>
-    );
-  }
+  }, [category, searchTerm, sortType, products]);
 
   return (
     <div className="flex !min-h-screen !bg-gray-50">
@@ -112,7 +78,7 @@ const CategoryPage = () => {
       {/* Main Content */}
       <main className="flex-1 !p-6">
         <h1 className="!text-2xl !font-bold !mb-6 !capitalize">
-          {category || "All Products"}
+          {category || "All products"}
         </h1>
 
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between !mb-6 gap-4">

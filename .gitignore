@@ -1,27 +1,27 @@
-# Node modules
-node_modules/
-client/node_modules/
-server/node_modules/
+# # Node modules
+# node_modules/
+# client/node_modules/
+# server/node_modules/
 
-# Environment files
-.env
-client/.env
-server/.env
+# # Environment files
+# .env
+# client/.env
+# server/.env
 
-# Logs
-logs
-*.log
-npm-debug.log*
+# # Logs
+# logs
+# *.log
+# npm-debug.log*
 
-# Build output
-dist/
-build/
-client/build/
-server/build/
+# # Build output
+# dist/
+# build/
+# client/build/
+# server/build/
 
-# System
-.DS_Store
-Thumbs.db
+# # System
+# .DS_Store
+# Thumbs.db
 
-# Uploads folder (contains DB files)
-upload/
+# # Uploads folder (contains DB files)
+# upload/

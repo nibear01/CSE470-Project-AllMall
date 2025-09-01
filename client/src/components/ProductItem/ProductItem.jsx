@@ -1,25 +1,121 @@
-import { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Rating from "@mui/material/Rating";
-import Button from "@mui/material/Button";
-import { FaRegHeart } from "react-icons/fa";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { MdOutlineZoomOutMap } from "react-icons/md";
 import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions,
   IconButton,
+  Button,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import "./productitem.css";
+import axios from "axios";
+import { useAuth } from "../../Store/Auth";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const ProductItem = (props) => {
-  // console.log(props.product);
-
+const ProductItem = ({ product }) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [zoomPosition, setZoomPosition] = useState({ x: "50%", y: "50%" });
   const [isZooming, setIsZooming] = useState(false);
+  const [isWishlisted, setIsWishlisted] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const { user, url } = useAuth();
+
+  // Check if product is in wishlist on component mount
+  useEffect(() => {
+    const checkWishlistStatus = async () => {
+      if (!user) return;
+
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `${url}/api/wishlist/check/${product._id}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        setIsWishlisted(response.data.isInWishlist);
+      } catch (error) {
+        console.error("Error checking wishlist status:", error);
+      }
+    };
+
+    checkWishlistStatus();
+  }, [user, product._id]);
+
+  const handleAddToCart = async (e, productId) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!user) {
+      toast.error("Please login to add items to cart");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      const requestBody = { productId, quantity: 1 };
+
+      await axios.post(`${url}/api/cart`, requestBody, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      toast.success("Product added to cart successfully!");
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      toast.error(error.response?.data?.message || "Failed to add to cart");
+    }
+  };
+
+  const toggleWishlist = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!user) {
+      toast.error("Please login to manage your wishlist");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+
+      if (isWishlisted) {
+        await axios.delete(
+          `${url}/api/wishlist/${product._id}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        setIsWishlisted(false);
+        toast.success("Removed from wishlist");
+      } else {
+        await axios.post(
+          `${url}/api/wishlist`,
+          { productId: product._id },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setIsWishlisted(true);
+        toast.success("Added to wishlist!");
+      }
+    } catch (error) {
+      console.error("Error toggling wishlist:", error);
+      toast.error(error.response?.data?.message || "Failed to update wishlist");
+    }
+  };
 
   const handleDialogOpen = () => setOpenDialog(true);
   const handleDialogClose = () => setOpenDialog(false);
@@ -32,135 +128,219 @@ const ProductItem = (props) => {
     setZoomPosition({ x: `${x}%`, y: `${y}%` });
   };
 
-  const handleMouseEnter = () => setIsZooming(true);
-  const handleMouseLeave = () => setIsZooming(false);
-
   return (
     <>
-      <div className="productitem !shadow-lg !overflow-hidden">
-        <div className="imgwrappper group !h-[220px] !overflow-hidden relative">
-          <img
-            className="w-full h-[250px] overflow-hidden "
-            src={`http://localhost:5000${props.product.imageUrl}`}
-            alt=""
-          />
-          {/* <img
-            className="w-full absolute top-0 left-0 transition-all duration-600 opacity-0 group-hover:opacity-100"
-            src={props.product.imageUrl}
-            alt=""
-          /> */}
-          <span
-            className="absolute flex items-center top-[10px] left-[10px] 
-            bg-[var(--hover-color)] text-white z-50 !p-1 rounded-3xl"
-          >
-            10%
-          </span>
+      <Link
+        to={`/product/${product._id}`}
+        className="!block !h-full"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <div className="!relative !bg-white !rounded-xl !shadow-md !overflow-hidden !h-full !group !transition-all !duration-300 hover:!shadow-lg hover:!-translate-y-1">
+          {/* Product Image */}
+          <div className="!relative !aspect-square !overflow-hidden">
+            <img
+              className="!w-full !h-full !object-cover !transition-transform !duration-500 group-hover:!scale-105"
+              src={`${url}${product.imageUrl}`}
+              alt={product.name}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = "https://via.placeholder.com/300";
+              }}
+            />
 
-          <div className="actions absolute z-50 top-[-110px] right-[8px] flex flex-col items-center gap-4 transition-all duration-500 group-hover:top-[10px] ">
-            <Button className="!w-[10px] !min-w-[35px] !h-[35px] !bg-white !rounded-full !text-black hover:!bg-[var(--hover-color)] hover:!text-white group">
-              <FaRegHeart className="text-[18px] !text-black group-hover:text-white hover:!text-white" />
-            </Button>
-            <Button
-              onClick={handleDialogOpen}
-              className="!w-[10px] !min-w-[35px] !h-[35px] !rounded-full !bg-white !text-black hover:!bg-[var(--hover-color)] hover:!text-white group"
+            {/* Discount Badge */}
+            {product.discount > 0 && (
+              <span className="!absolute !top-3 !left-3 !bg-[var(--hover-color)] !text-white !text-xs !font-bold !px-2 !py-1 !rounded-full !z-10">
+                {product.discount}% OFF
+              </span>
+            )}
+
+            {/* Quick Actions */}
+            <div
+              className={`!absolute !top-3 !right-3 !flex !flex-col !gap-2 !transition-all !duration-300 ${
+                isHovered ? "!opacity-100" : "!opacity-0"
+              }`}
             >
-              <MdOutlineZoomOutMap className="text-[18px] !text-black group-hover:text-white hover:!text-white" />
-            </Button>
-          </div>
-        </div>
-
-        <div className="info !p-3 bg-[rgb(247,247,247)] ">
-          {/* <h6 className="text-[13px]">
-            <Link to="/" className="link transition-all">
-              All About you
-            </Link>
-          </h6> */}
-          <h3 className="text-[15px] title font-[500]">
-            <Link to="/" className="link transition-all">
-              {props.product.name.length > 30 ? `${props.product.name.slice(0,15)}....` : props.product.name }
-            </Link>
-          </h3>
-          <Rating name="size-small" defaultValue={4} size="small" readOnly />
-
-          <div className="pricing flex gap-4 !mb-5">
-            {/* <span className="old-price line-through text-red-400">
-              Tk {props.product.price}
-            </span> */}
-            <span className="old-price text-[var(--hover-color)] font-bold">
-              Tk {props.product.price}
-            </span>
-          </div>
-
-          <div className="w-full h-10 rounded-[3px] border border-[var(--hover-color)]  transition-all duration-300 ease-in-out hover:bg-[var(--hover-color)] hover:shadow-md">
-            <Button className="w-full h-full !text-[var(--hover-color)] font-semibold tracking-wide hover:!text-white transition-all duration-300 ease-in-out">
-              <Link
-                to="/"
-                className="w-full h-full flex items-center justify-center"
+              <button
+                onClick={toggleWishlist}
+                className={`!w-9 !h-9 !rounded-full !flex !items-center !justify-center !transition-colors !duration-200 ${
+                  isWishlisted
+                    ? "!bg-rose-500 !text-white"
+                    : "!bg-white !text-gray-700 hover:!bg-gray-100"
+                }`}
               >
-                Add To Cart
-              </Link>
+                {isWishlisted ? (
+                  <FaHeart className="!text-sm" />
+                ) : (
+                  <FaRegHeart className="!text-sm" />
+                )}
+              </button>
+
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleDialogOpen();
+                }}
+                className="!w-9 !h-9 !rounded-full !bg-white !text-gray-700 !flex !items-center !justify-center hover:!bg-gray-100 !transition-colors !duration-200"
+              >
+                <MdOutlineZoomOutMap className="!text-sm" />
+              </button>
+            </div>
+          </div>
+
+          {/* Product Info */}
+          <div className="!p-4">
+            <h3 className="!text-sm !font-medium !text-gray-900 !mb-1 !line-clamp-2 !h-10">
+              {product.name}
+            </h3>
+
+            <div className="!flex !items-center !mb-2">
+              <Rating
+                value={product.rating || 4}
+                precision={0.5}
+                size="small"
+                readOnly
+              />
+              <span className="!text-xs !text-gray-500 !ml-1">
+                ({product.reviewCount || 0})
+              </span>
+            </div>
+
+            <div className="!flex !items-center !gap-2 !mb-3">
+              <span className="!text-lg !font-bold !text-[var(--hover-color)]">
+                Tk {product.price}
+              </span>
+              {product.originalPrice && (
+                <span className="!text-sm !text-gray-500 !line-through">
+                  Tk {product.originalPrice}
+                </span>
+              )}
+            </div>
+
+            <Button
+              variant="outlined"
+              fullWidth
+              className="!py-2 !border-[var(--hover-color)] !text-[var(--hover-color)] hover:!bg-[var(--hover-color)] hover:!text-white !transition-colors !duration-300"
+              onClick={(e) => handleAddToCart(e, product._id)}
+            >
+              Add to Cart
             </Button>
           </div>
         </div>
-      </div>
+      </Link>
 
-      {/* ======= Dialog Code ======= */}
+      {/* Product Quick View Dialog */}
       <Dialog
         open={openDialog}
         onClose={handleDialogClose}
-        maxWidth="sm"
+        maxWidth="md"
         fullWidth
+        PaperProps={{ className: "!rounded-xl" }}
       >
-        <DialogTitle>
-          {props.product.name}
+        <DialogTitle className="!flex !justify-between !items-center !border-b !border-gray-200">
+          <span className="!text-xl !font-bold">{product.name}</span>
           <IconButton
             aria-label="close"
             onClick={handleDialogClose}
-            sx={{
-              position: "absolute",
-              right: 8,
-              top: 8,
-              color: (theme) => theme.palette.grey[500],
-            }}
+            className="!text-gray-500 hover:!bg-gray-100"
           >
             <CloseIcon />
           </IconButton>
         </DialogTitle>
 
-        <DialogContent dividers>
-          <div
-            className="relative overflow-hidden w-full h-[300px] rounded border border-gray-300"
-            onMouseMove={handleMouseMove}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-          >
-            <img
-              src={`http://localhost:5000${props.product.imageUrl}`}
-              alt={props.product.name}
-              className="w-full h-full object-contain transition-transform duration-300 ease-in-out"
-              style={{
-                transform: isZooming ? "scale(2)" : "scale(1)",
-                transformOrigin: `${zoomPosition.x} ${zoomPosition.y}`,
-              }}
-            />
-          </div>
+        <DialogContent className="!py-6">
+          <div className="!grid !grid-cols-1 md:!grid-cols-2 !gap-8">
+            {/* Product Image with Zoom */}
+            <div
+              className="!relative !h-80 !md:h-96 !bg-gray-100 !rounded-lg !overflow-hidden"
+              onMouseMove={handleMouseMove}
+              onMouseEnter={() => setIsZooming(true)}
+              onMouseLeave={() => setIsZooming(false)}
+            >
+              <img
+                src={`${url}${product.imageUrl}`}
+                alt={product.name}
+                className="!w-full !h-full !object-contain !transition-transform !duration-300"
+                style={{
+                  transform: isZooming ? "scale(1.5)" : "scale(1)",
+                  transformOrigin: `${zoomPosition.x} ${zoomPosition.y}`,
+                }}
+              />
+            </div>
 
-          <div className="!mt-4">
-            <p className="!text-sm !text-gray-700 !mb-2">
-              <strong>Price:</strong> Tk {props.product.price}
-            </p>
-            <p className="!text-sm !text-gray-600">
-              <strong>Description:</strong>{" "}
-              {props.product.description || "No description available."}
-            </p>
+            {/* Product Details */}
+            <div>
+              <div className="!flex !items-center !mb-4">
+                <Rating value={product.rating || 4} precision={0.5} readOnly />
+                <span className="!text-sm !text-gray-500 !ml-2">
+                  ({product.reviewCount || 0} reviews)
+                </span>
+              </div>
+
+              <div className="!flex !items-center !gap-4 !mb-4">
+                <span className="!text-2xl !font-bold !text-[var(--hover-color)]">
+                  Tk {product.price}
+                </span>
+                {product.originalPrice && (
+                  <span className="!text-lg !text-gray-500 !line-through">
+                    Tk {product.originalPrice}
+                  </span>
+                )}
+                {product.discount > 0 && (
+                  <span className="!bg-rose-100 !text-rose-800 !text-sm !font-medium !px-2 !py-1 !rounded">
+                    Save {product.discount}%
+                  </span>
+                )}
+              </div>
+
+              <p className="!text-gray-700 !mb-6">
+                {product.description || "No description available."}
+              </p>
+
+              {/* Wishlist button in dialog */}
+              <div className="!flex !gap-2 !mb-4">
+                <Button
+                  variant="outlined"
+                  className={`!flex !items-center !gap-2 ${
+                    isWishlisted
+                      ? "!border-rose-500 !text-rose-500"
+                      : "!border-gray-300 !text-gray-700"
+                  }`}
+                  onClick={toggleWishlist}
+                >
+                  {isWishlisted ? (
+                    <>
+                      <FaHeart className="!text-rose-500" />
+                      Remove from Wishlist
+                    </>
+                  ) : (
+                    <>
+                      <FaRegHeart />
+                      Add to Wishlist
+                    </>
+                  )}
+                </Button>
+              </div>
+
+              <div className="!flex !gap-4">
+                <Button
+                  variant="contained"
+                  className="!flex-1 !py-3 !bg-[var(--hover-color)] hover:!bg-[var(--hover-color-dark)]"
+                  onClick={(e) => handleAddToCart(e, product._id)}
+                >
+                  Add to Cart
+                </Button>
+                <Button
+                  variant="outlined"
+                  className="!flex-1 !py-3 !border-[var(--hover-color)] !text-[var(--hover-color)] hover:!bg-[var(--hover-color-light)]"
+                >
+                  Buy Now
+                </Button>
+              </div>
+            </div>
           </div>
         </DialogContent>
-
-        <DialogActions>
-          <Button onClick={handleDialogClose} color="primary">
-            Close
-          </Button>
-        </DialogActions>
       </Dialog>
     </>
   );

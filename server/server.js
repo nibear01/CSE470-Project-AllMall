@@ -1,12 +1,15 @@
 require("dotenv").config({ override: true });
 const express = require("express");
+const app = express();
 const cors = require("cors");
 const path = require("path");
 const connectDb = require("./config/db");
 const router = require("./routes/auth-router");
-const productRoutes = require("./routes/product-routes"); 
-const app = express();
-
+const productRoutes = require("./routes/product-routes");
+const cartRoutes = require("./routes/cart-routes");
+const wishlistRoutes = require("./routes/wishlist-routes");
+const orderRoutes = require("./routes/order-routes");
+const chatbot = require("./routes/chatbotRoutes");
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -30,7 +33,11 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 //All routes
 app.use("/api/auth", router);
-app.use("/api/products", productRoutes); 
+app.use("/api/products", productRoutes);
+app.use("/api/cart", cartRoutes);
+app.use("/api/wishlist", wishlistRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/chatbot", chatbot);
 
 //Start server
 const PORT = process.env.PORT || 5000;

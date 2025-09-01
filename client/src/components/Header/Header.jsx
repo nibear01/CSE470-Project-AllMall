@@ -11,6 +11,7 @@ import { useAuth } from "../../Store/Auth";
 import ProfileDropdown from "../../pages/ProfiledDropDown";
 import { FiMenu } from "react-icons/fi";
 import { useState } from "react";
+import { Package } from "lucide-react";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -22,12 +23,12 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 const Header = () => {
-  const { isLoggedIn, user } = useAuth();
+  const { isLoggedIn, user, totalCartItem } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <>
-      <div className="!sticky !top-0 !z-500 !bg-white !shadow-sm">
+      <div className=" !z-500 !bg-white !shadow-sm">
         {/* Top Announcement Bar */}
         <div className="!hidden md:!flex !items-center !justify-center !w-full !h-8 !bg-gray-100 !text-gray-700 !text-[10px] sm:!text-[11px]">
           <div className="!flex !justify-between !items-center !w-full !max-w-7xl !px-4">
@@ -85,15 +86,41 @@ const Header = () => {
             {/* User Actions */}
             <div className="!flex !items-center !space-x-2 sm:!space-x-4">
               {isLoggedIn ? (
-                <div className="!hidden sm:!flex !items-center !space-x-2">
-                  <Link
-                    className="!text-gray-700 hover:!text-[var(--hover-color)] !transition-colors !duration-200 !text-sm"
-                    to="/profile"
-                  >
-                    {user?.username || "Loading..."}
-                  </Link>
-                  <ProfileDropdown />
-                </div>
+                <>
+                  {/* View Orders Button - Desktop */}
+                  <div className="!hidden sm:!flex !items-center !space-x-2">
+                    <Link
+                      className="!text-gray-700 hover:!text-[var(--hover-color)] !transition-colors !duration-200 !text-sm"
+                      to="/profile"
+                    >
+                      {user?.username
+                        ? `Welcome ${user.username.split(" ")[0]}`
+                        : "Loading..."}
+                    </Link>
+
+                    {/* View Orders Button */}
+                    <Link
+                      to="/my-orders"
+                      className="!hidden md:!flex !items-center !text-gray-700 hover:!text-[var(--hover-color)] !transition-colors !duration-200 !text-sm !ml-2"
+                    >
+                      <Package className="!w-4 !h-4 !mr-1" />
+                      Orders
+                    </Link>
+
+                    <ProfileDropdown />
+                  </div>
+
+                  {/* View Orders Button - Mobile */}
+                  <div className="md:!hidden">
+                    <Link to="/my-orders">
+                      <Tooltip title="My Orders">
+                        <IconButton aria-label="orders">
+                          <Package className="!w-5 !h-5 !text-gray-700" />
+                        </IconButton>
+                      </Tooltip>
+                    </Link>
+                  </div>
+                </>
               ) : (
                 <>
                   <NavLink
@@ -139,7 +166,15 @@ const Header = () => {
               <Link to="/cart-view">
                 <Tooltip title="Cart">
                   <IconButton aria-label="cart">
-                    <StyledBadge badgeContent={2} color="primary">
+                    <StyledBadge
+                      badgeContent={totalCartItem}
+                      sx={{
+                        "& .MuiBadge-badge": {
+                          backgroundColor: "#28a745", // custom green
+                          color: "white",
+                        },
+                      }}
+                    >
                       <ShoppingCartIcon className="!text-gray-700" />
                     </StyledBadge>
                   </IconButton>
@@ -147,13 +182,15 @@ const Header = () => {
               </Link>
 
               {/* Wishlist */}
-              <Tooltip title="Wishlist">
-                <IconButton aria-label="wishlist">
-                  <StyledBadge badgeContent={0} color="secondary">
-                    <FaRegHeart className="!text-gray-700" />
-                  </StyledBadge>
-                </IconButton>
-              </Tooltip>
+              <Link to="/wishlist">
+                <Tooltip title="Wishlist">
+                  <IconButton aria-label="wishlist">
+                    <StyledBadge badgeContent={0} color="secondary">
+                      <FaRegHeart className="!text-gray-700" />
+                    </StyledBadge>
+                  </IconButton>
+                </Tooltip>
+              </Link>
             </div>
           </div>
 
@@ -173,14 +210,26 @@ const Header = () => {
           <div className="md:!hidden !bg-white !border-t !border-gray-200">
             <div className="!px-4 !py-2">
               {isLoggedIn ? (
-                <div className="!flex !items-center !justify-between !py-4 !border-b !border-gray-100">
+                <div className="!space-y-3 !py-4 !border-b !border-gray-100">
+                  <div className="!flex !items-center !justify-between">
+                    <Link
+                      className="!text-gray-700 hover:!text-[var(--hover-color)] !font-medium"
+                      to="/profile"
+                    >
+                      {user?.username || "Loading..."}
+                    </Link>
+                    <ProfileDropdown />
+                  </div>
+
+                  {/* View Orders Link in Mobile Menu */}
                   <Link
-                    className="!text-gray-700 hover:!text-[var(--hover-color)]"
-                    to="/profile"
+                    to="/my-orders"
+                    className="!flex !items-center !text-gray-700 hover:!text-[var(--hover-color)] !transition-colors !duration-200 !text-sm !mt-2"
+                    onClick={() => setMobileMenuOpen(false)}
                   >
-                    {user?.username || "Loading..."}
+                    <Package className="!w-4 !h-4 !mr-2" />
+                    My Orders
                   </Link>
-                  <ProfileDropdown />
                 </div>
               ) : (
                 <div className="!flex !space-x-4 !py-2 !border-b !border-gray-100">

@@ -1,10 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../Store/Auth";
 import { useState, useEffect } from "react";
 import { FiUpload, FiX, FiUser } from "react-icons/fi";
+import { toast } from "react-toastify";
 
 const EditProfile = () => {
-  const { user, setUser, token } = useAuth();
+  const { user, setUser, token, url } = useAuth();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -27,7 +29,7 @@ const EditProfile = () => {
         description: user.description || "",
         image: user.image || "",
       });
-      const imageUrl = `http://localhost:5000${user.image}`;
+      const imageUrl = `${url}${user.image}`;
       setPreviewImage(imageUrl || "");
     }
   }, [user]);
@@ -39,7 +41,6 @@ const EditProfile = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Preview the image
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreviewImage(reader.result);
@@ -80,7 +81,7 @@ const EditProfile = () => {
       // });
 
       const response = await fetch(
-        `http://localhost:5000/api/auth/update/user/${id}`,
+        `${url}/api/auth/update/user/${id}`,
         {
           method: "PUT",
           headers: {
@@ -103,11 +104,11 @@ const EditProfile = () => {
       setUser(updatedUser.user);
       // console.log(user);
 
-      alert("Profile updated successfully!");
+      toast.success("Profile updated successfully!");
       navigate("/profile");
     } catch (error) {
       console.error("Error updating profile:", error);
-      alert(error.message || "Something went wrong while updating.");
+      toast.error(error.message || "Something went wrong while updating.");
     } finally {
       setIsLoading(false);
     }

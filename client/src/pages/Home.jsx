@@ -5,6 +5,7 @@ import "./Home.css";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import ProductSlider from "../components/ProductSlider/ProductSlider";
+import Chatbot from "./Chatbot";
 
 const Home = () => {
   const [value, setValue] = useState(0);
@@ -60,6 +61,8 @@ const Home = () => {
         <div className="w-[95%] sm:w-[90%] lg:w-[85%] !mx-auto !px-4 sm:!px-0">
           <ProductSlider items={6} />
         </div>
+
+        <Chatbot />
       </section>
     </div>
   );

@@ -1,19 +1,15 @@
-import React, { useState, useEffect } from "react";
-import {
-  TrendingUp,
-  Package,
-  ShoppingCart,
-  Users,
-  DollarSign,
-} from "lucide-react";
+import { useState, useEffect } from "react";
+import { Package, ShoppingCart, Users, DollarSign } from "lucide-react";
 import axios from "axios";
+import { useAuth } from "../../Store/Auth";
 
 const Dashboard = () => {
+  const { url } = useAuth();
   const [userCount, setUserCount] = useState(0);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  axios.defaults.baseURL = "http://localhost:5000";
+  axios.defaults.baseURL = url;
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -34,7 +30,6 @@ const Dashboard = () => {
         const res = await axios.get("/api/auth/allusers");
         // console.log(res.data.users);
 
-        //for eliminating admin
         const count = res.data.users.filter((e) => !e.isAdmin);
         setUserCount(count.length.toLocaleString());
       } catch (error) {
@@ -90,9 +85,11 @@ const Dashboard = () => {
 
   return (
     <div className="!p-6">
-      <div className="!mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard Overview</h1>
-        <p className="text-gray-600 !mt-1">
+      <div className="!mb-6 md:!mb-8">
+        <h1 className="!text-2xl md:!text-3xl !font-bold !text-gray-900">
+          Dashboard Overview
+        </h1>
+        <p className="!text-gray-600 !mt-2">
           Welcome back! Here's what's happening with your store.
         </p>
       </div>
@@ -188,7 +185,13 @@ const Dashboard = () => {
                       </div>
                     </td>
                     <td className="!px-6 !py-4 !whitespace-nowrap">
-                      <span className="inline-flex items-center !px-2.5 !py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      <span
+                        className={`!inline-flex !items-center !px-2 !py-0.5 !rounded-full !text-xs !font-medium ${
+                          product.status === "active"
+                            ? "!bg-green-100 !text-green-800"
+                            : "!bg-yellow-100 !text-yellow-800"
+                        }`}
+                      >
                         {product.status || "Active"}
                       </span>
                     </td>
