@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
     if (!providedToken) return;
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:5000/api/auth/user", {
+      const response = await fetch(`${url}/api/auth/user`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${providedToken}`,
@@ -75,7 +75,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/products`, {
+      const response = await fetch(`${url}/api/products`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
