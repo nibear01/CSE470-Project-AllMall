@@ -17,7 +17,7 @@ server/.env
 # dist/
 # build/
 # client/build/
-# server/build/
+server/server.js
 
 # # System
 # .DS_Store

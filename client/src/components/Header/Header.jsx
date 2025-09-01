@@ -72,7 +72,7 @@ const Header = () => {
               <NavLink to="/">
                 <img
                   className="!h-12 !w-auto"
-                  src="/src/assets/logo_png.png"
+                  src="../../../public/logo_png.png"
                   alt="AllMall"
                 />
               </NavLink>
