@@ -3,7 +3,7 @@ import { AiOutlineClose, AiOutlineRobot, AiOutlineSend } from "react-icons/ai";
 import { useAuth } from "../Store/Auth";
 
 const Chatbot = () => {
-  const { url } = useAuth;
+  const { url } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
