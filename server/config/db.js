@@ -1,6 +1,5 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-// const URI = "mongodb://127.0.0.1:27017/AllMall";
 const URI = process.env.MONGO_URI;
 
 const connectDb = async () => {
@@ -11,7 +10,6 @@ const connectDb = async () => {
     console.error("Database connection failed");
     process.exit(0);
   }
-}
+};  
 
 module.exports = connectDb;
-

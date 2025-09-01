@@ -10,11 +10,11 @@ const cartRoutes = require("./routes/cart-routes");
 const wishlistRoutes = require("./routes/wishlist-routes");
 const orderRoutes = require("./routes/order-routes");
 const chatbot = require("./routes/chatbotRoutes");
-const PORT = process.env.PORT || 5000;
+
 
 const corsOptions = {
   origin: function (origin, callback) {
-    const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
+    const allowedOrigins = ["http://localhost:5173", "http://localhost:5174", "https://allmall.onrender.com"];
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -40,7 +40,7 @@ app.use("/api/wishlist", wishlistRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/chatbot", chatbot);
 
-
+const PORT = 5000;
 
 connectDb().then(() => {
   app.listen(PORT, () => {
