@@ -5,8 +5,8 @@
 
 # # Environment files
 # .env
-# client/.env
-# server/.env
+client/.env
+server/.env
 
 # # Logs
 # logs
