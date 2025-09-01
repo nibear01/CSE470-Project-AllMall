@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 5000;
 
 const corsOptions = {
   origin: function (origin, callback) {
-    const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
+    const allowedOrigins = ["http://localhost:5173", "http://localhost:5174", "https://allmall.onrender.com"];
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
