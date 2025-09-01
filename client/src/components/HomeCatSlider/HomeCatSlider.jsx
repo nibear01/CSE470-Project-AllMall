@@ -56,14 +56,14 @@ const HomeCatSlider = () => {
 
 // Category data for cleaner code
 const categories = [
-  { name: "Fashion", icon: "/public/slider/wardrobe.png" },
-  { name: "Electronics", icon: "/public/slider/gadgets.png" },
-  { name: "Bags", icon: "/public/slider/bags.png" },
-  { name: "Footwear", icon: "/public/slider/shoes.png" },
-  { name: "Groceries", icon: "/public/slider/groceries.png" },
-  { name: "Beauty", icon: "/public/slider/beauty.png" },
-  { name: "Wellness", icon: "/public/slider/wellness.png" },
-  { name: "Jewellery", icon: "/public/slider/jewellery.png" }
+  { name: "Fashion", icon: "../public/slider/wardrobe.png" },
+  { name: "Electronics", icon: "../public/slider/gadgets.png" },
+  { name: "Bags", icon: "../public/slider/bags.png" },
+  { name: "Footwear", icon: "../public/slider/shoes.png" },
+  { name: "Groceries", icon: "../public/slider/groceries.png" },
+  { name: "Beauty", icon: "../public/slider/beauty.png" },
+  { name: "Wellness", icon: "../public/slider/wellness.png" },
+  { name: "Jewellery", icon: "../public/slider/jewellery.png" }
 ];
 
 export default HomeCatSlider;
