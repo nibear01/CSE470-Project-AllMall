@@ -12,6 +12,7 @@ const orderRoutes = require("./routes/order-routes");
 const chatbot = require("./routes/chatbotRoutes");
 
 
+<<<<<<< HEAD
 const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = ["http://localhost:5173", "http://localhost:5174", "https://allmall.onrender.com"];
@@ -24,8 +25,22 @@ const corsOptions = {
   methods: "GET,POST,PUT,DELETE,PATCH,HEAD",
   credentials: true,
 };
+=======
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     const allowedOrigins = ["http://localhost:5173", "http://localhost:5174", "https://allmall.onrender.com"];
+//     if (!origin || allowedOrigins.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   methods: "GET,POST,PUT,DELETE,PATCH,HEAD",
+//   credentials: true,
+// };
+>>>>>>> 93cbb6057c243164964bedce48bb3c95a41fe970
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 //Support JSON and file uploads
 app.use(express.json());
