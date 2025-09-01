@@ -12,7 +12,7 @@ import {
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const url = "http://localhost:5000";
+  const url = "https://allmall.onrender.com";
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUser] = useState(null);
   const [products, setProducts] = useState([]);
