@@ -89,7 +89,7 @@ const Sidebar = () => {
           <div className="w-40">
             <img
               className="h-14 w-full"
-              src="/src/assets/logo_png.png"
+              src="/logo_png.png"
               alt="AllMall"
             />
           </div>
