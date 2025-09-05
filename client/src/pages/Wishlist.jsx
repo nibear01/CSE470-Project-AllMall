@@ -230,25 +230,25 @@ const Wishlist = () => {
                           <FaShoppingCart className="!w-4 !h-4" />
                         </motion.button>
 
-                        <Link to={`/product/${item.product?._id}`}>
-                          <motion.button
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
-                            className="!w-10 !h-10 !bg-white !rounded-full !flex !items-center !justify-center !shadow-lg hover:!bg-[var(--hover-color)] hover:!text-white !transition-colors"
-                            title="View Details"
-                          >
-                            <FaEye className="!w-4 !h-4" />
-                          </motion.button>
-                        </Link>
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          className="!w-10 !h-10 !bg-white !rounded-full !flex !items-center !justify-center !shadow-lg hover:!bg-[var(--hover-color)] hover:!text-white !transition-colors"
+                          title="View Details"
+                        >
+                          <FaEye className="!w-4 !h-4" />
+                        </motion.button>
                       </div>
                     </div>
                   </div>
 
                   {/* Product Info */}
                   <div className="!p-4">
-                    <h3 className="!font-semibold !text-gray-900 !text-lg !mb-2 !line-clamp-2">
-                      {item.product?.name || "Product Name"}
-                    </h3>
+                    <Link to={`/product/${item.product?._id}`}>
+                      <h3 className="!font-semibold !text-gray-900 !text-lg !mb-2 !line-clamp-2">
+                        {item.product?.name || "Product Name"}
+                      </h3>{" "}
+                    </Link>
 
                     <div className="!flex !items-center !justify-between !mb-3">
                       <span className="!text-2xl !font-bold !text-[var(--hover-color)]">

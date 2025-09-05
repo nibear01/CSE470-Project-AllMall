@@ -1,1 +1,331 @@
-{"canmore.create\_textdoc": {"name": "allmall\_readme", "type": "code/md", "content": "# AllMall - Ecommerce Website\n\n## 📌 Project Overview\nAllMall is a full-stack ecommerce web application developed as part of the **CSE470 Software Engineering** course. Built using the **MERN stack (MongoDB, Express.js, React, Node.js)**, it follows the **Model-View-Controller (MVC)** architecture to provide a scalable and maintainable codebase.\n\n---\n\n## 📚 Table of Contents\n- [Technology Stack](#technology-stack)\n- [Project Structure](#project-structure)\n- [Features](#features)\n- [Database Schema](#database-schema)\n- [API Endpoints](#api-endpoints)\n- [AI Integration](#ai-integration)\n- [Installation & Setup](#installation--setup)\n- [Deployment](#deployment)\n- [Future Enhancements](#future-enhancements)\n- [Conclusion](#conclusion)\n\n---\n\n## 🛠️ Technology Stack\n\n### Frontend\n- **React** – Component-based UI library\n- **React Router** – Client-side routing\n- **React Icons** – Icon library\n- **Context API** – State management\n- **Tailwind CSS** – Styling and responsive design\n\n### Backend\n- **Node.js** – Runtime environment\n- **Express.js** – Web application framework\n- **MongoDB** – NoSQL database\n- **Mongoose** – MongoDB object modeling\n- **JWT** – Authentication tokens\n- **bcrypt** – Password hashing\n- **Multer** – File upload handling\n- **Google Generative AI** – AI chatbot integration\n\n### Development Tools\n- **Nodemon** – Development server auto-restart\n- **Dotenv** – Environment variable management\n- **Postman** – API testing\n\n---\n\n## 📂 Project Structure\n`text\nallmall/\n├── client/                 # React frontend\n│   ├── public/\n│   ├── src/\n│   │   ├── components/     # Reusable UI components\n│   │   ├── pages/          # Page components\n│   │   ├── store/          # Context providers\n│   │   └── App.js          # Main app component\n│   └── package.json\n├── server/                 # Node.js backend\n│   ├── controllers/        # Route controllers\n│   ├── models/             # Database models\n│   ├── routes/             # API routes\n│   ├── middleware/         # Custom middleware\n│   ├── uploads/            # Uploaded files\n│   └── package.json\n└── README.md\n`\n\n---\n\n## ✨ Features\n\n### User Features\n- User registration and authentication\n- User profile management with image upload\n- Product browsing and searching\n- Shopping cart management\n- Wishlist functionality\n- Order placement and tracking\n- AI-powered shopping assistant\n\n### Admin Features\n- Product management (CRUD operations)\n- Order management and status updates\n- User management\n- Inventory management\n\n### Technical Features\n- JWT-based authentication\n- Responsive design for mobile and desktop\n- Secure file uploads\n- Real-time cart and wishlist updates\n- AI integration for customer support\n- Pagination and filtering\n\n---\n\n## 🗄️ Database Schema\n\n### User Model\n`javascript\n{\n  username: String,\n  email: String,\n  phone: String,\n  password: String (hashed),\n  description: String,\n  image: String (URL),\n  address: String,\n  isAdmin: Boolean\n}\n`\n\n### Product Model\n`javascript\n{\n  name: String,\n  description: String,\n  price: Number,\n  stock: Number,\n  category: String,\n  imageUrl: String,\n  status: String (active/inactive),\n  reviews: [{\n    userId: ObjectId,\n    userName: String,\n    rating: Number,\n    comment: String,\n    createdAt: Date\n  }],\n  averageRating: Number\n}\n`\n\n### Cart Model\n`javascript\n{\n  user: ObjectId,\n  items: [{\n    product: ObjectId,\n    quantity: Number,\n    priceAtAddition: Number\n  }]\n}\n`\n\n### Wishlist Model\n`javascript\n{\n  user: ObjectId,\n  items: [{\n    product: ObjectId,\n    addedAt: Date\n  }]\n}\n`\n\n### Order Model\n`javascript\n{\n  orderId: String (auto-generated),\n  user: ObjectId,\n  items: [{\n    product: ObjectId,\n    quantity: Number,\n    price: Number,\n    name: String,\n    imageUrl: String\n  }],\n  shippingAddress: {\n    firstName: String,\n    lastName: String,\n    email: String,\n    phone: String,\n    address: String,\n    city: String,\n    zipCode: String\n  },\n  paymentMethod: String,\n  paymentStatus: String,\n  orderStatus: String,\n  subtotal: Number,\n  shippingFee: Number,\n  totalAmount: Number,\n  trackingNumber: String,\n  notes: String\n}\n`\n\n---\n\n## 🔗 API Endpoints\n\n### Authentication Routes\n- `POST /api/auth/register` – User registration\n- `POST /api/auth/login` – User login\n- `GET /api/auth/user` – Get user data\n- `PUT /api/auth/update/:id` – Update user profile\n- `GET /api/auth/users` – Get all users (admin)\n- `DELETE /api/auth/delete/:id` – Delete user (admin)\n\n### Product Routes\n- `GET /api/products` – Get all products\n- `GET /api/products/:id` – Get single product\n- `POST /api/products` – Create product (admin)\n- `PUT /api/products/:id` – Update product (admin)\n- `DELETE /api/products/:id` – Delete product (admin)\n\n### Cart Routes\n- `GET /api/cart` – Get user cart\n- `POST /api/cart` – Add item to cart\n- `PUT /api/cart/:itemId` – Update cart item\n- `DELETE /api/cart/:itemId` – Remove item from cart\n- `DELETE /api/cart` – Clear cart\n\n### Wishlist Routes\n- `GET /api/wishlist` – Get user wishlist\n- `POST /api/wishlist` – Add item to wishlist\n- `DELETE /api/wishlist/:productId` – Remove item from wishlist\n- `DELETE /api/wishlist` – Clear wishlist\n- `GET /api/wishlist/check/:productId` – Check if product is in wishlist\n\n### Order Routes\n- `POST /api/orders` – Create new order\n- `GET /api/orders` – Get user orders\n- `GET /api/orders/:orderId` – Get single order\n- `PUT /api/orders/:orderId` – Update order status (admin)\n- `DELETE /api/orders/:orderId` – Cancel order\n- `GET /api/orders/admin/all` – Get all orders (admin)\n\n### Chatbot Route\n- `POST /api/chatbot/chat` – Interact with AI chatbot\n\n---\n\n## 🤖 AI Integration\nThe application features an AI-powered chatbot using **Google's Generative AI (Gemini)**. The chatbot can:\n- Answer general shopping questions\n- Provide product recommendations\n- Assist with order status inquiries\n- Explain shipping and return policies\n- Access real-time user data (cart, wishlist, orders) when authenticated\n\nImplemented in `Chatbot.jsx` and `chatbotController.js` with **context-aware prompts** for personalized responses.\n\n---\n\n## ⚙️ Installation & Setup\n\n### Prerequisites\n- Node.js (v14 or higher)\n- MongoDB Atlas account or local MongoDB installation\n- Google Generative AI API key\n\n### Backend Setup\n`bash\ncd server\nnpm install\n`\nCreate `.env` file:\n`env\nPORT=5000\nMONGODB_URI=your_mongodb_connection_string\nJWT_TOKEN=your_jwt_secret\nGEMINI_API_KEY=your_google_ai_api_key\nNODE_ENV=development\n`\nStart server:\n`bash\nnpm run dev\n`\n\n### Frontend Setup\n`bash\ncd client\nnpm install\n`\nCreate `.env` file:\n`env\nREACT_APP_API_URL=http://localhost:5000\n`\nStart frontend:\n`bash\nnpm start\n`\n\n---\n\n## 🚀 Deployment\n\n### Backend (Heroku)\n`bash\nheroku create your-app-name\n`\n- Set environment variables in Heroku dashboard\n- Deploy:\n`bash\ngit push heroku main\n`\n\n### Frontend (Netlify/Vercel)\n`bash\nnpm run build\n`\n- Upload `build/` folder\n- Configure environment variables\n\n### Database (MongoDB Atlas)\n- Create a cluster\n- Get the connection string\n- Update `MONGODB_URI` in `.env`\n\n---\n\n## 🔮 Future Enhancements\n- **Payment Integration**: Add support for popular payment gateways\n- **Email Notifications**: Implement order confirmation and status emails\n- **Advanced Search**: Add filters and sorting options\n- **Product Recommendations**: ML-based recommendation engine\n- **Social Features**: Product reviews and ratings\n- **Multi-language Support**: Internationalization for global reach\n- **PWA**: Progressive Web App for mobile experience\n- **Analytics Dashboard**: Sales and user analytics for admin\n\n---\n\n## 🏁 Conclusion\nAllMall represents a **comprehensive ecommerce solution** built with modern web technologies. The application demonstrates **full-stack development, database design, API development, and AI integration**. Following software engineering best practices and MVC architecture, it provides a solid foundation for real-world deployment.\n\n**Developed for CSE470 - Software Engineering**  \n*Note: This is an academic project demonstrating software engineering principles and full-stack development capabilities.*"}}
+# AllMall - Ecommerce Website
+
+## 📌 Project Overview
+AllMall is a full-stack ecommerce web application developed as part of the **CSE470 Software Engineering** course. Built using the **MERN stack (MongoDB, Express.js, React, Node.js)**, it follows the **Model-View-Controller (MVC)** architecture to provide a scalable and maintainable codebase.
+
+---
+
+## 📚 Table of Contents
+- [Technology Stack](#technology-stack)
+- [Project Structure](#project-structure)
+- [Features](#features)
+- [Database Schema](#database-schema)
+- [API Endpoints](#api-endpoints)
+- [AI Integration](#ai-integration)
+- [Installation & Setup](#installation--setup)
+- [Deployment](#deployment)
+- [Future Enhancements](#future-enhancements)
+- [Conclusion](#conclusion)
+
+---
+
+## 🛠️ Technology Stack
+
+### Frontend
+- **React** – Component-based UI library
+- **React Router** – Client-side routing
+- **React Icons** – Icon library
+- **Context API** – State management
+- **Tailwind CSS** – Styling and responsive design
+
+### Backend
+- **Node.js** – Runtime environment
+- **Express.js** – Web application framework
+- **MongoDB** – NoSQL database
+- **Mongoose** – MongoDB object modeling
+- **JWT** – Authentication tokens
+- **bcrypt** – Password hashing
+- **Multer** – File upload handling
+- **Google Generative AI** – AI chatbot integration
+
+### Development Tools
+- **Nodemon** – Development server auto-restart
+- **Dotenv** – Environment variable management
+- **Postman** – API testing
+
+---
+
+## 📂 Project Structure
+```text
+allmall/
+├── client/                 # React frontend
+│   ├── public/
+│   ├── src/
+│   │   ├── components/     # Reusable UI components
+│   │   ├── pages/          # Page components
+│   │   ├── store/          # Context providers
+│   │   └── App.js          # Main app component
+│   └── package.json
+├── server/                 # Node.js backend
+│   ├── controllers/        # Route controllers
+│   ├── models/             # Database models
+│   ├── routes/             # API routes
+│   ├── middleware/         # Custom middleware
+│   ├── uploads/            # Uploaded files
+│   └── package.json
+└── README.md
+```
+
+---
+
+## ✨ Features
+
+### User Features
+- User registration and authentication
+- User profile management with image upload
+- Product browsing and searching
+- Shopping cart management
+- Wishlist functionality
+- Order placement and tracking
+- AI-powered shopping assistant
+
+### Admin Features
+- Product management (CRUD operations)
+- Order management and status updates
+- User management
+- Inventory management
+
+### Technical Features
+- JWT-based authentication
+- Responsive design for mobile and desktop
+- Secure file uploads
+- Real-time cart and wishlist updates
+- AI integration for customer support
+- Pagination and filtering
+
+---
+
+## 🗄️ Database Schema
+
+### User Model
+```javascript
+{
+  username: String,
+  email: String,
+  phone: String,
+  password: String (hashed),
+  description: String,
+  image: String (URL),
+  address: String,
+  isAdmin: Boolean
+}
+```
+
+### Product Model
+```javascript
+{
+  name: String,
+  description: String,
+  price: Number,
+  stock: Number,
+  category: String,
+  imageUrl: String,
+  status: String (active/inactive),
+  reviews: [{
+    userId: ObjectId,
+    userName: String,
+    rating: Number,
+    comment: String,
+    createdAt: Date
+  }],
+  averageRating: Number
+}
+```
+
+### Cart Model
+```javascript
+{
+  user: ObjectId,
+  items: [{
+    product: ObjectId,
+    quantity: Number,
+    priceAtAddition: Number
+  }]
+}
+```
+
+### Wishlist Model
+```javascript
+{
+  user: ObjectId,
+  items: [{
+    product: ObjectId,
+    addedAt: Date
+  }]
+}
+```
+
+### Order Model
+```javascript
+{
+  orderId: String (auto-generated),
+  user: ObjectId,
+  items: [{
+    product: ObjectId,
+    quantity: Number,
+    price: Number,
+    name: String,
+    imageUrl: String
+  }],
+  shippingAddress: {
+    firstName: String,
+    lastName: String,
+    email: String,
+    phone: String,
+    address: String,
+    city: String,
+    zipCode: String
+  },
+  paymentMethod: String,
+  paymentStatus: String,
+  orderStatus: String,
+  subtotal: Number,
+  shippingFee: Number,
+  totalAmount: Number,
+  trackingNumber: String,
+  notes: String
+}
+```
+
+---
+
+## 🔗 API Endpoints
+
+### Authentication Routes
+- `POST /api/auth/register` – User registration
+- `POST /api/auth/login` – User login
+- `GET /api/auth/user` – Get user data
+- `PUT /api/auth/update/:id` – Update user profile
+- `GET /api/auth/users` – Get all users (admin)
+- `DELETE /api/auth/delete/:id` – Delete user (admin)
+
+### Product Routes
+- `GET /api/products` – Get all products
+- `GET /api/products/:id` – Get single product
+- `POST /api/products` – Create product (admin)
+- `PUT /api/products/:id` – Update product (admin)
+- `DELETE /api/products/:id` – Delete product (admin)
+
+### Cart Routes
+- `GET /api/cart` – Get user cart
+- `POST /api/cart` – Add item to cart
+- `PUT /api/cart/:itemId` – Update cart item
+- `DELETE /api/cart/:itemId` – Remove item from cart
+- `DELETE /api/cart` – Clear cart
+
+### Wishlist Routes
+- `GET /api/wishlist` – Get user wishlist
+- `POST /api/wishlist` – Add item to wishlist
+- `DELETE /api/wishlist/:productId` – Remove item from wishlist
+- `DELETE /api/wishlist` – Clear wishlist
+- `GET /api/wishlist/check/:productId` – Check if product is in wishlist
+
+### Order Routes
+- `POST /api/orders` – Create new order
+- `GET /api/orders` – Get user orders
+- `GET /api/orders/:orderId` – Get single order
+- `PUT /api/orders/:orderId` – Update order status (admin)
+- `DELETE /api/orders/:orderId` – Cancel order
+- `GET /api/orders/admin/all` – Get all orders (admin)
+
+### Chatbot Route
+- `POST /api/chatbot/chat` – Interact with AI chatbot
+
+---
+
+## 🤖 AI Integration
+The application features an AI-powered chatbot using **Google's Generative AI (Gemini)**. The chatbot can:
+- Answer general shopping questions
+- Provide product recommendations
+- Assist with order status inquiries
+- Explain shipping and return policies
+- Access real-time user data (cart, wishlist, orders) when authenticated
+
+Implemented in `Chatbot.jsx` and `chatbotController.js` with **context-aware prompts** for personalized responses.
+
+---
+
+## ⚙️ Installation & Setup
+
+### Prerequisites
+- Node.js (v14 or higher)
+- MongoDB Atlas account or local MongoDB installation
+- Google Generative AI API key
+
+### Backend Setup
+```bash
+cd server
+npm install
+```
+Create `.env` file:
+```env
+PORT=5000
+MONGODB_URI=your_mongodb_connection_string
+JWT_TOKEN=your_jwt_secret
+GEMINI_API_KEY=your_google_ai_api_key
+NODE_ENV=development
+```
+Start server:
+```bash
+npm run dev
+```
+
+### Frontend Setup
+```bash
+cd client
+npm install
+```
+Create `.env` file:
+```env
+REACT_APP_API_URL=http://localhost:5000
+```
+Start frontend:
+```bash
+npm start
+```
+
+---
+
+## 🚀 Deployment
+
+### Backend (Heroku)
+```bash
+heroku create your-app-name
+```
+- Set environment variables in Heroku dashboard
+- Deploy:
+```bash
+git push heroku main
+```
+
+### Frontend (Netlify/Vercel)
+```bash
+npm run build
+```
+- Upload `build/` folder
+- Configure environment variables
+
+### Database (MongoDB Atlas)
+- Create a cluster
+- Get the connection string
+- Update `MONGODB_URI` in `.env`
+
+---
+
+## 🔮 Future Enhancements
+- **Payment Integration**: Add support for popular payment gateways
+- **Email Notifications**: Implement order confirmation and status emails
+- **Advanced Search**: Add filters and sorting options
+- **Product Recommendations**: ML-based recommendation engine
+- **Social Features**: Product reviews and ratings
+- **Multi-language Support**: Internationalization for global reach
+- **PWA**: Progressive Web App for mobile experience
+- **Analytics Dashboard**: Sales and user analytics for admin
+
+---
+
+## 🏁 Conclusion
+AllMall represents a **comprehensive ecommerce solution** built with modern web technologies. The application demonstrates **full-stack development, database design, API development, and AI integration**. Following software engineering best practices and MVC architecture, it provides a solid foundation for real-world deployment.
+
+**Developed for CSE470 - Software Engineering**  
+*Note: This is an academic project demonstrating software engineering principles and full-stack development capabilities.*
