@@ -36,7 +36,7 @@ const CategoryPanel = (props) => {
         {/* #1 */}
         <ul className="flex-col items-center !pl-3 !pr-5">
           <li className="flex items-center justify-between">
-            <Link to="/" className="w-full">
+            <Link to="/category/fashion" className="w-full">
               <Button className=" !justify-start"> Fashion</Button>
             </Link>
             {isSubMenu === 0 ? (
@@ -55,13 +55,13 @@ const CategoryPanel = (props) => {
           {isSubMenu === 0 && (
             <ul className="flex-col items-center justify-start !pl-3 !pr-10 !h-auto w-full">
               <li className="w-full">
-                <Link to="/" className="w-full">
+                <Link to="/category/fashion" className="w-full">
                   <Button className="!text-left !justify-start">Men</Button>
                 </Link>
               </li>
 
               <li className="w-full">
-                <Link to="/" className="w-full">
+                <Link to="/category/fashion" className="w-full">
                   <Button className="!text-left !justify-start"> Women</Button>
                 </Link>
               </li>
@@ -72,7 +72,7 @@ const CategoryPanel = (props) => {
         {/* 2 */}
         <ul className="flex-col items-center !pl-3 !pr-5">
           <li className="flex items-center justify-between">
-            <Link to="/" className="w-full">
+            <Link to="/category/electronics" className="w-full">
               <Button className=" !justify-start"> Electronics</Button>
             </Link>
             {isSubMenu === 1 ? (
@@ -91,13 +91,13 @@ const CategoryPanel = (props) => {
           {isSubMenu === 1 && (
             <ul className="flex-col items-center justify-start !pl-3 !pr-10 !h-auto w-full">
               <li className="w-full">
-                <Link to="/" className="w-full">
+                <Link to="/category/electronics" className="w-full">
                   <Button className="!text-left !justify-start">Mobiles</Button>
                 </Link>
               </li>
 
               <li className="w-full">
-                <Link to="/" className="w-full">
+                <Link to="/category/electronics" className="w-full">
                   <Button className="!text-left !justify-start">
                     {" "}
                     Laptops
@@ -106,7 +106,7 @@ const CategoryPanel = (props) => {
               </li>
 
               <li className="w-full">
-                <Link to="/" className="w-full">
+                <Link to="/category/electronics" className="w-full">
                   <Button className="!text-left !justify-start">
                     {" "}
                     Smart Watch
@@ -120,7 +120,7 @@ const CategoryPanel = (props) => {
         {/* 3 */}
         <ul className="flex-col items-center !pl-3 !pr-5">
           <li className="flex items-center justify-between">
-            <Link to="/" className="w-full">
+            <Link to="/category/bags" className="w-full">
               <Button className=" !justify-start"> Bags</Button>
             </Link>
             {isSubMenu === 2 ? (
@@ -139,7 +139,7 @@ const CategoryPanel = (props) => {
           {isSubMenu === 2 && (
             <ul className="flex-col items-center justify-start !pl-3 !pr-10 !h-auto w-full">
               <li className="w-full">
-                <Link to="/" className="w-full">
+                <Link to="/category/bags" className="w-full">
                   <Button className="!text-left !justify-start">
                     Men Bags
                   </Button>
@@ -147,7 +147,7 @@ const CategoryPanel = (props) => {
               </li>
 
               <li className="w-full">
-                <Link to="/" className="w-full">
+                <Link to="/category/bags" className="w-full">
                   <Button className="!text-left !justify-start">
                     {" "}
                     Women Bags
@@ -161,7 +161,7 @@ const CategoryPanel = (props) => {
         {/* 4 */}
         <ul className="flex-col items-center !pl-3 !pr-5">
           <li className="flex items-center justify-between">
-            <Link to="/" className="w-full">
+            <Link to="/category/footwear" className="w-full">
               <Button className=" !justify-start"> Footwear</Button>
             </Link>
             {isSubMenu === 3 ? (
@@ -180,7 +180,7 @@ const CategoryPanel = (props) => {
           {isSubMenu === 3 && (
             <ul className="flex-col items-center justify-start !pl-3 !pr-10 !h-auto w-full">
               <li className="w-full">
-                <Link to="/" className="w-full">
+                <Link to="/category/footwear" className="w-full">
                   <Button className="!text-left !justify-start">
                     Men Footwears
                   </Button>
@@ -188,7 +188,7 @@ const CategoryPanel = (props) => {
               </li>
 
               <li className="w-full">
-                <Link to="/" className="w-full">
+                <Link to="/category/footwear" className="w-full">
                   <Button className="!text-left !justify-start">
                     {" "}
                     Women Footwears
@@ -202,7 +202,7 @@ const CategoryPanel = (props) => {
         {/* 5 */}
         <ul className="flex-col items-center !pl-3 !pr-5">
           <li className="flex items-center justify-between">
-            <Link to="/" className="w-full">
+            <Link to="/category/groceries" className="w-full">
               <Button className=" !justify-start"> Groceries</Button>
             </Link>
           </li>
@@ -211,7 +211,7 @@ const CategoryPanel = (props) => {
         {/* 6 */}
         <ul className="flex-col items-center !pl-3 !pr-5">
           <li className="flex items-center justify-between">
-            <Link to="/" className="w-full">
+            <Link to="/category/beauty" className="w-full">
               <Button className=" !justify-start"> Beauty</Button>
             </Link>
           </li>
@@ -220,7 +220,7 @@ const CategoryPanel = (props) => {
         {/* 7 */}
         <ul className="flex-col items-center !pl-3 !pr-5">
           <li className="flex items-center justify-between">
-            <Link to="/" className="w-full">
+            <Link to="/category/wellness" className="w-full">
               <Button className=" !justify-start"> Wellness</Button>
             </Link>
           </li>
@@ -229,7 +229,7 @@ const CategoryPanel = (props) => {
         {/* 8 */}
         <ul className="flex-col items-center !pl-3 !pr-5">
           <li className="flex items-center justify-between">
-            <Link to="/" className="w-full">
+            <Link to="/category/jewellery" className="w-full">
               <Button className=" !justify-start"> Jewellery</Button>
             </Link>
           </li>

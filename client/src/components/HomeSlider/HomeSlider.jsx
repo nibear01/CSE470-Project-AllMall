@@ -19,50 +19,50 @@ const HomeSlider = () => {
               disableOnInteraction: false,
             }}
             modules={[Navigation, Autoplay]}
-            className="mySwiper !max-h-[50vh] md:!max-h-[60vh] lg:!max-h-[70vh] !w-[95%] sm:!w-[90%] lg:!w-[85%]"
+            className="mySwiper !max-h-[50vh] md:!max-h-[60vh] lg:!max-h-[70vh] !w-[90%] sm:!w-[90%] lg:!w-[80%]"
           >
-            <SwiperSlide>
+            <SwiperSlide className="max-h-100 rounded-2xl overflow-hidden">
               <div className="rounded-[20px]">
                 <img
-                  className="custom-height w-full h-full object-cover"
-                  src="https://serviceapi.spicezgold.com/download/1751685164864_NewProject(10).jpg"
-                  alt=""
+                  className="custom-height w-full h-full object-fill"
+                  src="/banner/banner2.png"
+                  alt="Advertisement Banner"
                 />
               </div>
             </SwiperSlide>
-            <SwiperSlide>
+            <SwiperSlide className="max-h-100 rounded-2xl overflow-hidden">
               <div className="rounded-[20px]">
                 <img
-                  className="custom-height w-full h-full object-cover"
-                  src="https://serviceapi.spicezgold.com/download/1748955932914_NewProject(1).jpg"
-                  alt=""
+                  className="custom-height w-full h-full object-fill"
+                  src="/banner/banner3.png"
+                  alt="Advertisement Banner"
                 />
               </div>
             </SwiperSlide>
-            <SwiperSlide>
+            <SwiperSlide className="max-h-100 rounded-2xl overflow-hidden">
               <div className="rounded-[20px]">
                 <img
-                  className="custom-height w-full h-full object-cover"
-                  src="https://serviceapi.spicezgold.com/download/1751685183248_NewProject(6).jpg"
-                  alt=""
+                  className="custom-height w-full h-full object-fill"
+                  src="/banner/banner1.png"
+                  alt="Advertisement Banner"
                 />
               </div>
             </SwiperSlide>
-            <SwiperSlide>
+            <SwiperSlide className="max-h-100 rounded-2xl overflow-hidden">
               <div className="rounded-[20px]">
                 <img
-                  className="custom-height w-full h-full object-cover"
-                  src="https://serviceapi.spicezgold.com/download/1751685144346_NewProject(11).jpg"
-                  alt=""
+                  className="custom-height w-full h-full object-fill"
+                  src="/banner/banner4.png"
+                  alt="Advertisement Banner"
                 />
               </div>
             </SwiperSlide>
-            <SwiperSlide>
+            <SwiperSlide className="max-h-100 rounded-2xl overflow-hidden">
               <div className="rounded-[20px]">
                 <img
-                  className="custom-height w-full h-full object-cover"
-                  src="https://serviceapi.spicezgold.com/download/1751685130717_NewProject(8).jpg"
-                  alt=""
+                  className="custom-height w-full h-full object-fill"
+                  src="/banner/banner5.png"
+                  alt="Advertisement Banner"
                 />
               </div>
             </SwiperSlide>

@@ -5,12 +5,25 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  FaTrash,
+  FaPlus,
+  FaMinus,
+  FaShoppingBag,
+  FaHeart,
+  FaShare,
+  FaLock,
+  FaShieldAlt,
+  FaTruck,
+  FaUndo,
+} from "react-icons/fa";
 import { useAuth } from "../Store/Auth";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedItems, setSelectedItems] = useState(new Set());
   const { setTotalCartItem, url } = useAuth();
 
   useEffect(() => {
@@ -47,7 +60,7 @@ const Cart = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      toast.success("Item removed from cart");
+      toast.success("🗑️ Item removed from cart");
       fetchCart(); // Refresh cart data
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to remove item");
@@ -84,13 +97,43 @@ const Cart = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      toast.success("Cart cleared successfully");
+      toast.success("🛒 Cart cleared successfully");
       setCartItems([]);
+      setSelectedItems(new Set());
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to clear cart");
       console.error("Error clearing cart:", err);
     }
   };
+
+  // Toggle item selection
+  const toggleItemSelection = (itemId) => {
+    const newSelected = new Set(selectedItems);
+    if (newSelected.has(itemId)) {
+      newSelected.delete(itemId);
+    } else {
+      newSelected.add(itemId);
+    }
+    setSelectedItems(newSelected);
+  };
+
+  // Select all items
+  const selectAllItems = () => {
+    if (selectedItems.size === cartItems.length) {
+      setSelectedItems(new Set());
+    } else {
+      setSelectedItems(new Set(cartItems.map((item) => item._id)));
+    }
+  };
+
+  // Calculate selected items price
+  const selectedItemsPrice = cartItems.reduce(
+    (total, item) =>
+      selectedItems.has(item._id)
+        ? total + item.priceAtAddition * item.quantity
+        : total,
+    0
+  );
 
   // Calculate total price
   const totalPrice = cartItems.reduce(
@@ -104,16 +147,26 @@ const Cart = () => {
     0
   );
 
+  // Move to wishlist
+  const moveToWishlist = async (itemId) => {
+    try {
+      // This would be your API call to move item to wishlist
+      toast.info("Feature coming soon!");
+    } catch (err) {
+      toast.error("Failed to move to wishlist");
+    }
+  };
+
   if (isLoading) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="flex !items-center !justify-center !min-h-[50vh]"
+        className="!flex !items-center !justify-center !min-h-[60vh] !bg-gray-50"
       >
-        <div className="text-center !py-8">
-          <div className="inline-block !w-10 !h-10 !border-4 !border-t-[var(--hover-color)] !border-gray-200 !rounded-full !animate-spin"></div>
-          <p className="!mt-4 !text-gray-600">Loading your cart...</p>
+        <div className="!text-center">
+          <div className="!inline-block !w-12 !h-12 !border-4 !border-t-[var(--hover-color)] !border-gray-200 !rounded-full !animate-spin"></div>
+          <p className="!mt-4 !text-gray-600 !text-lg">Loading your cart...</p>
         </div>
       </motion.div>
     );
@@ -124,105 +177,185 @@ const Cart = () => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="text-center !py-8 !text-red-500"
+        className="flex justify-center items-center flex-col !py-12 min-h-[60vh] !bg-gray-50"
       >
-        {error}
+        <div className="!text-red-500 !text-lg !mb-4">{error}</div>
+        <button
+          onClick={fetchCart}
+          className=" !px-6 !py-2 !bg-[var(--hover-color)] border !text-white !rounded-lg hover:!bg-white hover:!text-emerald-500 hover:!border-emerald-500 !transition-colors"
+        >
+          Try Again
+        </button>
       </motion.div>
     );
   }
 
   return (
-    <>
-      <div className="!min-h-[80vh] !flex !justify-center !items-center !bg-gray-50 !p-4">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="!min-h-screen !bg-gray-50 !py-8 !px-4 sm:!px-6 lg:!px-8"
+    >
+      <div className="!max-w-7xl !mx-auto">
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          className="w-full !max-w-6xl !min-h-[70vh] !h-auto !mx-auto !my-5 !p-4 md:!p-6 lg:!p-8 bg-white !rounded-lg !shadow-md !border-gray-200"
+          transition={{ delay: 0.1 }}
+          className="!text-center !mb-8"
         >
-          <div className="!max-w-full md:!max-w-[95%] !m-auto">
-            <motion.h2
-              initial={{ scale: 0.95 }}
-              animate={{ scale: 1 }}
-              className="!text-2xl md:!text-3xl !font-semibold !text-center !my-6 !text-[var(--hover-color)]"
-            >
-              Your Cart {totalItems > 0 && `(${totalItems})`}
-            </motion.h2>
+          <h1 className="!text-3xl md:!text-4xl !font-bold !text-gray-900 !mb-4">
+            Your Shopping Cart
+          </h1>
+          <p className="!text-gray-600 !text-lg">
+            {cartItems.length === 0
+              ? "Your cart is empty. Start adding items you love!"
+              : `You have ${totalItems} item${
+                  totalItems !== 1 ? "s" : ""
+                } in your cart`}
+          </p>
+        </motion.div>
 
-            <AnimatePresence>
-              {cartItems.length === 0 ? (
-                <motion.div
-                  key="empty-cart"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="!text-center"
-                >
-                  <motion.p
-                    className="!text-gray-500 !mb-6 !text-lg"
-                    initial={{ y: -10 }}
-                    animate={{ y: 0 }}
-                  >
-                    Your cart is empty.
-                  </motion.p>
-                  <motion.div
+        <AnimatePresence mode="popLayout">
+          {cartItems.length === 0 ? (
+            <motion.div
+              key="empty-cart"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="!text-center !py-16 !bg-white !rounded-xl !shadow-sm"
+            >
+              <div className="!inline-block !p-6 !bg-gray-100 !rounded-full !mb-6">
+                <FaShoppingBag className="!w-16 !h-16 !text-gray-400" />
+              </div>
+              <h3 className="!text-xl !font-semibold !text-gray-700 !mb-4">
+                No items in cart
+              </h3>
+              <p className="!text-gray-500 !mb-8 !max-w-md !mx-auto">
+                Items you add to your cart will appear here. Start exploring our
+                collection!
+              </p>
+              <Link
+                to="/products"
+                className="!inline-block !px-8 !py-3 !bg-[var(--hover-color)] border !text-white
+                 !rounded-lg hover:!text-emerald-500 hover:!border-emerald-500 hover:!bg-white !transition-colors !font-medium"
+              >
+                Start Shopping
+              </Link>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="cart-items"
+              className="!grid !grid-cols-1 lg:!grid-cols-2 !gap-6"
+            >
+              {/* Cart Items */}
+              <div className="!lg:col-span-4 w-[95%] !space-y-6">
+                {/* Cart Actions */}
+                <div className="!bg-white !rounded-xl !shadow-md !p-4 !flex !items-center !justify-between">
+                  <div className="!flex !items-center">
+                    <input
+                      type="checkbox"
+                      checked={selectedItems.size === cartItems.length}
+                      onChange={selectAllItems}
+                      className="!w-5 !h-5 !text-[var(--hover-color)] !rounded !mr-3"
+                    />
+                    <span className="!text-gray-700 !font-medium">
+                      Select all ({selectedItems.size}/{cartItems.length})
+                    </span>
+                  </div>
+                  <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
+                    onClick={handleClearCart}
+                    className="!px-4 !py-2 !bg-gray-100 !text-red-500 !rounded-lg hover:!bg-red-500 hover:!text-white !transition-colors !flex !items-center !gap-2"
                   >
-                    <Link
-                      to="/"
-                      className="!inline-block !font-[500] !px-6 !py-3 !border-2 !border-[var(--hover-color)] !bg-[var(--hover-color)] !text-white !rounded-lg !shadow-md hover:!bg-white hover:!text-[var(--hover-color)] !transition-all !duration-300"
-                    >
-                      Continue Shopping
-                    </Link>
-                  </motion.div>
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="cart-items"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="!space-y-6"
-                >
-                  <AnimatePresence>
-                    {cartItems.map((item) => (
-                      <motion.div
-                        key={item._id}
-                        layout
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 20 }}
-                        transition={{ duration: 0.2 }}
-                        className="!flex !flex-col md:!flex-row !items-center !justify-between !p-4 !border-b !border-gray-200 hover:!shadow-md !transition-all !duration-200 !bg-gray-50 !rounded-lg"
-                      >
-                        <div className="!flex !items-center !gap-4 !w-full md:!w-auto !mb-4 md:!mb-0">
-                          <motion.div whileHover={{ scale: 1.05 }}>
-                            <img
-                              src={
-                                item.product?.imageUrl
-                                  ? `${url}${item.product.imageUrl}`
-                                  : "https://via.placeholder.com/80x80.png?text=Product"
-                              }
-                              alt={item.product?.name}
-                              className="!w-16 !h-16 !object-cover !rounded-lg !shadow-sm"
-                            />
-                          </motion.div>
-                          <div>
-                            <Link to={`/product/${item.product?._id}`}>
-                              <h6 className="!font-medium !text-gray-800 !text-[16px] hover:!text-[var(--hover-color)] !transition-colors">
-                                {item.product?.name || "Product"}
-                              </h6>
-                            </Link>
-                            <p className="!text-gray-600 !text-sm">
-                              Tk.{item.priceAtAddition.toFixed(2)} each
-                            </p>
-                          </div>
+                    <FaTrash className="!w-4 !h-4" />
+                    Clear Cart
+                  </motion.button>
+                </div>
+
+                {cartItems.map((item, index) => (
+                  <motion.div
+                    key={item._id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9, y: -20 }}
+                    transition={{ delay: index * 0.1, duration: 0.3 }}
+                    whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                    className="!bg-white !rounded-xl !shadow-md !overflow-hidden !group !relative !p-6"
+                  >
+                    <div className="!flex !items-start !gap-5">
+                      {/* Selection Checkbox */}
+                      <input
+                        type="checkbox"
+                        checked={selectedItems.has(item._id)}
+                        onChange={() => toggleItemSelection(item._id)}
+                        className="!w-5 !h-5 !text-[var(--hover-color)] !rounded !mt-12"
+                      />
+
+                      {/* Product Image */}
+                      <div className="!relative !overflow-hidden !flex-shrink-0">
+                        <img
+                          src={
+                            item.product?.imageUrl
+                              ? `${url}${item.product.imageUrl}`
+                              : "https://via.placeholder.com/120x120.png?text=Product"
+                          }
+                          alt={item.product?.name}
+                          className="!w-28 !h-28 !object-cover !rounded-lg !group-hover:!scale-105 !transition-transform !duration-300"
+                        />
+                        {/* <button 
+                          onClick={() => moveToWishlist(item._id)}
+                          className="!absolute !top-2 !right-2 !w-8 !h-8 !bg-white !rounded-full !shadow-md !flex !items-center !justify-center hover:!bg-red-50 !transition-colors"
+                        >
+                          <FaHeart className="!w-4 !h-4 !text-gray-500 hover:!text-red-500" />
+                        </button> */}
+                      </div>
+
+                      {/* Product Info */}
+                      <div className="!flex-1">
+                        <Link to={`/product/${item.product?._id}`}>
+                          <h3 className="!font-semibold !text-gray-900 !text-lg !mb-2 hover:!text-[var(--hover-color)] !transition-colors !line-clamp-1">
+                            {item.product?.name || "Product Name"}
+                          </h3>
+                        </Link>
+
+                        <div className="!flex !items-center !gap-2 !mb-3">
+                          <span className="!text-sm !text-gray-500">
+                            Seller: YourStore
+                          </span>
+                          <span className="!text-gray-300">•</span>
+                          <span
+                            className={`!text-sm !px-2 !py-1 !rounded-full ${
+                              item.product?.stock > 0
+                                ? "!bg-green-100 !text-green-800"
+                                : "!bg-red-100 !text-red-800"
+                            }`}
+                          >
+                            {item.product?.stock > 0
+                              ? "In Stock"
+                              : "Out of Stock"}
+                          </span>
                         </div>
 
-                        <div className="!flex !items-center !justify-between !w-full md:!w-auto !gap-6">
-                          <div className="!flex !items-center !gap-2">
+                        <div className="!flex !items-center !justify-between !mb-4">
+                          <span className="!text-2xl !font-bold !text-[var(--hover-color)]">
+                            Tk {item.priceAtAddition.toFixed(2)}
+                          </span>
+                          <span className="!text-sm !text-gray-500 !line-through">
+                            {item.product?.originalPrice
+                              ? `Tk ${item.product.originalPrice.toFixed(2)}`
+                              : ""}
+                          </span>
+                        </div>
+
+                        {/* Quantity Controls */}
+                        <div className="!flex !items-center !justify-between">
+                          <div className="!flex !items-center !gap-3 !bg-gray-100 !rounded-lg !p-1">
                             <motion.button
+                              whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
                               onClick={() =>
                                 handleUpdateQuantity(
@@ -230,15 +363,18 @@ const Cart = () => {
                                   item.quantity - 1
                                 )
                               }
-                              className="!w-6 !h-6 !flex !items-center !justify-center !border border-gray-400 !rounded-full !bg-white hover:!bg-gray-100 !transition-colors"
                               disabled={item.quantity <= 1}
+                              className="!w-8 !h-8 !bg-white !rounded-md !flex !items-center !justify-center !shadow-sm hover:!bg-gray-50 !transition-colors disabled:!opacity-50 disabled:!cursor-not-allowed"
                             >
-                              -
+                              <FaMinus className="!w-3 !h-3" />
                             </motion.button>
+
                             <span className="!mx-2 !font-medium !min-w-[20px] !text-center">
                               {item.quantity}
                             </span>
+
                             <motion.button
+                              whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
                               onClick={() =>
                                 handleUpdateQuantity(
@@ -246,83 +382,147 @@ const Cart = () => {
                                   item.quantity + 1
                                 )
                               }
-                              className="!w-6 !h-6 !flex !items-center !justify-center !border border-gray-400 !rounded-full !bg-white hover:!bg-gray-100 !transition-colors"
+                              disabled={item.quantity >= item.product?.stock}
+                              className="!w-8 !h-8 !bg-white !rounded-md !flex !items-center !justify-center !shadow-sm hover:!bg-gray-50 !transition-colors disabled:!opacity-50 disabled:!cursor-not-allowed"
                             >
-                              +
+                              <FaPlus className="!w-3 !h-3" />
                             </motion.button>
                           </div>
 
-                          <div className="!text-right !flex !flex-col !items-end !gap-2">
-                            <p className="!text-[var(--hover-color)] !font-semibold !text-lg">
-                              Tk.
-                              {(item.priceAtAddition * item.quantity).toFixed(
-                                2
-                              )}
-                            </p>
+                          <div className="!flex !items-center !gap-2">
                             <motion.button
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
-                              className="!px-3 !py-1 !border !border-red-500 !bg-white !text-red-500 !rounded-full !text-sm hover:!bg-red-500 hover:!text-white !transition-colors"
-                              onClick={() => handleRemoveItem(item._id)}
+                              className="!w-10 !h-10 !bg-gray-100 !text-gray-600 !rounded-lg hover:!bg-gray-200 !flex !items-center !justify-center !transition-colors"
+                              title="Share"
                             >
-                              Remove
+                              <FaShare className="!w-4 !h-4" />
+                            </motion.button>
+                            <motion.button
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                              onClick={() => handleRemoveItem(item._id)}
+                              className="!w-10 !h-10 !bg-gray-100 !text-red-500 !rounded-lg hover:!bg-red-500 hover:!text-white !flex !items-center !justify-center !transition-colors"
+                              title="Remove from Cart"
+                            >
+                              <FaTrash className="!w-4 !h-4" />
                             </motion.button>
                           </div>
                         </div>
-                      </motion.div>
-                    ))}
-                  </AnimatePresence>
+                      </div>
+                    </div>
 
-                  <motion.div
-                    className="!flex !flex-col md:!flex-row !items-center !justify-between !p-6 !mt-4 !bg-gray-50 !rounded-lg !shadow-sm"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
-                  >
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={handleClearCart}
-                      className="!px-4 !py-2 !mb-4 md:!mb-0 !text-sm !text-red-500 hover:!text-red-700 !bg-white !border !border-red-300 !rounded-full !transition-colors"
-                    >
-                      Clear Entire Cart
-                    </motion.button>
-                    <div className="!text-right">
-                      <span className="!text-lg !font-semibold !text-gray-700">
-                        Total:
-                      </span>
-                      <span className="!text-2xl !font-bold !text-[var(--hover-color)] !ml-3">
-                        Tk.{totalPrice.toFixed(2)}
+                    {/* Delivery Estimate */}
+                    <div className="!mt-4 !pt-4 !border-t !border-gray-100 !flex !items-center !gap-2 !text-sm !text-gray-600">
+                      <FaTruck className="!text-[var(--hover-color)]" />
+                      <span>
+                        Delivery by{" "}
+                        {new Date(
+                          Date.now() + 3 * 24 * 60 * 60 * 1000
+                        ).toLocaleDateString()}{" "}
+                        • Free
                       </span>
                     </div>
-                  </motion.div>
 
-                  <motion.div
-                    className="!text-center !my-6"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.2 }}
-                  >
-                    <motion.div
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.97 }}
-                    >
-                      <Link
-                        to="/checkout"
-                        className="!inline-block !font-[600] !px-6 !py-3 !border-1 !border-[var(--hover-color)] !bg-[var(--hover-color)]
-                         !text-white !rounded-lg !shadow-lg hover:!bg-white hover:!text-[var(--hover-color)] !transition-all !duration-200"
-                      >
-                        Proceed to Checkout
-                      </Link>
-                    </motion.div>
+                    {/* Return Policy */}
+                    <div className="!mt-2 !flex !items-center !gap-2 !text-sm !text-gray-600">
+                      <FaUndo className="!text-gray-400" />
+                      <span>14 days return policy</span>
+                    </div>
                   </motion.div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </motion.div>
+                ))}
+              </div>
+
+              {/* Order Summary */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3 }}
+                className="!bg-white !rounded-xl !shadow-md !p-6 !h-fit !sticky !top-6"
+              >
+                <h2 className="!text-xl !font-bold !text-gray-900 !mb-6 !pb-4 !border-b">
+                  Order Summary
+                </h2>
+
+                <div className="!space-y-4 !mb-6">
+                  <div className="!flex !justify-between">
+                    <span className="!text-gray-600">
+                      Subtotal ({selectedItems.size} items)
+                    </span>
+                    <span className="!font-medium">
+                      Tk {selectedItemsPrice.toFixed(2)}
+                    </span>
+                  </div>
+
+                  {/* <div className="!flex !justify-between">
+                    <span className="!text-gray-600">Discount</span>
+                    <span className="!font-medium !text-green-600">
+                      -Tk 0.00
+                    </span>
+                  </div> */}
+
+                  <div className="!flex !justify-between">
+                    <span className="!text-gray-600">Delivery Fee</span>
+                    <span className="!font-medium !text-green-600">60</span>
+                  </div>
+
+                  <div className="!h-px !bg-gray-200 !my-4"></div>
+
+                  <div className="!flex !justify-between !text-lg !font-bold">
+                    <span>Total</span>
+                    <span className="!text-[var(--hover-color)]">
+                      Tk {(60 + selectedItemsPrice).toFixed(2)}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="!space-y-3">
+                  <Link
+                    to="/checkout"
+                    className="!block !w-full !px-6 !py-3 !bg-[var(--hover-color)] !text-white !rounded-lg hover:!bg-white 
+                    hover:!text-emerald-500 hover:!border-emerald-500 hover:!border !text-center !font-medium !transition-colors"
+                  >
+                    Proceed to Checkout ({selectedItems.size})
+                  </Link>
+
+                  <Link
+                    to="/products"
+                    className="!block !w-full !px-6 !py-3 !border !border-[var(--hover-color)] !text-[var(--hover-color)] 
+                    !rounded-lg hover:!bg-[var(--hover-color)] hover:!text-white !text-center !font-medium !transition-colors"
+                  >
+                    Continue Shopping
+                  </Link>
+                </div>
+
+                {/* Security & Trust Badges */}
+                <div className="!mt-6 !pt-6 !border-t !border-gray-100">
+                  <div className="!flex !items-center !justify-center !gap-4 !text-gray-500 !text-sm">
+                    <div className="!flex !items-center !gap-1">
+                      <FaLock className="!text-green-500" />
+                      <span>Secure checkout</span>
+                    </div>
+                    <div className="!flex !items-center !gap-1">
+                      <FaShieldAlt className="!text-blue-500" />
+                      <span>Buyer protection</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Promotional Banner */}
+                <div className="!mt-6 !p-4 !bg-gradient-to-r !from-blue-50 !to-indigo-50 !rounded-lg !text-center">
+                  <h3 className="!font-medium !text-gray-900 !mb-1">
+                    Free Delivery!
+                  </h3>
+                  <p className="!text-xs !text-gray-600">
+                    On orders over Tk 5000
+                  </p>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-    </>
+    </motion.div>
   );
 };
 

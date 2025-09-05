@@ -11,21 +11,21 @@ const wishlistRoutes = require("./routes/wishlist-routes");
 const orderRoutes = require("./routes/order-routes");
 const chatbot = require("./routes/chatbotRoutes");
 
-//for localhost 
-// // const corsOptions = {
-// //   origin: function (origin, callback) {
-// //     const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
-// //     if (!origin || allowedOrigins.includes(origin)) {
-// //       callback(null, true);
-// //     } else {
-// //       callback(new Error("Not allowed by CORS"));
-// //     }
-// //   },
-// //   methods: "GET,POST,PUT,DELETE,PATCH,HEAD",
-// //   credentials: true,
-// // };
+//for localhost
+const corsOptions = {
+  origin: function (origin, callback) {
+    const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: "GET,POST,PUT,DELETE,PATCH,HEAD",
+  credentials: true,
+};
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 //Support JSON and file uploads
 app.use(express.json());

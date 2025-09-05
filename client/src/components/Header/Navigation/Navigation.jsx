@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { RiMenuFold2Fill } from "react-icons/ri";
 import { FaAngleDown } from "react-icons/fa6";
@@ -18,7 +18,7 @@ const Navigation = () => {
         <div className="!flex !flex-col md:!flex-row !justify-around !m-auto !items-center !min-w-full !container !p-2 lg:!p-1">
           {/* Categories Button - Responsive */}
           <div className="!w-full text-center md:!w-[20%] !mb-2 md:!mb-0">
-            <Button 
+            <Button
               className="!gap-2 !text-xs sm:!text-sm md:!text-[10px] lg:!text-[14px] !normal-case !p-1 md:!p-2"
               onClick={openCategoryPanel}
             >
@@ -41,21 +41,23 @@ const Navigation = () => {
                 { name: "Groceries", path: "/category/groceries" },
                 { name: "Beauty", path: "/category/beauty" },
                 { name: "Wellness", path: "/category/wellness" },
-                { name: "Jewellery", path: "/category/jewellery" }
+                { name: "Jewellery", path: "/category/jewellery" },
               ].map((item) => (
                 <li key={item.name} className="!list-none !flex-shrink-0">
-                  <Button className="!min-w-0 !p-1 md:!p-2">
-                    <NavLink 
-                      to={item.path}
-                      className={({ isActive }) => 
-                        `links link !text-xs sm:!text-sm md:!text-[10px] lg:!text-[13px] ${
-                          isActive ? '!text-[var(--hover-color)]' : '!text-inherit'
-                        }`
-                      }
-                    >
-                      {item.name}
-                    </NavLink>
-                  </Button>
+                  <NavLink
+                    to={item.path}
+                    className={({ isActive }) =>
+                      `links link !text-xs sm:!text-sm md:!text-[10px] lg:!text-[14px] ${
+                        isActive
+                          ? "!text-[var(--hover-color)]"
+                          : "!text-gray-600"
+                      }`
+                    }
+                  >{item.name}
+                    {/* <Button className="!min-w-0 !p-1 md:!p-2"> */}
+                      {/* {item.name} */}
+                    {/* </Button> */}
+                  </NavLink>
                 </li>
               ))}
             </ul>

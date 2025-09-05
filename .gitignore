@@ -9,6 +9,7 @@ client/.env
 server/.env
 
 client/src/Store/
+server/server.js
 
 # Logs
 logs

@@ -41,7 +41,7 @@ body {
 .links { font-size: 14px; font-weight: 500; }
 .links:hover { color: var(--hover-color); }
 
-.link { gap: 3px; }
+/* .link { gap: 3px; } */
 .link:hover { color: var(--hover-color) !important; }
 .link.active { color: var(--hover-color) !important; }
 
