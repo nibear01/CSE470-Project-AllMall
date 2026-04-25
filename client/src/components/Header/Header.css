@@ -1,0 +1,289 @@
+/* Modern Header Styling and Animations */
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes pulse-badge {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0);
+  }
+}
+
+/* Header Container */
+header {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Logo Container */
+.logo-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 10;
+}
+
+.logo-container::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #10b981, #34d399);
+  transition: width 0.3s ease;
+}
+
+.logo-container:hover::after {
+  width: 100%;
+}
+
+/* Icon Button Styling */
+.icon-btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  border-radius: 8px !important;
+}
+
+.icon-btn:hover {
+  background-color: rgba(235, 255, 243, 0.08) !important;
+  transform: translateY(-2px);
+}
+
+.icon-btn svg {
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.icon-btn:hover svg {
+  color: #10b981 !important;
+  transform: scale(1.1);
+}
+
+/* Announcement Bar Gradient */
+header .from-green-50 {
+  animation: slideDown 0.6s ease-out;
+}
+
+/* Mobile Menu Animation */
+.animate-slideDown {
+  animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Search Box Enhancement */
+header .searchBox {
+  background: linear-gradient(
+    135deg,
+    rgba(240, 253, 250, 1),
+    rgba(204, 251, 241, 1)
+  );
+  border: 1px solid rgba(167, 243, 208, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 12px;
+  padding: 10px 14px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+header .searchBox:focus-within {
+  background: linear-gradient(
+    135deg,
+    rgba(240, 253, 250, 1),
+    rgba(204, 251, 241, 1)
+  );
+  border-color: rgba(52, 211, 153, 0.3);
+  box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.1);
+}
+
+/* Badge Animation */
+.MuiBadge-badge {
+  animation: pulse-badge 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Scroll Effect */
+header[class*="shadow-lg"] {
+  box-shadow:
+    0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Mobile Menu Button Animation */
+header button[aria-label="Toggle menu"] {
+  transform-origin: center;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+header button[aria-label="Toggle menu"]:active {
+  transform: scale(0.95);
+}
+
+/* Links Enhancement */
+header a {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+header a.hover\:text-green-600:hover {
+  color: #10b981 !important;
+}
+
+/* User Info Box */
+header .border-r {
+  animation: slideUp 0.4s ease-out;
+}
+
+/* Responsive Improvements */
+@media (max-width: 1024px) {
+  header {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .logo-container img {
+    height: 40px;
+    width: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  header {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .logo-container img {
+    height: 36px;
+    width: auto;
+  }
+
+  /* Tighter spacing on mobile */
+  header .icon-btn {
+    padding: 8px !important;
+  }
+
+  /* Full-width mobile menu */
+  .animate-slideDown {
+    max-height: calc(100vh - 64px);
+    overflow-y: auto;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  header {
+    background-color: #1f2937;
+    color: #f3f4f6;
+  }
+
+  header .searchBox {
+    background: linear-gradient(
+      135deg,
+      rgba(31, 41, 55, 1),
+      rgba(17, 24, 39, 1)
+    );
+    border-color: rgba(75, 85, 99, 0.5);
+  }
+
+  header a {
+    color: #d1d5db;
+  }
+}
+
+/* Print Styles */
+@media print {
+  header {
+    position: static;
+    box-shadow: none;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  header .animate-slideDown {
+    display: none;
+  }
+}
+
+/* High DPI / Retina Display */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  header {
+    /* Ensure crisp rendering on high DPI screens */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Touch Device Improvements */
+@media (hover: none) and (pointer: coarse) {
+  header button,
+  header a[role="button"],
+  header .icon-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .logo-container::after {
+    display: none;
+  }
+
+  header .icon-btn:hover {
+    transform: none;
+  }
+
+  .icon-btn:active {
+    background-color: rgba(16, 185, 129, 0.15) !important;
+  }
+}
+
+/* Reduced Motion Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  header {
+    transition: none;
+  }
+
+  .animate-slideDown {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

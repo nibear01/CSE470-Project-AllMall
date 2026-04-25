@@ -1,0 +1,308 @@
+/* Modern Category Panel Styling */
+
+@keyframes drawerSlideIn {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes categoryExpand {
+  from {
+    opacity: 0;
+    max-height: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    max-height: 500px;
+    transform: translateY(0);
+  }
+}
+
+/* Category Drawer */
+.category-drawer {
+  animation: drawerSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  background: #ffffff;
+  color: #1f2937;
+}
+
+/* Category Items */
+.category-item {
+  animation: categoryExpand 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+}
+
+.category-item:hover {
+  background: #ffffff;
+  border-color: #d1fae5;
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.06);
+}
+
+/* Category Item Header */
+.category-item > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.category-item > div:first-child::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 8px;
+  right: 8px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(16, 185, 129, 0.14),
+    transparent
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.category-item:hover > div:first-child::after {
+  opacity: 1;
+}
+
+/* Category Button */
+.category-item button {
+  border-radius: 8px !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  color: #1f2937 !important;
+  background: #ffffff !important;
+}
+
+.category-item button:hover {
+  background: #ffffff !important;
+  color: #1f2937 !important;
+  box-shadow: 0 0 0 1px rgba(209, 213, 219, 1) inset;
+  transform: translateX(4px);
+  padding-left: 12px !important;
+}
+
+.category-item button:active {
+  background: #f9fafb !important;
+  transform: translateX(2px);
+}
+
+/* Subcategories */
+.subcategories {
+  animation: categoryExpand 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 8px !important;
+  margin-top: 8px !important;
+  border-left: 3px solid #d1fae5 !important;
+  padding-left: 12px !important;
+}
+
+.subcategories button {
+  border-radius: 6px !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  font-size: 0.875rem;
+  color: #1f2937 !important;
+  background: #ffffff !important;
+}
+
+.subcategories button:hover {
+  background: #ffffff !important;
+  color: #1f2937 !important;
+  box-shadow: 0 0 0 1px rgba(209, 213, 219, 1) inset;
+  padding-left: 12px !important;
+  transform: translateX(4px);
+}
+
+.subcategories button:active {
+  background: #f9fafb !important;
+}
+
+/* Expand/Collapse Button */
+.category-item button[class*="p-2"][class*="hover:bg"] {
+  border-radius: 8px !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  padding: 8px !important;
+}
+
+.category-item button[class*="p-2"][class*="hover:bg"]:hover {
+  background: #ffffff !important;
+  box-shadow: 0 0 0 1px rgba(209, 213, 219, 1) inset;
+  transform: rotate(180deg) scale(1.1);
+}
+
+/* Drawer Header */
+.category-drawer h3 {
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: #1f2937;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.category-drawer h3 span {
+  font-size: 1.5rem;
+}
+
+/* Close Button */
+.category-drawer button[class*="p-1"] {
+  border-radius: 8px !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  padding: 8px !important;
+}
+
+.category-drawer button[class*="p-1"]:hover {
+  background-color: rgba(243, 244, 246, 1) !important;
+  transform: rotate(-90deg) scale(1.1);
+}
+
+.category-drawer button[class*="p-1"]:active {
+  background-color: rgba(229, 231, 235, 1) !important;
+}
+
+/* Drawer Container Padding */
+.category-drawer > div:nth-of-type(2) {
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.category-drawer > div:nth-of-type(2)::-webkit-scrollbar {
+  width: 6px;
+}
+
+.category-drawer > div:nth-of-type(2)::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 1);
+  border-radius: 3px;
+}
+
+.category-drawer > div:nth-of-type(2)::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #10b981, #34d399);
+  border-radius: 3px;
+  transition: background 0.3s ease;
+}
+
+.category-drawer > div:nth-of-type(2)::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #059669, #10b981);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .category-drawer {
+    width: 100% !important;
+  }
+
+  .category-item button {
+    padding: 12px 12px !important;
+    min-height: 44px;
+    font-size: 0.95rem;
+  }
+
+  .subcategories button {
+    padding: 10px 12px !important;
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-drawer {
+    width: 85vw !important;
+  }
+
+  .category-drawer h3 {
+    font-size: 1rem;
+  }
+
+  .category-item button {
+    font-size: 0.9rem;
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .category-item button {
+    min-height: 48px;
+    padding: 12px !important;
+    font-size: 1rem;
+  }
+
+  .subcategories button {
+    min-height: 48px;
+    padding: 12px !important;
+  }
+
+  .category-item button:hover,
+  .subcategories button:hover {
+    transform: none;
+  }
+
+  .category-item button:active,
+  .subcategories button:active {
+    background: #f9fafb !important;
+  }
+
+  .category-item button[class*="p-2"]:hover {
+    transform: none;
+  }
+
+  .category-item button[class*="p-2"]:active {
+    background: #f9fafb !important;
+  }
+
+  .category-drawer button[class*="p-1"]:hover {
+    transform: none;
+  }
+
+  .category-drawer button[class*="p-1"]:active {
+    background-color: rgba(243, 244, 246, 1) !important;
+  }
+}
+
+/* Reduced Motion Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .category-drawer,
+  .category-item,
+  .subcategories,
+  .category-item button,
+  .subcategories button {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .category-item button:hover,
+  .subcategories button:hover,
+  .category-item button[class*="p-2"]:hover,
+  .category-drawer button[class*="p-1"]:hover {
+    transform: none !important;
+  }
+}
+
+/* Focus Visibility for Accessibility */
+.category-drawer a:focus-visible,
+.category-drawer button:focus-visible {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Print Styles */
+@media print {
+  .category-drawer {
+    display: none;
+  }
+}

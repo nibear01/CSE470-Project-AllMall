@@ -1,5 +1,36 @@
-.MuiTabs-indicator {background-color: #29a55f !important;}
-.MuiTab-textColorPrimary.Mui-selected {color: #29a55f !important;}
+.MuiTabs-indicator {
+  background-color: #29a55f !important;
+  transition: all var(--transition-normal) !important;
+}
 
-.productSlider {display: flex;}
+.MuiTab-textColorPrimary.Mui-selected {
+  color: #29a55f !important;
+  font-weight: 600;
+}
+
+.MuiTab-root {
+  transition: all var(--transition-fast) !important;
+  text-transform: capitalize;
+  min-height: 48px;
+  font-size: clamp(12px, 2vw, 16px);
+}
+
+.productSlider {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0.5rem;
+}
+
+/* Smooth scrolling for product sliders */
+.productSlider::-webkit-scrollbar {
+  height: 4px;
+}
+
+.productSlider::-webkit-scrollbar-thumb {
+  background: #29a55f;
+  border-radius: 2px;
+}
 

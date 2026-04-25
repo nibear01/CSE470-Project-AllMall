@@ -21,6 +21,7 @@ import CustomerManagement from "./components/AdminPanel/CustomerManagement";
 import Checkout from "./pages/Checkout";
 import Wishlist from "./pages/Wishlist";
 import ViewOrders from "./pages/ViewOrders";
+import "./index.css";
 
 function App() {
   const { user, isLoggedIn } = useAuth();
@@ -34,7 +35,7 @@ function App() {
     return (
       <div className="h-screen bg-gray-50 flex overflow-hidden">
         {/* Sidebar */}
-        <div className="w-64 flex-shrink-0">
+        <div className="w-64 shrink-0">
           <Sidebar />
         </div>
 

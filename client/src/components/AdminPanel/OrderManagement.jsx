@@ -198,19 +198,19 @@ const OrderManagement = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 !border-t-2 !border-b-2 border-emerald-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500"></div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto !px-4 !py-8">
-      <h1 className="text-3xl font-bold text-gray-800 !mb-8">
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold text-gray-800 mb-8">
         Order Management
       </h1>
 
       {/* Filter */}
-      <div className="flex !flex-wrap !gap-2 !mb-6">
+      <div className="flex flex-wrap gap-2 mb-6">
         {[
           "all",
           "pending",
@@ -223,7 +223,7 @@ const OrderManagement = () => {
           <button
             key={status}
             onClick={() => setFilter(status)}
-            className={`!px-4 !py-2 !rounded-lg ${
+            className={`px-4 py-2 rounded-lg ${
               filter === status
                 ? "bg-emerald-500 text-white"
                 : "bg-gray-200 text-gray-700"
@@ -235,9 +235,9 @@ const OrderManagement = () => {
       </div>
 
       {/* Orders Table */}
-      <div className="!bg-white !shadow-md !rounded-lg !overflow-x-auto">
-        <table className="min-w-full !divide-y !divide-gray-200">
-          <thead className="!bg-gray-50">
+      <div className="bg-white shadow-md rounded-lg overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
             <tr>
               {[
                 "Order ID",
@@ -251,7 +251,7 @@ const OrderManagement = () => {
               ].map((head) => (
                 <th
                   key={head}
-                  className="!px-6 !py-3 !text-left !text-xs font-medium !text-gray-500 !uppercase tracking-wider"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
                   {head}
                 </th>
@@ -263,7 +263,7 @@ const OrderManagement = () => {
               <tr>
                 <td
                   colSpan="8"
-                  className="!px-6 !py-4 text-center text-gray-500"
+                  className="px-6 py-4 text-center text-gray-500"
                 >
                   No orders found
                 </td>
@@ -271,10 +271,10 @@ const OrderManagement = () => {
             ) : (
               orders.map((order) => (
                 <tr key={order._id} className="hover:bg-gray-50">
-                  <td className="!px-6 !py-4 text-sm font-medium text-gray-900">
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">
                     #{order.orderId || "N/A"}
                   </td>
-                  <td className="!px-6 !py-4 text-sm text-gray-500">
+                  <td className="px-6 py-4 text-sm text-gray-500">
                     <div>
                       <div className="font-medium">
                         {order.shippingAddress?.firstName || "N/A"}{" "}
@@ -286,38 +286,38 @@ const OrderManagement = () => {
                       </div>
                     </div>
                   </td>
-                  <td className="!px-6 !py-4 text-sm text-gray-500">
+                  <td className="px-6 py-4 text-sm text-gray-500">
                     {formatDate(order.createdAt)}
                   </td>
-                  <td className="!px-6 !py-4 text-sm text-gray-500">
+                  <td className="px-6 py-4 text-sm text-gray-500">
                     {order.items?.reduce(
                       (total, item) => total + (item.quantity || 0),
                       0
                     ) || 0}{" "}
                     items
                   </td>
-                  <td className="!px-6 !py-4 text-sm font-medium text-gray-900">
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">
                     Tk {order.totalAmount?.toFixed(2) || "0.00"}
                   </td>
-                  <td className="!px-6 !py-4">
+                  <td className="px-6 py-4">
                     <span
-                      className={`!px-2 !py-1 text-xs font-medium rounded-full ${getStatusColor(
+                      className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(
                         order.orderStatus
                       )}`}
                     >
                       {order.orderStatus || "unknown"}
                     </span>
                   </td>
-                  <td className="!px-6 !py-4">
+                  <td className="px-6 py-4">
                     <span
-                      className={`!px-2 !py-1 text-xs font-medium rounded-full ${getPaymentStatusColor(
+                      className={`px-2 py-1 text-xs font-medium rounded-full ${getPaymentStatusColor(
                         order.paymentStatus
                       )}`}
                     >
                       {order.paymentStatus || "unknown"}
                     </span>
                   </td>
-                  <td className="!px-6 !py-4 !text-sm !font-medium !flex !gap-2">
+                  <td className="px-6 py-4 text-sm font-medium flex gap-2">
                     <button
                       onClick={() => {
                         setSelectedOrder(order);
@@ -343,13 +343,13 @@ const OrderManagement = () => {
       {/* Modal */}
       {isModalOpen && selectedOrder && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white !rounded-lg !shadow-xl !max-w-md !w-full !p-6">
-            <h2 className="text-xl font-semibold !mb-4">Update Order Status</h2>
-            <p className="text-gray-600 !mb-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+            <h2 className="text-xl font-semibold mb-4">Update Order Status</h2>
+            <p className="text-gray-600 mb-4">
               Order ID: #{selectedOrder.orderId}
             </p>
 
-            <label className="block !text-sm !font-medium !mb-1">
+            <label className="block text-sm font-medium mb-1">
               Order Status
             </label>
             <select
@@ -360,7 +360,7 @@ const OrderManagement = () => {
                   orderStatus: e.target.value,
                 })
               }
-              className="!w-full !mb-3 !px-3 !py-2 !border !border-gray-300 !rounded-md"
+              className="w-full mb-3 px-3 py-2 border border-gray-300 rounded-md"
             >
               {[
                 "pending",
@@ -376,7 +376,7 @@ const OrderManagement = () => {
               ))}
             </select>
 
-            <label className="block !text-sm !font-medium !mb-1">
+            <label className="block text-sm font-medium mb-1">
               Payment Status
             </label>
             <select
@@ -387,7 +387,7 @@ const OrderManagement = () => {
                   paymentStatus: e.target.value,
                 })
               }
-              className="!w-full !mb-3 !px-3 !py-2 border border-gray-300 !rounded-md"
+              className="w-full mb-3 px-3 py-2 border border-gray-300 rounded-md"
             >
               {["pending", "processing", "completed", "failed", "refunded"].map(
                 (s) => (
@@ -398,7 +398,7 @@ const OrderManagement = () => {
               )}
             </select>
 
-            <label className="block !text-sm !font-medium !mb-1">
+            <label className="block text-sm font-medium mb-1">
               Tracking Number
             </label>
             <input
@@ -410,20 +410,20 @@ const OrderManagement = () => {
                   trackingNumber: e.target.value,
                 })
               }
-              className="!w-full !mb-3 !px-3 !py-2 !border !border-gray-300 !rounded-md"
+              className="w-full mb-3 px-3 py-2 border border-gray-300 rounded-md"
               placeholder="Enter tracking number"
             />
 
-            <div className="!flex !justify-end !gap-2">
+            <div className="flex justify-end gap-2">
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="!px-4 !py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-200 transition-all"
+                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-200 transition-all"
               >
                 Cancel
               </button>
               <button
                 onClick={() => updateOrderStatus(selectedOrder._id)}
-                className="!px-4 !py-2 bg-emerald-600 text-white rounded-md hover:bg-emerald-500 transition-all"
+                className="px-4 py-2 bg-emerald-600 text-white rounded-md hover:bg-emerald-500 transition-all"
               >
                 Update Status
               </button>

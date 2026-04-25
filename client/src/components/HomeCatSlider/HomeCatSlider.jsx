@@ -7,7 +7,7 @@ import "./styles.css";
 
 const HomeCatSlider = () => {
   return (
-    <div className="homecatslider !py-4 sm:!py-6 lg:!py-8 w-[95%] sm:w-[90%] lg:w-[85%] !m-auto">
+    <div className="homecatslider py-4 sm:py-6 lg:py-8 w-[95%] sm:w-[90%] lg:w-[85%] m-auto">
       <div className="">
         <Swiper
           slidesPerView={6}  // Mobile first
@@ -43,7 +43,7 @@ const HomeCatSlider = () => {
                     alt={category.name}
                     className="h-[40px] w-[40px] sm:h-[50px] sm:w-[50px] md:h-[60px] md:w-[60px] hover-effect"
                   />
-                  <h3 className="!py-2 sm:!py-3 text-xs sm:text-sm md:text-base font-[500] text-center">{category.name}</h3>
+                  <h3 className="py-2 sm:py-3 text-xs sm:text-sm md:text-base font-[500] text-center">{category.name}</h3>
                 </div>
               </Link>
             </SwiperSlide>
