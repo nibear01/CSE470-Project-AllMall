@@ -2,10 +2,28 @@
 @import "./responsive-mobile.css";
 
 :root {
-  --primary: #29a55f;
-  --font-color: #3f3f3fe4;
-  --font-color-dark: #2f2f2fe4;
-  --hover-color: #29a55f;
+  /* Primary Colors - Consistent Green Palette */
+  --primary: #10b981;
+  --primary-dark: #059669;
+  --primary-light: #d1fae5;
+  --primary-lighter: #ecfdf5;
+
+  /* Secondary/Legacy Color (Keep for compatibility) */
+  --hover-color: #10b981;
+  --hover-color-dark: #059669;
+
+  /* Text Colors */
+  --font-color: #1f2937;
+  --font-color-dark: #111827;
+  --font-color-light: #6b7280;
+
+  /* Status Colors */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
+
+  /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -15,7 +33,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "system-ui", "Outfit", "Roboto", "Poppins", sans-serif !important;
+  font-family: "system-ui", "Outfit", "Roboto", "Poppins", sans-serif;
 }
 
 html {
@@ -23,10 +41,10 @@ html {
 }
 
 body {
-  font-family: "system-ui", "Outfit", "Roboto", "Poppins", sans-serif !important;
+  font-family: "system-ui", "Outfit", "Roboto", "Poppins", sans-serif;
   font-optical-sizing: auto;
   color: var(--font-color);
-  background: rgb(244, 244, 244);
+  background: #f9fafb;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -39,13 +57,13 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #10b981;
+  background: var(--primary);
   border-radius: 4px;
   transition: background var(--transition-fast);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #059669;
+  background: var(--primary-dark);
 }
 
 ::-webkit-scrollbar-track {
@@ -88,14 +106,20 @@ body {
   transition: color var(--transition-fast) !important;
 }
 
+.MuiButton-text:hover {
+  color: var(--primary) !important;
+  background-color: rgba(16, 185, 129, 0.08) !important;
+}
+
 .links {
   font-size: clamp(12px, 2vw, 14px);
   font-weight: 500;
   transition: color var(--transition-fast);
+  color: var(--font-color);
 }
 
 .links:hover {
-  color: var(--hover-color);
+  color: var(--primary);
 }
 
 .link {
@@ -112,7 +136,9 @@ body {
 
 /* Sidebar specific styles */
 .sidebar-transition {
-  transition: transform var(--transition-normal), opacity var(--transition-normal);
+  transition:
+    transform var(--transition-normal),
+    opacity var(--transition-normal);
 }
 
 .overlay-transition {
@@ -139,13 +165,21 @@ body {
 
 /* Smooth animations */
 @keyframes shake {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(0);
   }
-  10%, 30%, 50%, 70%, 90% {
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
     transform: translateX(-5px);
   }
-  20%, 40%, 60%, 80% {
+  20%,
+  40%,
+  60%,
+  80% {
     transform: translateX(5px);
   }
 }
@@ -215,7 +249,8 @@ body {
 }
 
 @keyframes pulse-subtle {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {

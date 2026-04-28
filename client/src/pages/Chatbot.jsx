@@ -78,7 +78,7 @@ const Chatbot = () => {
     <>
       {/* Chatbot Floating Button */}
       <button
-        className="fixed bottom-6 right-6 bg-gradient-to-r from-emerald-500 to-teal-600 text-white p-4 rounded-full shadow-2xl z-[1000] hover:scale-110 transition-transform duration-300 border-2 border-white"
+        className="fixed bottom-6 right-6 bg-emerald-500 text-white p-4 rounded-full shadow-2xl z-[1000] hover:scale-110 transition-transform duration-300 border-2 border-white"
         onClick={toggleChat}
         aria-label="Open chat"
       >
@@ -103,7 +103,7 @@ const Chatbot = () => {
           }`}
       >
         {/* Header with Gradient */}
-        <div className="flex justify-between items-center py-4 px-5 bg-gradient-to-r from-emerald-600 to-teal-700 text-white shadow-md">
+        <div className="flex justify-between items-center py-4 px-5 bg-emerald-600 text-white shadow-md">
           <div className="flex items-center gap-3">
             <div className="relative">
               <AiOutlineRobot className="w-7 h-7" />
@@ -128,21 +128,21 @@ const Chatbot = () => {
         </div>
 
         {/* Chat Body */}
-        <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-gradient-to-b from-emerald-50 to-gray-100">
+        <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-emerald-500 bg-opacity-10">
           {messages.map((msg, idx) => (
             <div
               key={idx}
               className={`p-4 rounded-2xl max-w-[85%] shadow-sm transition-all duration-300 hover:shadow-md
                 ${
                   msg.type === "bot"
-                    ? "!bg-white text-gray-800 self-start rounded-bl-none border border-emerald-100"
-                    : "!bg-gradient-to-r from-emerald-600 to-teal-600 text-white self-end rounded-br-none shadow-md"
+                    ? "bg-white text-gray-800 self-start rounded-bl-none border border-emerald-100"
+                    : "bg-emerald-600 text-white self-end rounded-br-none shadow-md"
                 }`}
             >
               <p className="text-sm leading-relaxed">{msg.text}</p>
               <p
                 className={`text-xs mt-2 opacity-70 ${
-                  msg.type === "bot" ? "!text-emerald-600" : "!text-emerald-100"
+                  msg.type === "bot" ? "text-emerald-600" : "text-emerald-100"
                 }`}
               >
                 {msg.type === "bot" ? "AllMall Assistant" : "You"} • Just now
@@ -186,7 +186,7 @@ const Chatbot = () => {
             disabled={isLoading}
           />
           <button
-            className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white p-3 rounded-r-xl hover:from-emerald-600 hover:to-teal-700 
+            className="bg-emerald-500 text-white p-3 rounded-r-xl hover:bg-emerald-600 
             transition-all duration-200 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed shadow-md"
             onClick={handleSend}
             disabled={isLoading || !input.trim()}

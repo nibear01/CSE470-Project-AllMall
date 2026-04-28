@@ -64,7 +64,7 @@ const Checkout = () => {
   const calculateTotals = () => {
     const subtotal = cartItems.reduce(
       (total, item) => total + item.priceAtAddition * item.quantity,
-      0
+      0,
     );
     const shipping = subtotal > 0 ? 60 : 0;
     const total = subtotal + shipping;
@@ -120,7 +120,7 @@ const Checkout = () => {
         console.error("Server error details:", error.response.data);
         toast.error(
           error.response.data.message ||
-            "Failed to place order. Please check your information."
+            "Failed to place order. Please check your information.",
         );
       } else if (error.request) {
         console.error("No response received:", error.request);
@@ -208,9 +208,9 @@ const Checkout = () => {
           Checkout
         </h1>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
           {/* Left Column */}
-          <div className="bg-white rounded-xl shadow-md p-6">
+          <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 order-last lg:order-first">
             <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
               <FaUser className="mr-2 text-[var(--hover-color)]" />
               Shipping Information
@@ -355,9 +355,7 @@ const Checkout = () => {
                         src="/src/assets/bkash-seeklogo.png"
                         className="text-orange-500 mr-2 h-5 w-12"
                       />
-                      <span className="text-gray-500">
-                        bKash (Coming Soon)
-                      </span>
+                      <span className="text-gray-500">bKash (Coming Soon)</span>
                     </div>
                   </label>
 
@@ -392,7 +390,7 @@ const Checkout = () => {
           </div>
 
           {/* Right Column */}
-          <div className="bg-white rounded-xl shadow-md p-6 h-fit sticky top-8">
+          <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 h-fit lg:sticky lg:top-8 order-first lg:order-last">
             <h2 className="text-xl font-semibold text-gray-900 mb-6">
               Order Summary
             </h2>
@@ -450,9 +448,9 @@ const Checkout = () => {
                       ৳{shipping.toFixed(2)}
                     </span>
                   </div>
-                  <div className="flex justify-between text-lg font-semibold border-t border-gray-200 pt-3">
-                    <span className="text-gray-900">Total</span>
-                    <span className="text-[var(--hover-color)]">
+                  <div className="flex justify-between text-lg font-bold border-t-2 border-emerald-200 pt-4 mt-4">
+                    <span className="text-gray-900">Total Amount</span>
+                    <span className="text-emerald-600 text-2xl">
                       ৳{total.toFixed(2)}
                     </span>
                   </div>

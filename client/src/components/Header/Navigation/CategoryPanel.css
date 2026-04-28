@@ -31,7 +31,7 @@
   color: #1f2937;
 }
 
-/* Category Items */
+/* Category Item */
 .category-item {
   animation: categoryExpand 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   border-radius: 10px;
@@ -43,7 +43,7 @@
 
 .category-item:hover {
   background: #ffffff;
-  border-color: #d1fae5;
+  border-color: var(--primary-light);
   box-shadow: 0 6px 16px rgba(16, 185, 129, 0.06);
 }
 
@@ -82,14 +82,14 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   font-weight: 500;
   letter-spacing: 0.3px;
-  color: #1f2937 !important;
+  color: var(--font-color) !important;
   background: #ffffff !important;
 }
 
 .category-item button:hover {
   background: #ffffff !important;
-  color: #1f2937 !important;
-  box-shadow: 0 0 0 1px rgba(209, 213, 219, 1) inset;
+  color: var(--primary) !important;
+  box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2) inset;
   transform: translateX(4px);
   padding-left: 12px !important;
 }

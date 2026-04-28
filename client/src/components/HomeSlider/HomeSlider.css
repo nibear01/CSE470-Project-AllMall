@@ -61,7 +61,7 @@
 
 .swiper-button-prev::after,
 .swiper-button-next::after {
-  color: rgb(40, 40, 40);
+  color: var(--font-color-dark);
   font-size: 20px !important;
   font-weight: bold;
 }
@@ -94,4 +94,3 @@
 .swiper-fade.swiper-fade-in-active {
   opacity: 1;
 }
-

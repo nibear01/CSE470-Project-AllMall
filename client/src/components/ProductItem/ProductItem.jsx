@@ -149,7 +149,7 @@ const ProductItem = ({ product }) => {
 
             {/* Discount Badge */}
             {product.discount > 0 && (
-              <span className="absolute top-3 left-3 bg-gradient-to-r from-[var(--hover-color)] to-[var(--hover-color)]/80 text-white text-xs font-bold px-3 py-1 rounded-full z-10 shadow-md">
+              <span className="absolute top-3 left-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-bold px-3 py-1 rounded-full z-10 shadow-md">
                 {product.discount}% OFF
               </span>
             )}
@@ -209,7 +209,7 @@ const ProductItem = ({ product }) => {
             </div>
 
             <div className="flex items-center gap-2 mb-4">
-              <span className="text-lg font-bold text-[var(--hover-color)]">
+              <span className="text-lg font-bold text-emerald-600">
                 Tk {product.price}
               </span>
               {product.originalPrice && (
@@ -222,7 +222,18 @@ const ProductItem = ({ product }) => {
             <Button
               variant="outlined"
               fullWidth
-              className="py-2.5 border-[var(--hover-color)] text-[var(--hover-color)] hover:bg-[var(--hover-color)] hover:text-white transition-all duration-300 rounded-xl font-medium hidden md:block"
+              className="py-2.5 transition-all duration-300 rounded-xl font-medium hidden md:block"
+              sx={{
+                borderColor: "#059669",
+                color: "#059669",
+                borderWidth: "1px",
+                "&:hover": {
+                  backgroundColor: "#059669",
+                  color: "white",
+                  borderColor: "#059669",
+                  borderWidth: "1px",
+                },
+              }}
               onClick={(e) => handleAddToCart(e, product._id)}
             >
               Add to Cart
@@ -239,7 +250,7 @@ const ProductItem = ({ product }) => {
         fullWidth
         PaperProps={{ className: "rounded-2xl overflow-hidden" }}
       >
-        <DialogTitle className="flex justify-between items-center border-b border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 py-4">
+        <DialogTitle className="flex justify-between items-center border-b border-gray-200 py-4">
           <span className="text-xl font-bold text-gray-800">
             {product.name}
           </span>
@@ -292,7 +303,7 @@ const ProductItem = ({ product }) => {
               </div>
 
               <div className="flex items-center gap-4 mb-4">
-                <span className="text-2xl font-bold text-[var(--hover-color)]">
+                <span className="text-2xl font-bold text-emerald-600">
                   Tk {product.price}
                 </span>
                 {product.originalPrice && (
@@ -315,11 +326,20 @@ const ProductItem = ({ product }) => {
               <div className="flex gap-3 mb-6">
                 <Button
                   variant="outlined"
-                  className={`flex items-center gap-2 py-2.5 rounded-xl transition-all duration-300 ${
-                    isWishlisted
-                      ? "border-rose-500 text-rose-500 hover:bg-rose-50"
-                      : "border-gray-300 text-gray-700 hover:border-[var(--hover-color)] hover:text-[var(--hover-color)]"
-                  }`}
+                  className="flex items-center gap-2 py-2.5 rounded-xl transition-all duration-300"
+                  sx={{
+                    borderColor: isWishlisted ? "#ef4444" : "#d1d5db",
+                    color: isWishlisted ? "#ef4444" : "#374151",
+                    borderWidth: "2px",
+                    "&:hover": {
+                      backgroundColor: isWishlisted
+                        ? "rgba(239, 68, 68, 0.08)"
+                        : "transparent",
+                      borderColor: isWishlisted ? "#ef4444" : "#059669",
+                      color: isWishlisted ? "#ef4444" : "#059669",
+                      borderWidth: "1px",
+                    },
+                  }}
                   onClick={toggleWishlist}
                 >
                   {isWishlisted ? (
@@ -339,7 +359,13 @@ const ProductItem = ({ product }) => {
               <div className="flex gap-4">
                 <Button
                   variant="contained"
-                  className="flex-1 py-3 border border-emerald-500 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-medium shadow-md"
+                  className="flex-1 py-3 text-white rounded-xl font-medium shadow-md"
+                  sx={{
+                    backgroundColor: "#059669",
+                    "&:hover": {
+                      backgroundColor: "#047857",
+                    },
+                  }}
                   onClick={(e) => handleAddToCart(e, product._id)}
                   startIcon={<FaShoppingCart />}
                 >

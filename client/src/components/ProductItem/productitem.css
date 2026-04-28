@@ -74,7 +74,7 @@
 .product-price {
   font-size: clamp(14px, 2.5vw, 16px);
   font-weight: 600;
-  color: #29a55f;
+  color: var(--primary);
   margin-bottom: 8px;
 }
 

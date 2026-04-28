@@ -59,7 +59,7 @@ const Registration = () => {
 
         <div className="relative z-10 text-center px-8 mb-6">
           <h2 className="text-3xl font-bold text-gray-800 mb-2 tracking-tight">
-            Join <span className="text-emerald-600">AllMall</span>
+            Join <span className="text-emerald-600 text-3xl">AllMall</span>
           </h2>
           <p className="text-sm text-gray-500 font-medium">
             Create your account to get started
@@ -85,9 +85,7 @@ const Registration = () => {
 
           {/* Email */}
           <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">
-              Email
-            </label>
+            <label className="text-sm font-medium text-gray-700">Email</label>
             <input
               type="email"
               name="email"
@@ -144,8 +142,8 @@ const Registration = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full py-3 mt-2 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-lg font-semibold hover:from-emerald-600 hover:to-emerald-700 transition-all duration-300 shadow-md hover:shadow-lg ${
-              isLoading ? "!opacity-80 cursor-not-allowed" : ""
+            className={`w-full py-3 mt-2 bg-emerald-500 text-white rounded-lg font-semibold hover:bg-emerald-600 transition-all duration-300 shadow-md hover:shadow-lg ${
+              isLoading ? "opacity-80 cursor-not-allowed" : ""
             }`}
           >
             {isLoading ? (

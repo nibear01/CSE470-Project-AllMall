@@ -36,11 +36,12 @@
 .hover-effect {
   transition: all var(--transition-normal) ease-in-out;
   cursor: pointer;
+  filter: brightness(1);
 }
 
 .hover-effect:hover {
   transform: scale(1.08);
-  filter: brightness(1.05);
+  filter: brightness(1.1);
 }
 
 .hover:not(:active) {

@@ -1,10 +1,10 @@
 .MuiTabs-indicator {
-  background-color: #29a55f !important;
+  background-color: var(--primary) !important;
   transition: all var(--transition-normal) !important;
 }
 
 .MuiTab-textColorPrimary.Mui-selected {
-  color: #29a55f !important;
+  color: var(--primary) !important;
   font-weight: 600;
 }
 
@@ -13,6 +13,11 @@
   text-transform: capitalize;
   min-height: 48px;
   font-size: clamp(12px, 2vw, 16px);
+  color: var(--font-color-light) !important;
+}
+
+.MuiTab-root:hover {
+  color: var(--primary) !important;
 }
 
 .productSlider {
@@ -30,7 +35,10 @@
 }
 
 .productSlider::-webkit-scrollbar-thumb {
-  background: #29a55f;
+  background: var(--primary);
   border-radius: 2px;
 }
 
+.productSlider::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}

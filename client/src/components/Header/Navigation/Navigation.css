@@ -25,7 +25,7 @@
 /* Desktop Navigation */
 .desktop-nav {
   background: white;
-  border-top: 1px solid #d1fae5;
+  border-top: 1px solid var(--primary-light);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -49,7 +49,7 @@
   padding: 10px 16px;
   font-size: 0.95rem;
   font-weight: 500;
-  color: #1f2937;
+  color: var(--font-color);
   text-decoration: none;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 8px;
@@ -78,15 +78,15 @@
 }
 
 .desktop-nav a:hover {
-  color: #1f2937;
+  color: var(--primary);
   transform: translateY(-2px);
 }
 
 /* Active Link */
 .desktop-nav a[class*="isActive"] {
-  color: #1f2937;
+  color: var(--primary);
   font-weight: 700;
-  background: #ffffff;
+  background: white;
 }
 
 .desktop-nav a[class*="isActive"]::after {
@@ -96,7 +96,7 @@
   left: 16px;
   width: calc(100% - 32px);
   height: 3px;
-  background: linear-gradient(90deg, #10b981, #34d399);
+  background: linear-gradient(90deg, var(--primary), rgba(16, 185, 129, 0.6));
   border-radius: 2px;
   animation: underlineExpand 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
@@ -117,11 +117,13 @@
   align-items: center;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 10px;
+  color: var(--font-color);
 }
 
 .mobile-nav button:hover,
 .mobile-nav a:hover {
   background-color: rgba(16, 185, 129, 0.08) !important;
+  color: var(--primary);
   transform: translateX(4px);
 }
 
@@ -131,7 +133,8 @@
     rgba(16, 185, 129, 0.15),
     rgba(52, 211, 153, 0.08)
   ) !important;
-  border-left: 3px solid #10b981;
+  border-left: 3px solid var(--primary);
+  color: var(--primary);
   padding-left: calc(0.75rem - 3px);
 }
 

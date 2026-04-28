@@ -28,7 +28,7 @@ const Cart = () => {
 
   useEffect(() => {
     setTotalCartItem(
-      cartItems.reduce((total, item) => total + item.quantity, 0)
+      cartItems.reduce((total, item) => total + item.quantity, 0),
     );
   }, [cartItems, setTotalCartItem]);
 
@@ -80,7 +80,7 @@ const Cart = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
       fetchCart(); // Refresh cart data
     } catch (err) {
@@ -132,19 +132,19 @@ const Cart = () => {
       selectedItems.has(item._id)
         ? total + item.priceAtAddition * item.quantity
         : total,
-    0
+    0,
   );
 
   // Calculate total price
   const totalPrice = cartItems.reduce(
     (total, item) => total + item.priceAtAddition * item.quantity,
-    0
+    0,
   );
 
   // Calculate total items
   const totalItems = cartItems.reduce(
     (total, item) => total + item.quantity,
-    0
+    0,
   );
 
   // Move to wishlist
@@ -165,7 +165,7 @@ const Cart = () => {
         className="flex items-center justify-center min-h-[60vh] bg-gray-50"
       >
         <div className="text-center">
-          <div className="inline-block w-12 h-12 border-4 border-t-[var(--hover-color)] border-gray-200 rounded-full animate-spin"></div>
+          <div className="inline-block w-12 h-12 border-4 border-t-emerald-500 border-gray-200 rounded-full animate-spin"></div>
           <p className="mt-4 text-gray-600 text-lg">Loading your cart...</p>
         </div>
       </motion.div>
@@ -182,7 +182,7 @@ const Cart = () => {
         <div className="text-red-500 text-lg mb-4">{error}</div>
         <button
           onClick={fetchCart}
-          className=" px-6 py-2 bg-[var(--hover-color)] border text-white rounded-lg hover:bg-white hover:text-emerald-500 hover:border-emerald-500 transition-colors"
+          className=" px-6 py-2 bg-emerald-600 border text-white rounded-lg hover:bg-white hover:text-emerald-600 hover:border-emerald-600 transition-colors"
         >
           Try Again
         </button>
@@ -238,8 +238,8 @@ const Cart = () => {
               </p>
               <Link
                 to="/products"
-                className="inline-block px-8 py-3 bg-[var(--hover-color)] border text-white
-                 rounded-lg hover:text-emerald-500 hover:border-emerald-500 hover:bg-white transition-colors font-medium"
+                className="inline-block px-8 py-3 bg-emerald-600 border text-white
+                 rounded-lg hover:text-emerald-600 hover:border-emerald-600 hover:bg-white transition-colors font-medium"
               >
                 Start Shopping
               </Link>
@@ -360,7 +360,7 @@ const Cart = () => {
                               onClick={() =>
                                 handleUpdateQuantity(
                                   item._id,
-                                  item.quantity - 1
+                                  item.quantity - 1,
                                 )
                               }
                               disabled={item.quantity <= 1}
@@ -379,7 +379,7 @@ const Cart = () => {
                               onClick={() =>
                                 handleUpdateQuantity(
                                   item._id,
-                                  item.quantity + 1
+                                  item.quantity + 1,
                                 )
                               }
                               disabled={item.quantity >= item.product?.stock}
@@ -418,7 +418,7 @@ const Cart = () => {
                       <span>
                         Delivery by{" "}
                         {new Date(
-                          Date.now() + 3 * 24 * 60 * 60 * 1000
+                          Date.now() + 3 * 24 * 60 * 60 * 1000,
                         ).toLocaleDateString()}{" "}
                         • Free
                       </span>
@@ -440,7 +440,7 @@ const Cart = () => {
                 transition={{ delay: 0.3 }}
                 className="bg-white rounded-xl shadow-md p-6 h-fit sticky top-6"
               >
-                <h2 className="text-xl font-bold text-gray-900 mb-6 pb-4 border-b">
+                {/* <h2 className="text-xl font-bold text-gray-900 mb-6 pb-4 border-b">
                   Order Summary
                 </h2>
 
@@ -454,12 +454,12 @@ const Cart = () => {
                     </span>
                   </div>
 
-                  {/* <div className="flex justify-between">
+                  <div className="flex justify-between">
                     <span className="text-gray-600">Discount</span>
                     <span className="font-medium text-green-600">
                       -Tk 0.00
                     </span>
-                  </div> */}
+                  </div>
 
                   <div className="flex justify-between">
                     <span className="text-gray-600">Delivery Fee</span>
@@ -474,21 +474,22 @@ const Cart = () => {
                       Tk {(60 + selectedItemsPrice).toFixed(2)}
                     </span>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="space-y-3">
                   <Link
                     to="/checkout"
-                    className="block w-full px-6 py-3 bg-[var(--hover-color)] text-white rounded-lg hover:bg-white 
-                    hover:text-emerald-500 hover:border-emerald-500 hover:border text-center font-medium transition-colors"
+                    className="block w-full px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-white 
+                    hover:text-emerald-600 hover:border-emerald-600 hover:border text-center font-medium transition-colors"
                   >
-                    Proceed to Checkout ({selectedItems.size})
+                    Proceed to Checkout 
+                    {/* ({selectedItems.size}) */}
                   </Link>
 
                   <Link
                     to="/products"
-                    className="block w-full px-6 py-3 border border-[var(--hover-color)] text-[var(--hover-color)] 
-                    rounded-lg hover:bg-[var(--hover-color)] hover:text-white text-center font-medium transition-colors"
+                    className="block w-full px-6 py-3 border border-emerald-600 text-emerald-600 
+                    rounded-lg hover:bg-emerald-600 hover:text-white text-center font-medium transition-colors"
                   >
                     Continue Shopping
                   </Link>

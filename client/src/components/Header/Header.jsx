@@ -47,10 +47,10 @@ const Header = () => {
         }`}
       >
         {/* Premium Announcement Bar */}
-        <div className="hidden lg:block bg-linear-to-r from-green-50 via-green-50 to-emerald-50 border-b border-green-100 px-4 py-2">
+        <div className="hidden lg:block bg-emerald-50 border-b border-emerald-100 px-4 py-2">
           <div className="max-w-7xl mx-auto flex justify-between items-center text-xs text-gray-600">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-green-600" />
+              <Sparkles className="w-4 h-4 text-emerald-700" />
               <p className="font-normal text-xs text-gray-700">
                 Exciting Deals! Get up to 50% off new season styles
               </p>
@@ -58,7 +58,7 @@ const Header = () => {
             <ul className="flex gap-6">
               <li>
                 <NavLink
-                  className="hover:text-green-600 text-gray-600 transition-colors duration-200 font-medium"
+                  className="hover:text-emerald-700 text-gray-600 transition-colors duration-200 font-medium"
                   to="/help-center"
                 >
                   Help Center
@@ -66,7 +66,7 @@ const Header = () => {
               </li>
               <li>
                 <NavLink
-                  className="hover:text-green-600 text-gray-600 transition-colors duration-200 font-medium"
+                  className="hover:text-emerald-700 text-gray-600 transition-colors duration-200 font-medium"
                   to="/order-track"
                 >
                   Track Order
@@ -115,13 +115,13 @@ const Header = () => {
                 </div>
 
                 {/* Right Actions */}
-                <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 ml-auto">
+                <div className="flex items-center gap-1 sm:gap-2 md:gap-3 lg:gap-4 ml-auto">
                   {/* Desktop User Info */}
                   {isLoggedIn ? (
-                    <div className="hidden sm:flex items-center gap-3 pr-4 border-r border-emerald-100">
+                    <div className="hidden sm:flex items-center gap-2 md:gap-3 md:pr-4 md:border-r md:border-emerald-100">
                       <div className="hidden md:block">
                         <p className="text-xs text-gray-800">Welcome back,</p>
-                        <p className="text-sm font-semibold text-gray-800">
+                        <p className="text-xs md:text-sm font-semibold text-gray-800">
                           {user?.username
                             ? user.username.split(" ")[0]
                             : "User"}
@@ -129,16 +129,16 @@ const Header = () => {
                       </div>
                     </div>
                   ) : (
-                    <div className="hidden sm:flex items-center gap-3 pr-4 border-r border-emerald-100">
+                    <div className="hidden sm:flex items-center gap-2 md:gap-3 md:pr-4 md:border-r md:border-emerald-100">
                       <NavLink
-                        className="text-sm font-medium text-gray-800 hover:text-emerald-600 transition-colors duration-200"
+                        className="text-xs md:text-sm font-medium text-gray-800 hover:text-emerald-600 transition-colors duration-200"
                         to="/login"
                       >
                         Login
                       </NavLink>
-                      <span className="text-gray-300">•</span>
+                      <span className="hidden md:inline text-gray-300">•</span>
                       <NavLink
-                        className="text-sm font-medium text-gray-800 hover:text-emerald-600 transition-colors duration-200"
+                        className="text-xs md:text-sm font-medium text-gray-800 hover:text-emerald-600 transition-colors duration-200"
                         to="/register"
                       >
                         Register
@@ -147,37 +147,40 @@ const Header = () => {
                   )}
 
                   {/* Action Icons */}
-                  <div className="flex items-center gap-1 sm:gap-2">
+                  <div className="flex items-center gap-0.5 sm:gap-1 md:gap-2">
                     {/* Mobile Search */}
-                    <Link to="/search" className="lg:hidden">
+                    <Link to="/search" className="lg:hidden p-1 sm:p-2">
                       <Tooltip title="Search">
                         <IconButton
                           aria-label="search"
                           size="small"
                           className="icon-btn"
                         >
-                          <FiSearch className="w-5 h-5 text-emerald-700" />
+                          <FiSearch className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-700" />
                         </IconButton>
                       </Tooltip>
                     </Link>
 
                     {/* Orders - Desktop */}
                     {isLoggedIn && (
-                      <Link to="/my-orders" className="hidden md:inline-block">
+                      <Link
+                        to="/my-orders"
+                        className="hidden md:inline-block p-1 sm:p-2"
+                      >
                         <Tooltip title="My Orders">
                           <IconButton
                             aria-label="orders"
                             size="small"
                             className="icon-btn"
                           >
-                            <Package className="w-5 h-5 text-gray-800 hover:text-emerald-700" />
+                            <Package className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800 hover:text-emerald-700" />
                           </IconButton>
                         </Tooltip>
                       </Link>
                     )}
 
                     {/* Cart */}
-                    <Link to="/cart-view">
+                    <Link to="/cart-view" className="p-1 sm:p-2">
                       <Tooltip title="Shopping Cart">
                         <IconButton
                           aria-label="cart"
@@ -190,20 +193,23 @@ const Header = () => {
                               "& .MuiBadge-badge": {
                                 backgroundColor: "#10b981",
                                 color: "white",
-                                fontSize: "11px",
+                                fontSize: "9px",
                                 fontWeight: "bold",
-                                padding: "2px 4px",
+                                padding: "1px 3px",
                               },
                             }}
                           >
-                            <ShoppingCartIcon className="text-gray-700 hover:text-emerald-700 text-[22px] " />
+                            <ShoppingCartIcon className="text-gray-700 hover:text-emerald-700 text-[18px] sm:text-[22px]" />
                           </StyledBadge>
                         </IconButton>
                       </Tooltip>
                     </Link>
 
                     {/* Wishlist */}
-                    <Link to="/wishlist">
+                    <Link
+                      to="/wishlist"
+                      className="hidden sm:inline-block p-1 sm:p-2"
+                    >
                       <Tooltip title="Wishlist">
                         <IconButton
                           aria-label="wishlist"
@@ -211,7 +217,7 @@ const Header = () => {
                           className="icon-btn"
                         >
                           <StyledBadge badgeContent={0} color="secondary">
-                            <FaRegHeart className="text-gray-700 hover:text-emerald-700 text-[18px]" />
+                            <FaRegHeart className="text-gray-700 hover:text-emerald-700 text-[16px] sm:text-[18px]" />
                           </StyledBadge>
                         </IconButton>
                       </Tooltip>
@@ -224,14 +230,14 @@ const Header = () => {
               </div>
 
               {/* Header Row 2: Mobile Search */}
-              <div className="lg:hidden mt-3">
+              <div className="lg:hidden mt-2 sm:mt-3">
                 <Searchbox />
               </div>
             </div>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:block border-t border-emerald-100 bg-white">
+          <div className="hidden lg:block border-t border-emerald-50 bg-white">
             <Navigation />
           </div>
         </div>

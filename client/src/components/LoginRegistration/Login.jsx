@@ -45,7 +45,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-[80vh] bg-gradient-to-br from-emerald-50 to-blue-100 flex items-center justify-center px-4 py-12">
+    <div className="min-h-[80vh] bg-linear-to-br from-emerald-50 to-blue-100 flex items-center justify-center px-4 py-12">
       <div className="bg-white rounded-xl shadow-2xl pb-8 pt-6 w-full max-w-md relative overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute -top-20 -right-20 w-40 h-40 bg-emerald-200 rounded-full opacity-20"></div>
@@ -53,7 +53,8 @@ const LoginPage = () => {
 
         <div className="relative z-10 text-center px-8 mb-6">
           <h2 className="text-3xl font-bold text-gray-800 mb-2 tracking-tight">
-            Welcome to <span className="text-emerald-600">AllMall</span>
+            Welcome to{" "}
+            <span className="text-emerald-600 text-3xl">AllMall</span>
           </h2>
           <p className="text-sm text-gray-500 font-medium">
             Sign in to access your dashboard
@@ -76,7 +77,9 @@ const LoginPage = () => {
 
           {/* Password Input */}
           <div className="space-y-1 relative">
-            <label className="text-sm font-medium text-gray-700">Password</label>
+            <label className="text-sm font-medium text-gray-700">
+              Password
+            </label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -108,8 +111,8 @@ const LoginPage = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full py-3 mt-2 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-lg font-semibold hover:from-emerald-600 hover:to-emerald-700 transition-all duration-300 shadow-md hover:shadow-lg ${
-              isLoading ? "!opacity-80 cursor-not-allowed" : ""
+            className={`w-full py-3 mt-2 bg-emerald-500 text-white rounded-lg font-semibold hover:bg-emerald-600 transition-all duration-300 shadow-md hover:shadow-lg ${
+              isLoading ? "opacity-80 cursor-not-allowed" : ""
             }`}
           >
             {isLoading ? (

@@ -114,9 +114,7 @@ const Wishlist = () => {
       >
         <div className="text-center">
           <div className="inline-block w-12 h-12 border-4 border-t-[var(--hover-color)] border-gray-200 rounded-full animate-spin"></div>
-          <p className="mt-4 text-gray-600 text-lg">
-            Loading your wishlist...
-          </p>
+          <p className="mt-4 text-gray-600 text-lg">Loading your wishlist...</p>
         </div>
       </motion.div>
     );
@@ -132,7 +130,7 @@ const Wishlist = () => {
         <div className="text-red-500 text-lg mb-4">{error}</div>
         <button
           onClick={fetchWishlist}
-          className=" px-6 py-2 bg-[var(--hover-color)] border text-white rounded-lg hover:bg-white hover:text-emerald-500 hover:border-emerald-500 transition-colors"
+          className=" px-6 py-2 bg-emerald-600 border text-white rounded-lg hover:bg-white hover:text-emerald-600 hover:border-emerald-600 transition-colors"
         >
           Try Again
         </button>
@@ -189,8 +187,8 @@ const Wishlist = () => {
               </p>
               <Link
                 to="/products"
-                className="inline-block px-8 py-3 bg-[var(--hover-color)] border text-white
-                 rounded-lg hover:text-emerald-500 hover:border-emerald-500 hover:bg-white transition-colors font-medium"
+                className="inline-block px-8 py-3 bg-emerald-600 border text-white
+                 rounded-lg hover:text-emerald-600 hover:border-emerald-600 hover:bg-white transition-colors font-medium"
               >
                 Start Shopping
               </Link>
@@ -323,8 +321,8 @@ const Wishlist = () => {
           >
             <Link
               to="/products"
-              className="inline-block px-8 py-3 border border-[var(--hover-color)]
-               text-[var(--hover-color)] rounded-lg hover:bg-[var(--hover-color)] hover:text-emerald-500
+              className="inline-block px-8 py-3 border border-emerald-600
+               text-emerald-600 rounded-lg hover:bg-emerald-600 hover:text-white
                hover:transition-all duration-300 font-medium"
             >
               Continue Shopping

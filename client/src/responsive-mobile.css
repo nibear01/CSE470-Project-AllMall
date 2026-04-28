@@ -90,8 +90,8 @@ input:focus,
 textarea:focus,
 select:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(41, 165, 95, 0.1);
-  border-color: var(--hover-color);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  border-color: var(--primary);
 }
 
 /* Better select styling on mobile */

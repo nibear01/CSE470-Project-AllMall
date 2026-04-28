@@ -23,11 +23,11 @@ const Home = () => {
         <div className="py-4 sm:py-6 lg:py-8 bg-white">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-[95%] sm:w-[90%] lg:w-[85%] mx-auto px-4 sm:px-0">
             <div className="left-sec mb-4 md:mb-0">
-              <h2 className="font-[500] text-lg sm:text-xl lg:text-2xl">
+              <h2 className="font-3xl text-lg sm:text-xl lg:text-2xl">
                 Popular Products
               </h2>
               <h4 className="text-sm sm:text-base text-gray-600">
-                Do not miss the current offers until the end of September.
+                Do not miss the current offers until the end of {new Date().toLocaleString('default', { month: 'long' })}.
               </h4>
             </div>
 
@@ -59,7 +59,7 @@ const Home = () => {
         </div>
 
         <div className="w-[95%] sm:w-[90%] lg:w-[85%] mx-auto px-4 sm:px-0">
-          <ProductSlider items={6} />
+          <ProductSlider items={5} />
         </div>
 
         <Chatbot />

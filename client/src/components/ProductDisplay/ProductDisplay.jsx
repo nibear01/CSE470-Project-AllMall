@@ -175,7 +175,7 @@ const ProductDisplay = () => {
             variant="contained"
             component={Link}
             to="/"
-            className="bg-[var(--hover-color)] hover:bg-[var(--hover-color)]/90 py-2 px-6 rounded-xl"
+            className="bg-emerald-500 hover:bg-emerald-600 py-2 px-6 rounded-xl"
           >
             Go Home
           </Button>
@@ -185,19 +185,23 @@ const ProductDisplay = () => {
   }
 
   return (
-    <div className="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen py-8">
-      <div className="container mx-auto px-4">
+    <div className="bg-gray-50 min-h-screen py-8">
+      <div className="container mx-auto px-10">
         {/* Breadcrumbs */}
         <div className="flex items-center text-sm text-gray-600 mb-6 bg-white p-3 rounded-xl shadow-sm max-w-fit">
-          <span className="hover:text-[var(--hover-color)] cursor-pointer transition-colors">
-            <Link to="/">Home</Link>
+          <span className="hover:text-emerald-500 cursor-pointer transition-colors">
+            <Link to="/" className="text-sm">
+              Home
+            </Link>
           </span>
           <span className="mx-2">/</span>
-          <span className="hover:text-[var(--hover-color)] cursor-pointer transition-colors">
-            <Link to="/products">Products</Link>
+          <span className="hover:text-emerald-500 cursor-pointer transition-colors">
+            <Link to="/products" className="text-sm">
+              Products
+            </Link>
           </span>
           <span className="mx-2">/</span>
-          <span className="text-gray-900 font-medium truncate max-w-xs">
+          <span className="text-gray-900 font-medium truncate max-w-xs text-sm">
             {product.name}
           </span>
         </div>
@@ -214,8 +218,8 @@ const ProductDisplay = () => {
                     key={index}
                     className={`cursor-pointer border-2 rounded-xl overflow-hidden transition-all duration-200 transform hover:scale-105 ${
                       selectedImage === index
-                        ? "!border-[var(--hover-color)] shadow-md"
-                        : "!border-transparent"
+                        ? "border-emerald-600 shadow-md"
+                        : "border-transparent"
                     }`}
                     onClick={() => setSelectedImage(index)}
                   >
@@ -273,12 +277,12 @@ const ProductDisplay = () => {
                 </div>
 
                 <div className="flex items-center gap-4 mb-6">
-                  <span className="text-3xl font-bold text-[var(--hover-color)] drop-shadow-sm">
-                    ${product.price.toFixed(2)}
+                  <span className="text-3xl font-bold text-emerald-600 drop-shadow-sm">
+                    Tk {product.price}
                   </span>
                   {product.originalPrice && (
                     <span className="text-xl text-gray-500 line-through">
-                      ${product.originalPrice.toFixed(2)}
+                      Tk {product.originalPrice}
                     </span>
                   )}
                   {product.discount > 0 && (
