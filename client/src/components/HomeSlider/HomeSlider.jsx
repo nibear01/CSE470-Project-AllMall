@@ -9,7 +9,7 @@ import { Navigation, Autoplay } from "swiper/modules";
 const HomeSlider = () => {
   return (
     <>
-      <div className="HomeSlider !py-5">
+      <div className="HomeSlider py-5">
         <div className="">
           <Swiper
             spaceBetween={30}
@@ -19,7 +19,7 @@ const HomeSlider = () => {
               disableOnInteraction: false,
             }}
             modules={[Navigation, Autoplay]}
-            className="mySwiper !max-h-[50vh] md:!max-h-[60vh] lg:!max-h-[70vh] !w-[90%] sm:!w-[90%] lg:!w-[80%]"
+            className="mySwiper max-h-[50vh] md:max-h-[60vh] lg:max-h-[70vh] w-[90%] sm:w-[90%] lg:w-[80%]"
           >
             <SwiperSlide className="max-h-100 rounded-2xl overflow-hidden">
               <div className="rounded-[20px]">

@@ -1,56 +1,155 @@
 @import "tailwindcss";
-
+@import "./responsive-mobile.css";
 
 :root {
-  --primary: #29a55f
-  --font-color: #3f3f3fe4;
-  --font-color-dark: #2f2f2fe4;
-  --hover-color: #29a55f;
+  /* Primary Colors - Consistent Green Palette */
+  --primary: #10b981;
+  --primary-dark: #059669;
+  --primary-light: #d1fae5;
+  --primary-lighter: #ecfdf5;
+
+  /* Secondary/Legacy Color (Keep for compatibility) */
+  --hover-color: #10b981;
+  --hover-color-dark: #059669;
+
+  /* Text Colors */
+  --font-color: #1f2937;
+  --font-color-dark: #111827;
+  --font-color-light: #6b7280;
+
+  /* Status Colors */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-*{
-  margin: 0%;
-  padding: 0%;
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
-  font-family: "system-ui","Outfit","Roboto","Poppins", sans-serif !important;
+  font-family: "system-ui", "Outfit", "Roboto", "Poppins", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  font-family: "system-ui","Outfit","Roboto","Poppins", sans-serif !important;
+  font-family: "system-ui", "Outfit", "Roboto", "Poppins", sans-serif;
   font-optical-sizing: auto;
   color: var(--font-color);
-  background: rgb(244, 244, 244);
-  /* overflow-x: hidden; */
+  background: #f9fafb;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-::-webkit-scrollbar {height: 8px; width: 8px;}
-::-webkit-scrollbar-thumb {background: #10b981}
-::-webkit-scrollbar-track {background: #ccc;}
+/* Improved scrollbar */
+::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
+  transition: background var(--transition-fast);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}
+
+::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
 
 .container {
-  /* background: white; */
   border-bottom: 1px solid rgba(203, 203, 203, 0.659);
   margin: auto;
+  width: 100%;
 }
 
+/* Utility classes */
+.cat {
+  height: 17px !important;
+  width: 17px !important;
+}
 
-.cat {height: 17px !important; width: 17px !important;}
-.searchBox { background: #dfdfdf9c; }
-.searchIcon { background-color: #cececea0 !important; color: black !important; }
-.MuiButton-text { color: var(--font-color-dark) !important; }
-.links { font-size: 14px; font-weight: 500; }
-.links:hover { color: var(--hover-color); }
+.searchBox {
+  background: #dfdfdf9c;
+  transition: background var(--transition-fast);
+}
 
-/* .link { gap: 3px; } */
-.link:hover { color: var(--hover-color) !important; }
-.link.active { color: var(--hover-color) !important; }
+.searchBox:focus-within {
+  background: #d0d0d0;
+}
+
+.searchIcon {
+  background-color: #cececea0 !important;
+  color: black !important;
+  transition: background var(--transition-fast);
+}
+
+.searchIcon:hover {
+  background-color: #b0b0b0a0 !important;
+}
+
+.MuiButton-text {
+  color: var(--font-color-dark) !important;
+  transition: color var(--transition-fast) !important;
+}
+
+.MuiButton-text:hover {
+  color: var(--primary) !important;
+  background-color: rgba(16, 185, 129, 0.08) !important;
+}
+
+.links {
+  font-size: clamp(12px, 2vw, 14px);
+  font-weight: 500;
+  transition: color var(--transition-fast);
+  color: var(--font-color);
+}
+
+.links:hover {
+  color: var(--primary);
+}
+
+.link {
+  transition: color var(--transition-fast);
+}
+
+.link:hover {
+  color: var(--hover-color) !important;
+}
+
+.link.active {
+  color: var(--hover-color) !important;
+}
 
 /* Sidebar specific styles */
-.sidebar-transition { transition: transform 0.3s ease-in-out; }
-.overlay-transition { transition: opacity 0.3s ease-in-out; }
+.sidebar-transition {
+  transition:
+    transform var(--transition-normal),
+    opacity var(--transition-normal);
+}
+
+.overlay-transition {
+  transition: opacity var(--transition-normal);
+}
 
 /* Active link indicator */
-.active-link { position: relative; }
+.active-link {
+  position: relative;
+  transition: all var(--transition-fast);
+}
 
 .active-link::after {
   content: "";
@@ -61,29 +160,198 @@ body {
   width: 4px;
   background-color: var(--hover-color);
   border-radius: 2px 0 0 2px;
+  transition: width var(--transition-fast);
 }
 
+/* Smooth animations */
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-  20%, 40%, 60%, 80% { transform: translateX(5px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-5px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(5px);
+  }
 }
 
 @keyframes fade {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse-subtle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
 }
 
 .animate-shake {
-  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+  animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
 
 .animate-fade {
-  animation: fade 0.3s ease-in-out;
+  animation: fade var(--transition-normal) ease-in-out;
 }
-/* Mobile responsiveness */
-@media (max-width: 767px) {
+
+.animate-slideInUp {
+  animation: slideInUp var(--transition-normal) ease-out;
+}
+
+.animate-slideInDown {
+  animation: slideInDown var(--transition-normal) ease-out;
+}
+
+.animate-slideInLeft {
+  animation: slideInLeft var(--transition-normal) ease-out;
+}
+
+.animate-slideInRight {
+  animation: slideInRight var(--transition-normal) ease-out;
+}
+
+.animate-scaleIn {
+  animation: scaleIn var(--transition-normal) ease-out;
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s ease-in-out infinite;
+}
+
+/* Mobile-first responsive design */
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+
+  .sidebar {
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    z-index: 40;
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .container {
+    padding: 0 12px;
+  }
+}
+
+@media (max-width: 768px) {
   .sidebar {
     width: 280px;
   }
+
+  body {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 16px;
+  }
+}
+
+/* Smooth transitions for interactive elements */
+button,
+a,
+input,
+select,
+textarea {
+  transition: all var(--transition-fast);
+}
+
+/* Better accessibility for tap targets on mobile */
+@media (hover: none) and (pointer: coarse) {
+  button,
+  a,
+  .clickable {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 12px;
+  }
+}
+
+/* Smooth loading states */
+.loading {
+  animation: pulse-subtle 1s ease-in-out infinite;
 }

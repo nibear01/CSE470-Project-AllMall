@@ -1,6 +1,14 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect, useRef } from "react";
-import { Package, Users, Home, ShoppingBag, LogOut, Menu, X } from "lucide-react";
+import {
+  Package,
+  Users,
+  Home,
+  ShoppingBag,
+  LogOut,
+  Menu,
+  X,
+} from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const Sidebar = () => {
@@ -54,7 +62,7 @@ const Sidebar = () => {
     <>
       {/* Mobile Toggle Button */}
       <button
-        className={`fixed z-50 top-4 left-4 !p-2 rounded-lg bg-[var(--hover-color)] text-white md:hidden transition-all duration-300 ${
+        className={`fixed z-50 top-4 left-4 p-2 rounded-lg bg-emerald-600 text-white md:hidden transition-all duration-300 ${
           isOpen ? "opacity-0" : "opacity-100"
         }`}
         onClick={() => setIsOpen(true)}
@@ -64,7 +72,7 @@ const Sidebar = () => {
 
       {/* Overlay */}
       <div
-        className={`fixed inset-0 bg-black/50 bg-opacity-50 !z-40 transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-0 bg-black/50 bg-opacity-50 z-40 transition-opacity duration-300 md:hidden ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       ></div>
@@ -85,33 +93,29 @@ const Sidebar = () => {
         </button>
 
         {/* Header */}
-        <div className="!p-6 border-b border-gray-200">
+        <div className="p-6 border-b border-gray-200">
           <div className="w-40">
-            <img
-              className="h-14 w-full"
-              src="/logo_png.png"
-              alt="AllMall"
-            />
+            <img className="h-14 w-full" src="/logo_png.png" alt="AllMall" />
           </div>
 
-          <p className="text-lg !ml-4 font-bold text-gray-800">Admin Panel</p>
+          <p className="text-lg ml-4 font-bold text-gray-800">Admin Panel</p>
         </div>
 
         {/* Navigation */}
-        <nav className="!mt-6">
+        <nav className="mt-6">
           {menuItems.map(({ id, label, icon: Icon, path }) => {
             const isActive = location.pathname === path;
             return (
               <Link
                 key={id}
                 to={path}
-                className={`flex items-center w-full !px-6 !py-3 text-left transition-colors ${
+                className={`flex items-center w-full px-6 py-3 text-left transition-colors ${
                   isActive
-                    ? "bg-gray-100 font-semibold text-[var(--hover-color)] border-r-4 border-[var(--hover-color)]"
+                    ? "bg-gray-100 font-semibold text-emerald-600 border-r-4 border-emerald-600"
                     : "text-gray-700 hover:bg-gray-100"
                 }`}
               >
-                <Icon className="w-5 h-5 !mr-3" />
+                <Icon className="w-5 h-5 mr-3" />
                 <span className="whitespace-nowrap">{label}</span>
               </Link>
             );
@@ -119,7 +123,7 @@ const Sidebar = () => {
         </nav>
 
         {/* Footer */}
-        <div className="absolute !bottom-0 w-full !p-4 border-t border-gray-200">
+        <div className="absolute bottom-0 w-full p-4 border-t border-gray-200">
           <p className="text-sm text-gray-500 text-center">
             © {new Date().getFullYear()} AllMall Admin
           </p>

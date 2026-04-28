@@ -47,7 +47,7 @@ userschema.methods.generateToken = async function () {
       },
       process.env.JWT_TOKEN,
       {
-        expiresIn: "30d",
+        expiresIn: "1d",
       }
     );
   } catch (error) {

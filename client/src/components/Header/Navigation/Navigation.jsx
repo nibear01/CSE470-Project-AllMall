@@ -1,76 +1,74 @@
 import { NavLink } from "react-router-dom";
-import Button from "@mui/material/Button";
-import { RiMenuFold2Fill } from "react-icons/ri";
-import { FaAngleDown } from "react-icons/fa6";
-import CategoryPanel from "./CategoryPanel";
-import { useState } from "react";
+import "./Navigation.css";
 
-const Navigation = () => {
-  const [isOpenCategory, setIsOpenCategory] = useState(false);
+const Navigation = ({ mobile, closeMenu }) => {
+  const navItems = [
+    { name: "Home", path: "/" },
+    { name: "Fashion", path: "/category/fashion" },
+    { name: "Electronics", path: "/category/electronics" },
+    { name: "Bags", path: "/category/bags" },
+    { name: "Footwear", path: "/category/footwear" },
+    { name: "Groceries", path: "/category/groceries" },
+    { name: "Beauty", path: "/category/beauty" },
+    { name: "Wellness", path: "/category/wellness" },
+    { name: "Jewellery", path: "/category/jewellery" },
+  ];
 
-  const openCategoryPanel = () => {
-    setIsOpenCategory(!isOpenCategory);
-  };
+  if (mobile) {
+    return (
+      <nav className="mobile-nav space-y-1">
+        {/* Navigation Items */}
+        <div className="space-y-1">
+          {navItems.map((item) => (
+            <NavLink
+              key={item.name}
+              to={item.path}
+              onClick={() => closeMenu && closeMenu()}
+              className={({ isActive }) =>
+                `flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 text-sm font-medium ${
+                  isActive
+                    ? "bg-white text-gray-800"
+                    : "text-gray-800 hover:bg-white hover:text-gray-800"
+                }`
+              }
+            >
+              {item.name}
+            </NavLink>
+          ))}
+        </div>
+      </nav>
+    );
+  }
 
   return (
-    <>
-      <nav className="!bg-white">
-        <div className="!flex !flex-col md:!flex-row !justify-around !m-auto !items-center !min-w-full !container !p-2 lg:!p-1">
-          {/* Categories Button - Responsive */}
-          <div className="!w-full text-center md:!w-[20%] !mb-2 md:!mb-0">
-            <Button
-              className="!gap-2 !text-xs sm:!text-sm md:!text-[10px] lg:!text-[14px] !normal-case !p-1 md:!p-2"
-              onClick={openCategoryPanel}
-            >
-              <RiMenuFold2Fill className="!h-5 !w-5" />
-              <span className="!hidden sm:!inline">Show Item Categories</span>
-              <span className="!inline sm:!hidden">Categories</span>
-              <FaAngleDown className="!h-4 !w-4" />
-            </Button>
-          </div>
-
-          {/* Navigation Links - Responsive */}
-          <div className="!w-full md:!w-[70%] !overflow-x-auto">
-            <ul className="!flex !items-center justify-around !gap-1 sm:!gap-1 md:!gap-2 !py-1">
-              {[
-                { name: "Home", path: "/" },
-                { name: "Fashion", path: "/category/fashion" },
-                { name: "Electronics", path: "/category/electronics" },
-                { name: "Bags", path: "/category/bags" },
-                { name: "Footwear", path: "/category/footwear" },
-                { name: "Groceries", path: "/category/groceries" },
-                { name: "Beauty", path: "/category/beauty" },
-                { name: "Wellness", path: "/category/wellness" },
-                { name: "Jewellery", path: "/category/jewellery" },
-              ].map((item) => (
-                <li key={item.name} className="!list-none !flex-shrink-0">
+    <nav className="bg-white border-t border-emerald-100 desktop-nav">
+      <div className="px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-center gap-4">
+            {/* Navigation Links */}
+            <ul className="flex items-center gap-2 flex-wrap justify-center">
+              {navItems.map((item) => (
+                <li key={item.name}>
                   <NavLink
                     to={item.path}
                     className={({ isActive }) =>
-                      `links link !text-xs sm:!text-sm md:!text-[10px] lg:!text-[14px] ${
+                      `px-4 py-2 rounded-lg transition-all duration-200 text-sm font-medium relative group ${
                         isActive
-                          ? "!text-[var(--hover-color)]"
-                          : "!text-gray-600"
+                          ? "text-gray-800 font-bold"
+                          : "text-gray-800 hover:text-gray-800"
                       }`
                     }
-                  >{item.name}
-                    {/* <Button className="!min-w-0 !p-1 md:!p-2"> */}
-                      {/* {item.name} */}
-                    {/* </Button> */}
+                  >
+                    {item.name}
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-emerald-600 rounded-full transition-all duration-300 group-hover:w-full"></span>
                   </NavLink>
                 </li>
               ))}
             </ul>
           </div>
         </div>
-      </nav>
-
-      <CategoryPanel
-        isOpenCategory={isOpenCategory}
-        openCategoryPanel={openCategoryPanel}
-        setIsOpenCategory={setIsOpenCategory}
-      />
-    </>
+      </div>
+    </nav>
   );
 };
 

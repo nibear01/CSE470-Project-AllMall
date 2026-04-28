@@ -64,7 +64,7 @@ const Checkout = () => {
   const calculateTotals = () => {
     const subtotal = cartItems.reduce(
       (total, item) => total + item.priceAtAddition * item.quantity,
-      0
+      0,
     );
     const shipping = subtotal > 0 ? 60 : 0;
     const total = subtotal + shipping;
@@ -120,7 +120,7 @@ const Checkout = () => {
         console.error("Server error details:", error.response.data);
         toast.error(
           error.response.data.message ||
-            "Failed to place order. Please check your information."
+            "Failed to place order. Please check your information.",
         );
       } else if (error.request) {
         console.error("No response received:", error.request);
@@ -136,8 +136,8 @@ const Checkout = () => {
 
   if (loading) {
     return (
-      <div className="!flex !items-center !justify-center !min-h-screen">
-        <div className="!animate-spin !rounded-full !h-12 !w-12 !border-b-2 !border-[var(--hover-color)]"></div>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--hover-color)]"></div>
       </div>
     );
   }
@@ -147,13 +147,13 @@ const Checkout = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="!min-h-screen !bg-gray-50 !py-12 !px-4 sm:!px-6 lg:!px-8"
+        className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"
       >
-        <div className="!max-w-2xl !mx-auto !text-center">
-          <div className="!bg-white !rounded-xl !shadow-md !p-8">
-            <div className="!w-16 !h-16 !bg-green-100 !rounded-full !flex !items-center !justify-center !mx-auto !mb-6">
+        <div className="max-w-2xl mx-auto text-center">
+          <div className="bg-white rounded-xl shadow-md p-8">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <svg
-                className="!w-8 !h-8 !text-green-600"
+                className="w-8 h-8 text-green-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -166,27 +166,27 @@ const Checkout = () => {
                 ></path>
               </svg>
             </div>
-            <h2 className="!text-2xl !font-bold !text-gray-900 !mb-4">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">
               Order Placed Successfully!
             </h2>
-            <p className="!text-gray-600 !mb-6">
+            <p className="text-gray-600 mb-6">
               Thank you for your order. Your order ID is:{" "}
-              <span className="!font-semibold">{orderId}</span>
+              <span className="font-semibold">{orderId}</span>
             </p>
-            <p className="!text-gray-500 !mb-8">
+            <p className="text-gray-500 mb-8">
               You will receive a confirmation email shortly. Your order will be
               delivered within 3-5 business days.
             </p>
-            <div className="!flex !gap-4 !justify-center">
+            <div className="flex gap-4 justify-center">
               <Link
                 to="/products"
-                className="!px-6 !py-3 !bg-[var(--hover-color)] !text-white !rounded-lg !hover:bg-[var(--hover-color-dark)] !transition-colors"
+                className="px-6 py-3 bg-[var(--hover-color)] text-white rounded-lg hover:bg-[var(--hover-color-dark)] transition-colors"
               >
                 Continue Shopping
               </Link>
               <Link
                 to="/my-orders"
-                className="!px-6 !py-3 !border !border-[var(--hover-color)] !text-[var(--hover-color)] !rounded-lg !hover:bg-[var(--hover-color-light)] !transition-colors"
+                className="px-6 py-3 border border-[var(--hover-color)] text-[var(--hover-color)] rounded-lg hover:bg-[var(--hover-color-light)] transition-colors"
               >
                 View Orders
               </Link>
@@ -201,25 +201,25 @@ const Checkout = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="!min-h-screen !bg-gray-50 !py-8 !px-4 sm:!px-6 lg:!px-8"
+      className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8"
     >
-      <div className="!max-w-7xl !mx-auto">
-        <h1 className="!text-3xl !font-bold !text-center !text-gray-900 !mb-8">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-3xl font-bold text-center text-gray-900 mb-8">
           Checkout
         </h1>
 
-        <div className="!grid !grid-cols-1 lg:!grid-cols-2 !gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
           {/* Left Column */}
-          <div className="!bg-white !rounded-xl !shadow-md !p-6">
-            <h2 className="!text-xl !font-semibold !text-gray-900 !mb-6 !flex !items-center">
-              <FaUser className="!mr-2 !text-[var(--hover-color)]" />
+          <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 order-last lg:order-first">
+            <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+              <FaUser className="mr-2 text-[var(--hover-color)]" />
               Shipping Information
             </h2>
 
-            <form onSubmit={handlePlaceOrder} className="!space-y-4">
-              <div className="!grid !grid-cols-1 md:!grid-cols-2 !gap-4">
+            <form onSubmit={handlePlaceOrder} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="!block !text-sm !font-medium !text-gray-700 !mb-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     First Name *
                   </label>
                   <input
@@ -228,11 +228,11 @@ const Checkout = () => {
                     required
                     value={formData.firstName}
                     onChange={handleInputChange}
-                    className="!w-full !px-4 !py-2 !border !border-gray-300 !rounded-lg !focus:ring-2 !focus:ring-[var(--hover-color)] !focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--hover-color)] focus:border-transparent"
                   />
                 </div>
                 <div>
-                  <label className="!block !text-sm !font-medium !text-gray-700 !mb-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     Last Name *
                   </label>
                   <input
@@ -241,13 +241,13 @@ const Checkout = () => {
                     required
                     value={formData.lastName}
                     onChange={handleInputChange}
-                    className="!w-full !px-4 !py-2 !border !border-gray-300 !rounded-lg !focus:ring-2 !focus:ring-[var(--hover-color)] !focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--hover-color)] focus:border-transparent"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="!block !text-sm !font-medium !text-gray-700 !mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Email *
                 </label>
                 <input
@@ -256,13 +256,13 @@ const Checkout = () => {
                   required
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="!w-full !px-4 !py-2 !border !border-gray-300 !rounded-lg !focus:ring-2 !focus:ring-[var(--hover-color)] !focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--hover-color)] focus:border-transparent"
                 />
               </div>
 
               <div>
-                <label className="!text-sm !font-medium !text-gray-700 !mb-1 !flex !items-center">
-                  <FaPhone className="!mr-2 !text-sm" />
+                <label className="text-sm font-medium text-gray-700 mb-1 flex items-center">
+                  <FaPhone className="mr-2 text-sm" />
                   Phone Number *
                 </label>
                 <input
@@ -271,13 +271,13 @@ const Checkout = () => {
                   required
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className="!w-full !px-4 !py-2 !border !border-gray-300 !rounded-lg !focus:ring-2 !focus:ring-[var(--hover-color)] !focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--hover-color)] focus:border-transparent"
                 />
               </div>
 
               <div>
-                <label className="!text-sm !font-medium !text-gray-700 !mb-1 !flex !items-center">
-                  <FaMapMarkerAlt className="!mr-2 !text-sm" />
+                <label className="text-sm font-medium text-gray-700 mb-1 flex items-center">
+                  <FaMapMarkerAlt className="mr-2 text-sm" />
                   Delivery Address *
                 </label>
                 <textarea
@@ -286,13 +286,13 @@ const Checkout = () => {
                   rows={3}
                   value={formData.address}
                   onChange={handleInputChange}
-                  className="!w-full !px-4 !py-2 !border !border-gray-300 !rounded-lg !focus:ring-2 !focus:ring-[var(--hover-color)] !focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--hover-color)] focus:border-transparent"
                 />
               </div>
 
-              <div className="!grid !grid-cols-1 md:!grid-cols-2 !gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="!block !text-sm !font-medium !text-gray-700 !mb-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     City *
                   </label>
                   <input
@@ -301,11 +301,11 @@ const Checkout = () => {
                     required
                     value={formData.city}
                     onChange={handleInputChange}
-                    className="!w-full !px-4 !py-2 !border !border-gray-300 !rounded-lg !focus:ring-2 !focus:ring-[var(--hover-color)] !focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--hover-color)] focus:border-transparent"
                   />
                 </div>
                 <div>
-                  <label className="!block !text-sm !font-medium !text-gray-700 !mb-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     ZIP Code *
                   </label>
                   <input
@@ -314,64 +314,62 @@ const Checkout = () => {
                     required
                     value={formData.zipCode}
                     onChange={handleInputChange}
-                    className="!w-full !px-4 !py-2 !border !border-gray-300 !rounded-lg !focus:ring-2 !focus:ring-[var(--hover-color)] !focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--hover-color)] focus:border-transparent"
                   />
                 </div>
               </div>
 
               {/* Payment Method */}
-              <div className="!pt-6 !border-t !border-gray-200">
-                <h2 className="!text-xl !font-semibold !text-gray-900 !mb-4 !flex !items-center">
-                  <FaLock className="!mr-2 !text-[var(--hover-color)]" />
+              <div className="pt-6 border-t border-gray-200">
+                <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                  <FaLock className="mr-2 text-[var(--hover-color)]" />
                   Payment Method
                 </h2>
 
-                <div className="!space-y-3">
-                  <label className="!flex !items-center !p-4 !border !border-gray-300 !rounded-lg !cursor-pointer !hover:border-[var(--hover-color)] !transition-colors">
+                <div className="space-y-3">
+                  <label className="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:border-[var(--hover-color)] transition-colors">
                     <input
                       type="radio"
                       name="paymentMethod"
                       value="cod"
                       checked={formData.paymentMethod === "cod"}
                       onChange={handleInputChange}
-                      className="!text-[var(--hover-color)] !focus:ring-[var(--hover-color)]"
+                      className="text-[var(--hover-color)] focus:ring-[var(--hover-color)]"
                     />
-                    <div className="!ml-3 !flex !items-center">
-                      <FaMoneyBillWave className="!text-green-600 !mr-2" />
-                      <span className="!text-gray-700">Cash on Delivery</span>
+                    <div className="ml-3 flex items-center">
+                      <FaMoneyBillWave className="text-green-600 mr-2" />
+                      <span className="text-gray-700">Cash on Delivery</span>
                     </div>
                   </label>
 
-                  <label className="!flex !items-center !p-4 !border !border-gray-300 !rounded-lg !opacity-60 !cursor-not-allowed">
+                  <label className="flex items-center p-4 border border-gray-300 rounded-lg opacity-60 cursor-not-allowed">
                     <input
                       type="radio"
                       name="paymentMethod"
                       value="bkash"
                       disabled
-                      className="!text-gray-400"
+                      className="text-gray-400"
                     />
-                    <div className="!ml-3 !flex !items-center">
+                    <div className="ml-3 flex items-center">
                       <img
                         src="/src/assets/bkash-seeklogo.png"
-                        className="!text-orange-500 !mr-2 h-5 w-12"
+                        className="text-orange-500 mr-2 h-5 w-12"
                       />
-                      <span className="!text-gray-500">
-                        bKash (Coming Soon)
-                      </span>
+                      <span className="text-gray-500">bKash (Coming Soon)</span>
                     </div>
                   </label>
 
-                  <label className="!flex !items-center !p-4 !border !border-gray-300 !rounded-lg !opacity-60 !cursor-not-allowed">
+                  <label className="flex items-center p-4 border border-gray-300 rounded-lg opacity-60 cursor-not-allowed">
                     <input
                       type="radio"
                       name="paymentMethod"
                       value="card"
                       disabled
-                      className="!text-gray-400"
+                      className="text-gray-400"
                     />
-                    <div className="!ml-3 !flex !items-center">
-                      <FaCreditCard className="!text-blue-600 !mr-2" />
-                      <span className="!text-gray-500">
+                    <div className="ml-3 flex items-center">
+                      <FaCreditCard className="text-blue-600 mr-2" />
+                      <span className="text-gray-500">
                         Credit/Debit Card (Coming Soon)
                       </span>
                     </div>
@@ -382,9 +380,9 @@ const Checkout = () => {
               <button
                 type="submit"
                 disabled={cartItems.length === 0}
-                className="!w-full !py-3 !px-6 !bg-[var(--hover-color)] !text-white !rounded-lg !font-semibold hover:!bg-white
-                border hover:!border-emerald-500 hover:!text-emerald-500 
-                disabled:!opacity-50 disabled:!cursor-not-allowed !transition-colors"
+                className="w-full py-3 px-6 bg-[var(--hover-color)] text-white rounded-lg font-semibold hover:bg-white
+                border hover:border-emerald-500 hover:text-emerald-500 
+                disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 Place Order
               </button>
@@ -392,74 +390,74 @@ const Checkout = () => {
           </div>
 
           {/* Right Column */}
-          <div className="!bg-white !rounded-xl !shadow-md !p-6 !h-fit !sticky !top-8">
-            <h2 className="!text-xl !font-semibold !text-gray-900 !mb-6">
+          <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 h-fit lg:sticky lg:top-8 order-first lg:order-last">
+            <h2 className="text-xl font-semibold text-gray-900 mb-6">
               Order Summary
             </h2>
 
             {cartItems.length === 0 ? (
-              <div className="!text-center !py-8">
-                <p className="!text-gray-500 !mb-4">Your cart is empty</p>
+              <div className="text-center py-8">
+                <p className="text-gray-500 mb-4">Your cart is empty</p>
                 <Link
                   to="/products"
-                  className="!text-[var(--hover-color)] !hover:text-[var(--hover-color-dark)]"
+                  className="text-[var(--hover-color)] hover:text-[var(--hover-color-dark)]"
                 >
                   Continue Shopping
                 </Link>
               </div>
             ) : (
               <>
-                <div className="!space-y-4 !mb-6">
+                <div className="space-y-4 mb-6">
                   {cartItems.map((item) => (
                     <div
                       key={item._id}
-                      className="!flex !items-center !justify-between !py-2 !border-b !border-gray-100"
+                      className="flex items-center justify-between py-2 border-b border-gray-100"
                     >
-                      <div className="!flex !items-center !space-x-3">
+                      <div className="flex items-center space-x-3">
                         <img
                           src={`${url}${item.product?.imageUrl}`}
                           alt={item.product?.name}
-                          className="!w-12 !h-12 !object-cover !rounded"
+                          className="w-12 h-12 object-cover rounded"
                         />
                         <div>
-                          <p className="!text-sm !font-medium !text-gray-900">
+                          <p className="text-sm font-medium text-gray-900">
                             {item.product?.name}
                           </p>
-                          <p className="!text-xs !text-gray-500">
+                          <p className="text-xs text-gray-500">
                             Qty: {item.quantity}
                           </p>
                         </div>
                       </div>
-                      <p className="!text-sm !font-semibold !text-gray-900">
+                      <p className="text-sm font-semibold text-gray-900">
                         ৳{(item.priceAtAddition * item.quantity).toFixed(2)}
                       </p>
                     </div>
                   ))}
                 </div>
 
-                <div className="!space-y-3 !border-t !border-gray-200 !pt-4">
-                  <div className="!flex !justify-between !text-sm">
-                    <span className="!text-gray-600">Subtotal</span>
-                    <span className="!text-gray-900">
+                <div className="space-y-3 border-t border-gray-200 pt-4">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">Subtotal</span>
+                    <span className="text-gray-900">
                       ৳{subtotal.toFixed(2)}
                     </span>
                   </div>
-                  <div className="!flex !justify-between !text-sm">
-                    <span className="!text-gray-600">Shipping</span>
-                    <span className="!text-gray-900">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">Shipping</span>
+                    <span className="text-gray-900">
                       ৳{shipping.toFixed(2)}
                     </span>
                   </div>
-                  <div className="!flex !justify-between !text-lg !font-semibold !border-t !border-gray-200 !pt-3">
-                    <span className="!text-gray-900">Total</span>
-                    <span className="!text-[var(--hover-color)]">
+                  <div className="flex justify-between text-lg font-bold border-t-2 border-emerald-200 pt-4 mt-4">
+                    <span className="text-gray-900">Total Amount</span>
+                    <span className="text-emerald-600 text-2xl">
                       ৳{total.toFixed(2)}
                     </span>
                   </div>
                 </div>
 
-                <div className="!mt-6 !p-4 !bg-green-50 !rounded-lg">
-                  <p className="!text-sm !text-green-800 !text-center">
+                <div className="mt-6 p-4 bg-green-50 rounded-lg">
+                  <p className="text-sm text-green-800 text-center">
                     <strong>Cash on Delivery:</strong> Pay when your order is
                     delivered
                   </p>

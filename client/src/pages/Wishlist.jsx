@@ -15,7 +15,7 @@ import axios from "axios";
 import { useAuth } from "../Store/Auth";
 
 const Wishlist = () => {
-  const { url } = useAuth();
+  const { url, refreshCartCount } = useAuth();
   const [wishlistItems, setWishlistItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -51,7 +51,7 @@ const Wishlist = () => {
       });
       toast.success("Item removed from wishlist");
       setWishlistItems((prev) =>
-        prev.filter((item) => item.product._id !== productId)
+        prev.filter((item) => item.product._id !== productId),
       );
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to remove item");
@@ -69,8 +69,10 @@ const Wishlist = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
+
+      await refreshCartCount();
 
       // Show success toast notification
       toast.success("✅ Item added to cart successfully!", {
@@ -98,7 +100,7 @@ const Wishlist = () => {
           draggable: true,
           progress: undefined,
           theme: "light",
-        }
+        },
       );
     }
   };
@@ -108,13 +110,11 @@ const Wishlist = () => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="!flex !items-center !justify-center !min-h-[60vh]"
+        className="flex items-center justify-center min-h-[60vh]"
       >
-        <div className="!text-center">
-          <div className="!inline-block !w-12 !h-12 !border-4 !border-t-[var(--hover-color)] !border-gray-200 !rounded-full !animate-spin"></div>
-          <p className="!mt-4 !text-gray-600 !text-lg">
-            Loading your wishlist...
-          </p>
+        <div className="text-center">
+          <div className="inline-block w-12 h-12 border-4 border-t-[var(--hover-color)] border-gray-200 rounded-full animate-spin"></div>
+          <p className="mt-4 text-gray-600 text-lg">Loading your wishlist...</p>
         </div>
       </motion.div>
     );
@@ -125,12 +125,12 @@ const Wishlist = () => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="flex justify-center items-center flex-col !py-12 min-h-[60vh] "
+        className="flex justify-center items-center flex-col py-12 min-h-[60vh] "
       >
-        <div className="!text-red-500 !text-lg !mb-4">{error}</div>
+        <div className="text-red-500 text-lg mb-4">{error}</div>
         <button
           onClick={fetchWishlist}
-          className=" !px-6 !py-2 !bg-[var(--hover-color)] border !text-white !rounded-lg hover:!bg-white hover:!text-emerald-500 hover:!border-emerald-500 !transition-colors"
+          className=" px-6 py-2 bg-emerald-600 border text-white rounded-lg hover:bg-white hover:text-emerald-600 hover:border-emerald-600 transition-colors"
         >
           Try Again
         </button>
@@ -143,20 +143,20 @@ const Wishlist = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="!min-h-screen !bg-gray-50 !py-8 !px-4 sm:!px-6 lg:!px-8"
+      className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8"
     >
-      <div className="!max-w-7xl !mx-auto">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="!text-center !mb-12"
+          className="text-center mb-12"
         >
-          <h1 className="!text-3xl md:!text-4xl !font-bold !text-gray-900 !mb-4">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             Your Wishlist
           </h1>
-          <p className="!text-gray-600 !text-lg">
+          <p className="text-gray-600 text-lg">
             {wishlistItems.length === 0
               ? "Your wishlist is empty. Start adding items you love!"
               : `You have ${wishlistItems.length} item${
@@ -173,22 +173,22 @@ const Wishlist = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="!text-center !py-16 !bg-white !rounded-xl !shadow-sm"
+              className="text-center py-16 bg-white rounded-xl shadow-sm"
             >
-              <div className="!inline-block !p-6 !bg-gray-100 !rounded-full !mb-6">
-                <FaRegHeart className="!w-16 !h-16 !text-gray-400" />
+              <div className="inline-block p-6 bg-gray-100 rounded-full mb-6">
+                <FaRegHeart className="w-16 h-16 text-gray-400" />
               </div>
-              <h3 className="!text-xl !font-semibold !text-gray-700 !mb-4">
+              <h3 className="text-xl font-semibold text-gray-700 mb-4">
                 No items in wishlist
               </h3>
-              <p className="!text-gray-500 !mb-8 !max-w-md !mx-auto">
+              <p className="text-gray-500 mb-8 max-w-md mx-auto">
                 Items you add to your wishlist will appear here. Start exploring
                 our collection!
               </p>
               <Link
                 to="/products"
-                className="!inline-block !px-8 !py-3 !bg-[var(--hover-color)] border !text-white
-                 !rounded-lg hover:!text-emerald-500 hover:!border-emerald-500 hover:!bg-white !transition-colors !font-medium"
+                className="inline-block px-8 py-3 bg-emerald-600 border text-white
+                 rounded-lg hover:text-emerald-600 hover:border-emerald-600 hover:bg-white transition-colors font-medium"
               >
                 Start Shopping
               </Link>
@@ -196,7 +196,7 @@ const Wishlist = () => {
           ) : (
             <motion.div
               key="wishlist-items"
-              className="!grid !grid-cols-1 md:!grid-cols-2 lg:!grid-cols-3 xl:!grid-cols-4 !gap-6"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
             >
               {wishlistItems.map((item, index) => (
                 <motion.div
@@ -207,58 +207,58 @@ const Wishlist = () => {
                   exit={{ opacity: 0, scale: 0.9, y: -20 }}
                   transition={{ delay: index * 0.1, duration: 0.3 }}
                   whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                  className="!bg-white !rounded-xl !shadow-md !overflow-hidden !group !relative"
+                  className="bg-white rounded-xl shadow-md overflow-hidden group relative"
                 >
                   {/* Product Image */}
-                  <div className="!relative !overflow-hidden">
+                  <div className="relative overflow-hidden">
                     <img
                       src={`${url}${item.product.imageUrl}`}
                       alt={item.product?.name}
-                      className="!w-full !h-48 !object-cover !group-hover:!scale-110 !transition-transform !duration-300"
+                      className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
                     />
 
                     {/* Quick Actions Overlay */}
-                    <div className="!absolute !inset-0 !bg-black !bg-opacity-0 !group-hover:!bg-opacity-20 !transition-all !duration-300 !flex !items-center !justify-center !opacity-0 !group-hover:!opacity-100">
-                      <div className="!flex !gap-3">
+                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                      <div className="flex gap-3">
                         <motion.button
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
                           onClick={() => handleAddToCart(item.product)}
-                          className="!w-10 !h-10 !bg-white !rounded-full !flex !items-center !justify-center !shadow-lg hover:!bg-[var(--hover-color)] hover:!text-white !transition-colors"
+                          className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-[var(--hover-color)] hover:text-white transition-colors"
                           title="Add to Cart"
                         >
-                          <FaShoppingCart className="!w-4 !h-4" />
+                          <FaShoppingCart className="w-4 h-4" />
                         </motion.button>
 
                         <motion.button
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
-                          className="!w-10 !h-10 !bg-white !rounded-full !flex !items-center !justify-center !shadow-lg hover:!bg-[var(--hover-color)] hover:!text-white !transition-colors"
+                          className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-[var(--hover-color)] hover:text-white transition-colors"
                           title="View Details"
                         >
-                          <FaEye className="!w-4 !h-4" />
+                          <FaEye className="w-4 h-4" />
                         </motion.button>
                       </div>
                     </div>
                   </div>
 
                   {/* Product Info */}
-                  <div className="!p-4">
+                  <div className="p-4">
                     <Link to={`/product/${item.product?._id}`}>
-                      <h3 className="!font-semibold !text-gray-900 !text-lg !mb-2 !line-clamp-2">
+                      <h3 className="font-semibold text-gray-900 text-lg mb-2 line-clamp-2">
                         {item.product?.name || "Product Name"}
                       </h3>{" "}
                     </Link>
 
-                    <div className="!flex !items-center !justify-between !mb-3">
-                      <span className="!text-2xl !font-bold !text-[var(--hover-color)]">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-2xl font-bold text-[var(--hover-color)]">
                         ${item.product?.price?.toFixed(2) || "0.00"}
                       </span>
                       <span
-                        className={`!text-sm !px-2 !py-1 !rounded-full ${
+                        className={`text-sm px-2 py-1 rounded-full ${
                           item.product?.stock > 0
-                            ? "!bg-green-100 !text-green-800"
-                            : "!bg-red-100 !text-red-800"
+                            ? "!bg-green-100 text-green-800"
+                            : "!bg-red-100 text-red-800"
                         }`}
                       >
                         {item.product?.stock > 0 ? "In Stock" : "Out of Stock"}
@@ -266,15 +266,15 @@ const Wishlist = () => {
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="!flex !gap-2">
+                    <div className="flex gap-2">
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => handleAddToCart(item.product)}
                         disabled={item.product?.stock <= 0}
-                        className="!flex-1 !px-4 !py-2 !bg-[var(--hover-color)] !text-white !rounded-lg hover:!bg-white !border  
-                        disabled:!opacity-50 hover:!text-emerald-500 hover:!border-emerald-500
-                        disabled:!cursor-not-allowed !transition-colors !text-sm !font-medium"
+                        className="flex-1 px-4 py-2 bg-[var(--hover-color)] text-white rounded-lg hover:bg-white border  
+                        disabled:opacity-50 hover:text-emerald-500 hover:border-emerald-500
+                        disabled:cursor-not-allowed transition-colors text-sm font-medium"
                       >
                         Add to Cart
                       </motion.button>
@@ -283,16 +283,16 @@ const Wishlist = () => {
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         onClick={() => handleRemoveItem(item.product._id)}
-                        className="!w-10 !h-10 !bg-gray-100 !text-red-500 !rounded-lg hover:!bg-red-500 hover:!text-white !flex !items-center !justify-center !transition-colors"
+                        className="w-10 h-10 bg-gray-100 text-red-500 rounded-lg hover:bg-red-500 hover:text-white flex items-center justify-center transition-colors"
                         title="Remove from Wishlist"
                       >
-                        <FaTrash className="!w-4 !h-4" />
+                        <FaTrash className="w-4 h-4" />
                       </motion.button>
                     </div>
                   </div>
 
                   {/* Favorite Indicator */}
-                  <div className="!absolute !top-3 !right-3">
+                  <div className="absolute top-3 right-3">
                     <motion.div
                       animate={{ scale: [1, 1.2, 1] }}
                       transition={{
@@ -300,9 +300,9 @@ const Wishlist = () => {
                         repeat: Infinity,
                         repeatDelay: 2,
                       }}
-                      className="!w-8 !h-8 !bg-red-500 !rounded-full !flex !items-center !justify-center !shadow-lg"
+                      className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center shadow-lg"
                     >
-                      <FaHeart className="!w-4 !h-4 !text-white" />
+                      <FaHeart className="w-4 h-4 text-white" />
                     </motion.div>
                   </div>
                 </motion.div>
@@ -317,13 +317,13 @@ const Wishlist = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="!text-center !mt-12"
+            className="text-center mt-12"
           >
             <Link
               to="/products"
-              className="!inline-block !px-8 !py-3 !border !border-[var(--hover-color)]
-               !text-[var(--hover-color)] !rounded-lg hover:!bg-[var(--hover-color)] hover:!text-emerald-500
-               hover:!transition-all !duration-300 !font-medium"
+              className="inline-block px-8 py-3 border border-emerald-600
+               text-emerald-600 rounded-lg hover:bg-emerald-600 hover:text-white
+               hover:transition-all duration-300 font-medium"
             >
               Continue Shopping
             </Link>

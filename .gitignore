@@ -28,3 +28,5 @@ server/server.js
 
 # # Uploads folder (contains DB files)
 # upload/
+
+server/public

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-refresh/only-export-components */
 import {
@@ -19,11 +18,43 @@ export const AuthProvider = ({ children }) => {
   const [totalCartItem, setTotalCartItem] = useState(0);
   const [loading, setLoading] = useState(true);
 
+  const refreshCartCount = useCallback(
+    async (providedToken = token) => {
+      if (!providedToken) {
+        setTotalCartItem(0);
+        return;
+      }
+
+      try {
+        const response = await fetch(`${url}/api/cart/`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${providedToken}`,
+          },
+        });
+
+        if (!response.ok) return;
+
+        const data = await response.json();
+        const items = data?.cart?.items || [];
+        const total = items.reduce(
+          (sum, item) => sum + (item?.quantity || 0),
+          0,
+        );
+        setTotalCartItem(total);
+      } catch (error) {
+        console.log(`Failed to refresh cart count ${error}`);
+      }
+    },
+    [token, url],
+  );
+
   //Store JWT & fetch user immediately
   const storeTokenInLS = (serverToken) => {
     localStorage.setItem("token", serverToken);
     setToken(serverToken);
     userAuthentication(serverToken);
+    refreshCartCount(serverToken);
   };
 
   //Logout a user
@@ -64,10 +95,12 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (token) {
       userAuthentication();
+      refreshCartCount(token);
     } else {
       setLoading(false);
+      setTotalCartItem(0);
     }
-  }, [token]);
+  }, [token, refreshCartCount]);
 
   const isLoggedIn = !!token;
   // console.log("Is Logged in:", isLoggedIn);
@@ -93,7 +126,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     fetchData();
-  });
+  }, []);
 
   return (
     <AuthContext.Provider
@@ -107,6 +140,7 @@ export const AuthProvider = ({ children }) => {
         products,
         totalCartItem,
         setTotalCartItem,
+        refreshCartCount,
         url,
       }}
     >

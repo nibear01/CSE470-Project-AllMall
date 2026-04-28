@@ -12,13 +12,13 @@ const ProductSlider = (props) => {
   const { products } = useAuth();
 
   return (
-    <div className="bg-white productSlider !m-auto !py-6">
+    <div className="bg-white productSlider m-auto py-6">
       <Swiper
         slidesPerView={props.items}
         spaceBetween={10}
         navigation={true}
         modules={[Navigation]}
-        className="mySwiper !py-3"
+        className="mySwiper py-3"
       >
         {products.map((product) => (
           <SwiperSlide key={product._id}>

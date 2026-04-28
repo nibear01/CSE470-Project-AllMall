@@ -20,7 +20,7 @@ createRoot(document.getElementById("root")).render(
         draggable
         pauseOnHover
         theme="light"
-        toastClassName="!rounded-xl !shadow-lg !bg-white !text-gray-800"
+        toastClassName="rounded-xl shadow-lg bg-white text-gray-800"
       />
     </BrowserRouter>
   </AuthProvider>

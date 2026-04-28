@@ -1,15 +1,15 @@
-// import { useState } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import { IoClose } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { FaRegSquarePlus } from "react-icons/fa6";
-import { FiMinusSquare } from "react-icons/fi";
+import { MdExpandMore, MdExpandLess } from "react-icons/md";
 import { useState } from "react";
+import "./CategoryPanel.css";
 
 const CategoryPanel = (props) => {
   const [isSubMenu, setIsSubmenu] = useState(null);
+
   const toggleDrawer = (newOpen) => () => {
     props.setIsOpenCategory(newOpen);
   };
@@ -22,226 +22,157 @@ const CategoryPanel = (props) => {
     }
   };
 
+  const categories = [
+    {
+      name: "Fashion",
+      path: "/category/fashion",
+      subcategories: ["Men", "Women"],
+    },
+    {
+      name: "Electronics",
+      path: "/category/electronics",
+      subcategories: ["Mobiles", "Laptops", "Smart Watch"],
+    },
+    {
+      name: "Bags",
+      path: "/category/bags",
+      subcategories: ["Men Bags", "Women Bags"],
+    },
+    {
+      name: "Footwear",
+      path: "/category/footwear",
+      subcategories: ["Men Footwears", "Women Footwears"],
+    },
+    {
+      name: "Groceries",
+      path: "/category/groceries",
+      subcategories: [],
+    },
+    {
+      name: "Beauty",
+      path: "/category/beauty",
+      subcategories: [],
+    },
+    {
+      name: "Wellness",
+      path: "/category/wellness",
+      subcategories: [],
+    },
+    {
+      name: "Jewellery",
+      path: "/category/jewellery",
+      subcategories: [],
+    },
+  ];
+
   const DrawerList = (
-    <Box sx={{ width: 270 }} role="presentation">
-      <h3 className="!p-5 flex items-center justify-between text-[18px] font-[500]">
-        Categories{" "}
-        <IoClose
-          className="cursor-pointer h-5 w-5"
+    <Box sx={{ width: 280 }} role="presentation" className="category-drawer">
+      {/* Header */}
+      <div className="flex items-center justify-between p-5 border-b border-emerald-100 bg-white">
+        <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2">
+          <span>🛍️</span> Categories
+        </h3>
+        <button
           onClick={toggleDrawer(false)}
-        />
-      </h3>
+          className="p-1 hover:bg-emerald-50 rounded-lg transition-colors"
+        >
+          <IoClose className="w-6 h-6 text-gray-800" />
+        </button>
+      </div>
 
-      <div className="!p-2">
-        {/* #1 */}
-        <ul className="flex-col items-center !pl-3 !pr-5">
-          <li className="flex items-center justify-between">
-            <Link to="/category/fashion" className="w-full">
-              <Button className=" !justify-start"> Fashion</Button>
-            </Link>
-            {isSubMenu === 0 ? (
-              <FiMinusSquare
-                className="cursor-pointer cat"
-                onClick={() => openSubmenu(0)}
-              />
-            ) : (
-              <FaRegSquarePlus
-                className="cursor-pointer "
-                onClick={() => openSubmenu(0)}
-              />
+      {/* Categories List */}
+      <div className="p-3 space-y-2">
+        {categories.map((category, idx) => (
+          <div key={idx} className="category-item">
+            {/* Main Category */}
+            <div className="flex items-center justify-between">
+              <Link
+                to={category.path}
+                className="flex-1"
+                onClick={() => toggleDrawer(false)}
+              >
+                <Button className="w-full justify-start text-left text-gray-800 font-medium text-sm p-2 rounded-lg hover:bg-white hover:text-gray-800 transition-all">
+                  {category.name}
+                </Button>
+              </Link>
+
+              {/* Expand/Collapse Button */}
+              {category.subcategories.length > 0 && (
+                <button
+                  onClick={() => openSubmenu(idx)}
+                  className="p-2 hover:bg-emerald-50 rounded-lg transition-all mr-2"
+                >
+                  {isSubMenu === idx ? (
+                    <MdExpandLess className="w-5 h-5 text-emerald-600" />
+                  ) : (
+                    <MdExpandMore className="w-5 h-5 text-gray-700" />
+                  )}
+                </button>
+              )}
+            </div>
+
+            {/* Subcategories */}
+            {isSubMenu === idx && category.subcategories.length > 0 && (
+              <div className="subcategories pl-4 space-y-1 mt-1 border-l-2 border-emerald-200">
+                {category.subcategories.map((subcat, subIdx) => (
+                  <Link
+                    key={subIdx}
+                    to={category.path}
+                    onClick={() => toggleDrawer(false)}
+                  >
+                    <Button className="w-full justify-start text-left text-gray-800 text-sm p-1.5 rounded-lg hover:bg-white hover:text-gray-800 transition-all">
+                      {subcat}
+                    </Button>
+                  </Link>
+                ))}
+              </div>
             )}
-          </li>
-
-          {isSubMenu === 0 && (
-            <ul className="flex-col items-center justify-start !pl-3 !pr-10 !h-auto w-full">
-              <li className="w-full">
-                <Link to="/category/fashion" className="w-full">
-                  <Button className="!text-left !justify-start">Men</Button>
-                </Link>
-              </li>
-
-              <li className="w-full">
-                <Link to="/category/fashion" className="w-full">
-                  <Button className="!text-left !justify-start"> Women</Button>
-                </Link>
-              </li>
-            </ul>
-          )}
-        </ul>
-
-        {/* 2 */}
-        <ul className="flex-col items-center !pl-3 !pr-5">
-          <li className="flex items-center justify-between">
-            <Link to="/category/electronics" className="w-full">
-              <Button className=" !justify-start"> Electronics</Button>
-            </Link>
-            {isSubMenu === 1 ? (
-              <FiMinusSquare
-                className="cursor-pointer cat"
-                onClick={() => openSubmenu(1)}
-              />
-            ) : (
-              <FaRegSquarePlus
-                className="cursor-pointer"
-                onClick={() => openSubmenu(1)}
-              />
-            )}
-          </li>
-
-          {isSubMenu === 1 && (
-            <ul className="flex-col items-center justify-start !pl-3 !pr-10 !h-auto w-full">
-              <li className="w-full">
-                <Link to="/category/electronics" className="w-full">
-                  <Button className="!text-left !justify-start">Mobiles</Button>
-                </Link>
-              </li>
-
-              <li className="w-full">
-                <Link to="/category/electronics" className="w-full">
-                  <Button className="!text-left !justify-start">
-                    {" "}
-                    Laptops
-                  </Button>
-                </Link>
-              </li>
-
-              <li className="w-full">
-                <Link to="/category/electronics" className="w-full">
-                  <Button className="!text-left !justify-start">
-                    {" "}
-                    Smart Watch
-                  </Button>
-                </Link>
-              </li>
-            </ul>
-          )}
-        </ul>
-
-        {/* 3 */}
-        <ul className="flex-col items-center !pl-3 !pr-5">
-          <li className="flex items-center justify-between">
-            <Link to="/category/bags" className="w-full">
-              <Button className=" !justify-start"> Bags</Button>
-            </Link>
-            {isSubMenu === 2 ? (
-              <FiMinusSquare
-                className="cursor-pointer cat"
-                onClick={() => openSubmenu(2)}
-              />
-            ) : (
-              <FaRegSquarePlus
-                className="cursor-pointer"
-                onClick={() => openSubmenu(2)}
-              />
-            )}
-          </li>
-
-          {isSubMenu === 2 && (
-            <ul className="flex-col items-center justify-start !pl-3 !pr-10 !h-auto w-full">
-              <li className="w-full">
-                <Link to="/category/bags" className="w-full">
-                  <Button className="!text-left !justify-start">
-                    Men Bags
-                  </Button>
-                </Link>
-              </li>
-
-              <li className="w-full">
-                <Link to="/category/bags" className="w-full">
-                  <Button className="!text-left !justify-start">
-                    {" "}
-                    Women Bags
-                  </Button>
-                </Link>
-              </li>
-            </ul>
-          )}
-        </ul>
-
-        {/* 4 */}
-        <ul className="flex-col items-center !pl-3 !pr-5">
-          <li className="flex items-center justify-between">
-            <Link to="/category/footwear" className="w-full">
-              <Button className=" !justify-start"> Footwear</Button>
-            </Link>
-            {isSubMenu === 3 ? (
-              <FiMinusSquare
-                className="cursor-pointer cat"
-                onClick={() => openSubmenu(3)}
-              />
-            ) : (
-              <FaRegSquarePlus
-                className="cursor-pointer"
-                onClick={() => openSubmenu(3)}
-              />
-            )}
-          </li>
-
-          {isSubMenu === 3 && (
-            <ul className="flex-col items-center justify-start !pl-3 !pr-10 !h-auto w-full">
-              <li className="w-full">
-                <Link to="/category/footwear" className="w-full">
-                  <Button className="!text-left !justify-start">
-                    Men Footwears
-                  </Button>
-                </Link>
-              </li>
-
-              <li className="w-full">
-                <Link to="/category/footwear" className="w-full">
-                  <Button className="!text-left !justify-start">
-                    {" "}
-                    Women Footwears
-                  </Button>
-                </Link>
-              </li>
-            </ul>
-          )}
-        </ul>
-
-        {/* 5 */}
-        <ul className="flex-col items-center !pl-3 !pr-5">
-          <li className="flex items-center justify-between">
-            <Link to="/category/groceries" className="w-full">
-              <Button className=" !justify-start"> Groceries</Button>
-            </Link>
-          </li>
-        </ul>
-
-        {/* 6 */}
-        <ul className="flex-col items-center !pl-3 !pr-5">
-          <li className="flex items-center justify-between">
-            <Link to="/category/beauty" className="w-full">
-              <Button className=" !justify-start"> Beauty</Button>
-            </Link>
-          </li>
-        </ul>
-
-        {/* 7 */}
-        <ul className="flex-col items-center !pl-3 !pr-5">
-          <li className="flex items-center justify-between">
-            <Link to="/category/wellness" className="w-full">
-              <Button className=" !justify-start"> Wellness</Button>
-            </Link>
-          </li>
-        </ul>
-
-        {/* 8 */}
-        <ul className="flex-col items-center !pl-3 !pr-5">
-          <li className="flex items-center justify-between">
-            <Link to="/category/jewellery" className="w-full">
-              <Button className=" !justify-start"> Jewellery</Button>
-            </Link>
-          </li>
-        </ul>
+          </div>
+        ))}
       </div>
     </Box>
   );
 
+  // Mobile view - render drawer
+  if (props.mobile) {
+    return (
+      <div>
+        <Drawer
+          anchor="left"
+          open={props.isOpenCategory}
+          onClose={toggleDrawer(false)}
+          sx={{
+            "& .MuiDrawer-paper": {
+              backgroundColor: "#ffffff",
+              color: "#1f2937",
+              boxShadow: "-4px 0 12px rgba(16, 185, 129, 0.08)",
+            },
+          }}
+        >
+          {DrawerList}
+        </Drawer>
+      </div>
+    );
+  }
+
+  // Desktop view - render inline with styling
   return (
-    <div className="absolute top-0">
-      <Button onClick={toggleDrawer(true)}></Button>
-      <Drawer open={props.isOpenCategory} onClose={toggleDrawer(false)}>
+    <div>
+      <Drawer
+        open={props.isOpenCategory}
+        onClose={toggleDrawer(false)}
+        sx={{
+          "& .MuiBackdrop-root": {
+            backgroundColor: "rgba(0, 0, 0, 0.3)",
+          },
+          "& .MuiDrawer-paper": {
+            backgroundColor: "#ffffff",
+            color: "#1f2937",
+            boxShadow: "0 10px 25px rgba(16, 185, 129, 0.08)",
+            borderRadius: "12px",
+          },
+        }}
+      >
         {DrawerList}
       </Drawer>
     </div>

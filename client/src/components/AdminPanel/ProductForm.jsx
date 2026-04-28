@@ -165,50 +165,50 @@ const ProductForm = ({
   if (!isOpen) return null;
 
   return (
-    <div className="!fixed !inset-0 !bg-black/50 !flex !items-center !justify-center !p-4 !z-50 !animate-fadeIn">
-      <div className="!bg-white !rounded-xl !shadow-xl !w-full !max-w-2xl !max-h-[90vh] !overflow-y-auto !animate-slideUp">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 animate-fadeIn">
+      <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto animate-slideUp">
         {/* Header */}
-        <div className="!flex !items-center !justify-between !p-6 !border-b !border-gray-200 !sticky !top-0 !bg-white !z-10">
-          <div className="!flex !items-center">
-            <Package className="!w-6 !h-6 !text-emerald-600 !mr-3" />
-            <h2 className="!text-2xl !font-bold !text-gray-900">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 sticky top-0 bg-white z-10">
+          <div className="flex items-center">
+            <Package className="w-6 h-6 text-emerald-600 mr-3" />
+            <h2 className="text-2xl font-bold text-gray-900">
               {isEditing ? "Edit Product" : "Add New Product"}
             </h2>
           </div>
           <button
             onClick={onClose}
             disabled={isSubmitting}
-            className="!p-1 !rounded-full !text-gray-400 hover:!bg-gray-100 hover:!text-gray-600 !transition-colors"
+            className="p-1 rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
           >
-            <X className="!w-6 !h-6" />
+            <X className="w-6 h-6" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="!p-6" noValidate>
-          <div className="!grid !grid-cols-1 md:!grid-cols-2 !gap-6">
+        <form onSubmit={handleSubmit} className="p-6" noValidate>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Product Name */}
-            <div className="md:!col-span-2">
-              <label className="!block !text-sm !font-medium !text-gray-700 !mb-2">
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Product Name *
               </label>
               <input
                 type="text"
                 value={formData.name}
                 onChange={(e) => handleInputChange("name", e.target.value)}
-                className={`!w-full !px-4 !py-2.5 !border !rounded-lg !focus:ring-2 !focus:ring-emerald-500 !focus:border-emerald-500 !transition-all ${
+                className={`w-full px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all ${
                   errors.name ? "!border-rose-500" : "!border-gray-300"
                 }`}
                 placeholder="Enter product name"
                 disabled={isSubmitting}
               />
               {errors.name && (
-                <p className="!text-rose-600 !text-sm !mt-1">{errors.name}</p>
+                <p className="text-rose-600 text-sm mt-1">{errors.name}</p>
               )}
             </div>
 
             {/* Price */}
             <div>
-              <label className="!block !text-sm !font-medium !text-gray-700 !mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Price (Tk) *
               </label>
               <input
@@ -219,20 +219,20 @@ const ProductForm = ({
                 onChange={(e) =>
                   handleInputChange("price", parseFloat(e.target.value) || 0)
                 }
-                className={`!w-full !px-4 !py-2.5 !border !rounded-lg !focus:ring-2 !focus:ring-emerald-500 !focus:border-emerald-500 !transition-all ${
+                className={`w-full px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all ${
                   errors.price ? "!border-rose-500" : "!border-gray-300"
                 }`}
                 placeholder="0.00"
                 disabled={isSubmitting}
               />
               {errors.price && (
-                <p className="!text-rose-600 !text-sm !mt-1">{errors.price}</p>
+                <p className="text-rose-600 text-sm mt-1">{errors.price}</p>
               )}
             </div>
 
             {/* Stock */}
             <div>
-              <label className="!block !text-sm !font-medium !text-gray-700 !mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Stock Quantity *
               </label>
               <input
@@ -242,26 +242,26 @@ const ProductForm = ({
                 onChange={(e) =>
                   handleInputChange("stock", parseInt(e.target.value) || 0)
                 }
-                className={`!w-full !px-4 !py-2.5 !border !rounded-lg !focus:ring-2 !focus:ring-emerald-500 !focus:border-emerald-500 !transition-all ${
+                className={`w-full px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all ${
                   errors.stock ? "!border-rose-500" : "!border-gray-300"
                 }`}
                 placeholder="0"
                 disabled={isSubmitting}
               />
               {errors.stock && (
-                <p className="!text-rose-600 !text-sm !mt-1">{errors.stock}</p>
+                <p className="text-rose-600 text-sm mt-1">{errors.stock}</p>
               )}
             </div>
 
             {/* Category */}
             <div>
-              <label className="!block !text-sm !font-medium !text-gray-700 !mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Category *
               </label>
               <select
                 value={formData.category}
                 onChange={(e) => handleInputChange("category", e.target.value)}
-                className={`!w-full !px-4 !py-2.5 !border !rounded-lg !focus:ring-2 !focus:ring-emerald-500 !focus:border-emerald-500 !transition-all ${
+                className={`w-full px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all ${
                   errors.category ? "!border-rose-500" : "!border-gray-300"
                 }`}
                 disabled={isSubmitting}
@@ -274,7 +274,7 @@ const ProductForm = ({
                 ))}
               </select>
               {errors.category && (
-                <p className="!text-rose-600 !text-sm !mt-1">
+                <p className="text-rose-600 text-sm mt-1">
                   {errors.category}
                 </p>
               )}
@@ -282,13 +282,13 @@ const ProductForm = ({
 
             {/* Status */}
             <div>
-              <label className="!block !text-sm !font-medium !text-gray-700 !mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Status
               </label>
               <select
                 value={formData.status}
                 onChange={(e) => handleInputChange("status", e.target.value)}
-                className="!w-full !px-4 !py-2.5 !border !border-gray-300 !rounded-lg !focus:ring-2 !focus:ring-emerald-500 !focus:border-emerald-500 !transition-all"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
                 disabled={isSubmitting}
               >
                 <option value="active">Active</option>
@@ -297,8 +297,8 @@ const ProductForm = ({
             </div>
 
             {/* Image Upload */}
-            <div className="md:!col-span-2">
-              <label className="!block !text-sm !font-medium !text-gray-700 !mb-2">
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Product Image *
               </label>
 
@@ -307,35 +307,35 @@ const ProductForm = ({
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
                 onClick={() => document.getElementById("imageUpload").click()}
-                className={`!cursor-pointer !border-2 !border-dashed !rounded-lg !p-6 !text-center !transition-all ${
+                className={`cursor-pointer border-2 border-dashed rounded-lg p-6 text-center transition-all ${
                   isDragging
-                    ? "!border-emerald-500 !bg-emerald-50"
+                    ? "!border-emerald-500 bg-emerald-50"
                     : errors.imageUrl
-                    ? "!border-rose-500 !bg-rose-50"
-                    : "!border-gray-300 hover:!border-emerald-500"
+                    ? "!border-rose-500 bg-rose-50"
+                    : "!border-gray-300 hover:border-emerald-500"
                 }`}
               >
                 {imagePreview ? (
-                  <div className="!relative !group">
+                  <div className="relative group">
                     <img
                       src={imagePreview}
                       alt="Preview"
-                      className="!w-full !h-48 !object-contain !rounded"
+                      className="w-full h-48 object-contain rounded"
                     />
-                    <div className="!absolute !inset-0 !bg-black/50 !flex !items-center !justify-center !opacity-0 group-hover:!opacity-100 !transition-opacity">
-                      <div className="!text-white !text-center !p-4">
-                        <ImagePlus className="!w-8 !h-8 !mx-auto !mb-2" />
+                    <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="text-white text-center p-4">
+                        <ImagePlus className="w-8 h-8 mx-auto mb-2" />
                         <p>Click or drag to change image</p>
                       </div>
                     </div>
                   </div>
                 ) : (
-                  <div className="!space-y-2">
-                    <ImagePlus className="!w-10 !h-10 !mx-auto !text-gray-400" />
-                    <p className="!text-sm !text-gray-600">
+                  <div className="space-y-2">
+                    <ImagePlus className="w-10 h-10 mx-auto text-gray-400" />
+                    <p className="text-sm text-gray-600">
                       Drag & drop an image here, or click to select
                     </p>
-                    <p className="!text-xs !text-gray-500">
+                    <p className="text-xs text-gray-500">
                       Recommended size: 800x800px
                     </p>
                   </div>
@@ -345,20 +345,20 @@ const ProductForm = ({
                   type="file"
                   accept="image/*"
                   onChange={handleFileChange}
-                  className="!hidden"
+                  className="hidden"
                   disabled={isSubmitting}
                 />
               </div>
               {errors.imageUrl && (
-                <p className="!text-rose-600 !text-sm !mt-1">
+                <p className="text-rose-600 text-sm mt-1">
                   {errors.imageUrl}
                 </p>
               )}
             </div>
 
             {/* Description */}
-            <div className="md:!col-span-2">
-              <label className="!block !text-sm !font-medium !text-gray-700 !mb-2">
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Description *
               </label>
               <textarea
@@ -367,14 +367,14 @@ const ProductForm = ({
                   handleInputChange("description", e.target.value)
                 }
                 rows={4}
-                className={`!w-full !px-4 !py-2.5 !border !rounded-lg !focus:ring-2 !focus:ring-emerald-500 !focus:border-emerald-500 !transition-all ${
+                className={`w-full px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all ${
                   errors.description ? "!border-rose-500" : "!border-gray-300"
                 }`}
                 placeholder="Write a detailed description of the product..."
                 disabled={isSubmitting}
               />
               {errors.description && (
-                <p className="!text-rose-600 !text-sm !mt-1">
+                <p className="text-rose-600 text-sm mt-1">
                   {errors.description}
                 </p>
               )}
@@ -382,33 +382,33 @@ const ProductForm = ({
           </div>
 
           {submitError && (
-            <div className="!mt-4 !p-3 !bg-rose-50 !border !border-rose-200 !text-rose-600 !rounded-lg !text-sm">
+            <div className="mt-4 p-3 bg-rose-50 border border-rose-200 text-rose-600 rounded-lg text-sm">
               {submitError}
             </div>
           )}
 
-          <div className="!flex !justify-end !mt-8 !space-x-3">
+          <div className="flex justify-end mt-8 space-x-3">
             <button
               type="button"
               onClick={onClose}
               disabled={isSubmitting}
-              className="!px-6 !py-2.5 !border !border-gray-300 !rounded-lg !text-gray-700 hover:!bg-gray-50 !font-medium !transition-colors"
+              className="px-6 py-2.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="!px-6 !py-2.5 !bg-gradient-to-r !from-emerald-500 !to-emerald-600 !text-white !rounded-lg hover:!from-emerald-600 hover:!to-emerald-700 !font-medium !transition-all !flex !items-center"
+              className="px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-lg hover:from-emerald-600 hover:to-emerald-700 font-medium transition-all flex items-center"
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 className="!w-4 !h-4 !mr-2 !animate-spin" />
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                   {isEditing ? "Saving..." : "Adding..."}
                 </>
               ) : (
                 <>
-                  <Save className="!w-4 !h-4 !mr-2" />
+                  <Save className="w-4 h-4 mr-2" />
                   {isEditing ? "Save Changes" : "Add Product"}
                 </>
               )}

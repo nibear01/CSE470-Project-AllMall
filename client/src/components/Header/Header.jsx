@@ -9,9 +9,10 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Navigation from "/src/components/Header/Navigation/Navigation";
 import { useAuth } from "../../Store/Auth";
 import ProfileDropdown from "../../pages/ProfiledDropDown";
-import { FiMenu } from "react-icons/fi";
-import { useState } from "react";
-import { Package } from "lucide-react";
+import { FiMenu, FiX, FiSearch } from "react-icons/fi";
+import { useState, useEffect } from "react";
+import { Package, Sparkles } from "lucide-react";
+import "./Header.css";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -19,24 +20,45 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     top: 13,
     border: `2px solid ${(theme.vars ?? theme).palette.background.paper}`,
     padding: "0 4px",
+    fontSize: "10px",
+    fontWeight: "bold",
   },
 }));
 
 const Header = () => {
   const { isLoggedIn, user, totalCartItem } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <>
-      <div className=" !z-500 !bg-white !shadow-sm">
-        {/* Top Announcement Bar */}
-        <div className="!hidden md:!flex !items-center !justify-center !w-full !h-8 !bg-gray-100 !text-gray-700 !text-[10px] sm:!text-[11px]">
-          <div className="!flex !justify-between !items-center !w-full !max-w-7xl !px-4">
-            <p>Get up to 50% off new season styles, limited time only</p>
-            <ul className="!flex !gap-4">
+      {/* Modern Header Container */}
+      <header
+        className={`z-50 sticky top-0 transition-all duration-300 ${
+          scrolled ? "bg-white shadow-lg" : "bg-white shadow-md"
+        }`}
+      >
+        {/* Premium Announcement Bar */}
+        <div className="hidden lg:block bg-emerald-50 border-b border-emerald-100 px-4 py-2">
+          <div className="max-w-7xl mx-auto flex justify-between items-center text-xs text-gray-600">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-emerald-700" />
+              <p className="font-normal text-xs text-gray-700">
+                Exciting Deals! Get up to 50% off new season styles
+              </p>
+            </div>
+            <ul className="flex gap-6">
               <li>
                 <NavLink
-                  className="hover:!text-[var(--hover-color)] !transition-colors !duration-200"
+                  className="hover:text-emerald-700 text-gray-600 transition-colors duration-200 font-medium"
                   to="/help-center"
                 >
                   Help Center
@@ -44,214 +66,257 @@ const Header = () => {
               </li>
               <li>
                 <NavLink
-                  className="hover:!text-[var(--hover-color)] !transition-colors !duration-200"
+                  className="hover:text-emerald-700 text-gray-600 transition-colors duration-200 font-medium"
                   to="/order-track"
                 >
-                  Order Tracking
+                  Track Order
                 </NavLink>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Main Header */}
-        <div className="!border-b !border-gray-200 !bg-white">
-          <div className="!flex !items-center !justify-between !px-4 !py-4 sm:!px-6 lg:!px-12 !max-w-7xl !mx-auto">
-            {/* Mobile Menu Button */}
-            <div className="md:!hidden !mr-2">
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="!text-gray-700 hover:!text-[var(--hover-color)]"
-              >
-                <FiMenu size={24} />
-              </button>
-            </div>
+        {/* Main Header Content */}
+        <div className="border-b border-emerald-100">
+          <div className="px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
+            <div className="max-w-7xl mx-auto">
+              {/* Header Row 1: Mobile Menu, Logo, Actions */}
+              <div className="flex items-center justify-between gap-4">
+                {/* Mobile Menu Button */}
+                <button
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="lg:hidden p-2 rounded-xl hover:bg-emerald-50 transition-all duration-200 shrink-0 text-emerald-700 hover:text-emerald-600"
+                  aria-label="Toggle menu"
+                >
+                  {mobileMenuOpen ? (
+                    <FiX size={24} className="transition-transform" />
+                  ) : (
+                    <FiMenu size={24} className="transition-transform" />
+                  )}
+                </button>
 
-            {/* Logo */}
-            <div className="!flex-shrink-0 !w-24 md:!w-32">
-              <NavLink to="/">
-                <img
-                  className="!h-12 !w-auto"
-                  src="/logo_png.png"
-                  alt="AllMall"
-                />
-              </NavLink>
-            </div>
+                {/* Logo - Brand Identity */}
+                <NavLink
+                  to="/"
+                  className="shrink-0 logo-container hover:opacity-90 transition-opacity duration-200"
+                >
+                  <img
+                    className="h-10 sm:h-12 w-auto object-contain"
+                    src="/logo_png.png"
+                    alt="AllMall - Your Premium Shopping Destination"
+                  />
+                </NavLink>
 
-            {/* Search Box - Hidden on mobile */}
-            <div className="!hidden md:!block !flex-1 !mx-4 lg:!mx-8">
-              <Searchbox />
-            </div>
-
-            {/* User Actions */}
-            <div className="!flex !items-center !space-x-2 sm:!space-x-4">
-              {isLoggedIn ? (
-                <>
-                  {/* View Orders Button - Desktop */}
-                  <div className="!hidden sm:!flex !items-center !space-x-2">
-                    <Link
-                      className="!text-gray-700 hover:!text-[var(--hover-color)] !transition-colors !duration-200 !text-sm"
-                      to="/profile"
-                    >
-                      {user?.username
-                        ? `Welcome ${user.username.split(" ")[0]}`
-                        : "Loading..."}
-                    </Link>
-
-                    {/* View Orders Button */}
-                    <Link
-                      to="/my-orders"
-                      className="!hidden md:!flex !items-center !text-gray-700 hover:!text-[var(--hover-color)] !transition-colors !duration-200 !text-sm !ml-2"
-                    >
-                      <Package className="!w-4 !h-4 !mr-1" />
-                      Orders
-                    </Link>
-
-                    <ProfileDropdown />
+                {/* Center: Search Box (Desktop) */}
+                <div className="hidden lg:flex flex-1 mx-8">
+                  <div className="w-full max-w-md">
+                    <Searchbox />
                   </div>
+                </div>
 
-                  {/* View Orders Button - Mobile */}
-                  <div className="md:!hidden">
-                    <Link to="/my-orders">
-                      <Tooltip title="My Orders">
-                        <IconButton aria-label="orders">
-                          <Package className="!w-5 !h-5 !text-gray-700" />
+                {/* Right Actions */}
+                <div className="flex items-center gap-1 sm:gap-2 md:gap-3 lg:gap-4 ml-auto">
+                  {/* Desktop User Info */}
+                  {isLoggedIn ? (
+                    <div className="hidden sm:flex items-center gap-2 md:gap-3 md:pr-4 md:border-r md:border-emerald-100">
+                      <div className="hidden md:block">
+                        <p className="text-xs text-gray-800">Welcome back,</p>
+                        <p className="text-xs md:text-sm font-semibold text-gray-800">
+                          {user?.username
+                            ? user.username.split(" ")[0]
+                            : "User"}
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="hidden sm:flex items-center gap-2 md:gap-3 md:pr-4 md:border-r md:border-emerald-100">
+                      <NavLink
+                        className="text-xs md:text-sm font-medium text-gray-800 hover:text-emerald-600 transition-colors duration-200"
+                        to="/login"
+                      >
+                        Login
+                      </NavLink>
+                      <span className="hidden md:inline text-gray-300">•</span>
+                      <NavLink
+                        className="text-xs md:text-sm font-medium text-gray-800 hover:text-emerald-600 transition-colors duration-200"
+                        to="/register"
+                      >
+                        Register
+                      </NavLink>
+                    </div>
+                  )}
+
+                  {/* Action Icons */}
+                  <div className="flex items-center gap-0.5 sm:gap-1 md:gap-2">
+                    {/* Mobile Search */}
+                    <Link to="/search" className="lg:hidden p-1 sm:p-2">
+                      <Tooltip title="Search">
+                        <IconButton
+                          aria-label="search"
+                          size="small"
+                          className="icon-btn"
+                        >
+                          <FiSearch className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-700" />
                         </IconButton>
                       </Tooltip>
                     </Link>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <NavLink
-                    className="!hidden sm:!block !text-gray-700 hover:!text-[var(--hover-color)] !transition-colors !duration-200 !text-sm"
-                    to="/login"
-                  >
-                    Login
-                  </NavLink>
-                  <NavLink
-                    className="!hidden sm:!block !text-gray-700 hover:!text-[var(--hover-color)] !transition-colors !duration-200 !text-sm"
-                    to="/register"
-                  >
-                    Register
-                  </NavLink>
-                </>
-              )}
 
-              {/* Mobile Search Button */}
-              <div className="md:!hidden">
-                <Link to="/search">
-                  <Tooltip title="Search">
-                    <IconButton aria-label="search">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="!h-5 !w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
+                    {/* Orders - Desktop */}
+                    {isLoggedIn && (
+                      <Link
+                        to="/my-orders"
+                        className="hidden md:inline-block p-1 sm:p-2"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                        />
-                      </svg>
-                    </IconButton>
-                  </Tooltip>
-                </Link>
+                        <Tooltip title="My Orders">
+                          <IconButton
+                            aria-label="orders"
+                            size="small"
+                            className="icon-btn"
+                          >
+                            <Package className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800 hover:text-emerald-700" />
+                          </IconButton>
+                        </Tooltip>
+                      </Link>
+                    )}
+
+                    {/* Cart */}
+                    <Link to="/cart-view" className="p-1 sm:p-2">
+                      <Tooltip title="Shopping Cart">
+                        <IconButton
+                          aria-label="cart"
+                          size="small"
+                          className="icon-btn"
+                        >
+                          <StyledBadge
+                            badgeContent={totalCartItem}
+                            sx={{
+                              "& .MuiBadge-badge": {
+                                backgroundColor: "#10b981",
+                                color: "white",
+                                fontSize: "9px",
+                                fontWeight: "bold",
+                                padding: "1px 3px",
+                              },
+                            }}
+                          >
+                            <ShoppingCartIcon className="text-gray-700 hover:text-emerald-700 text-[18px] sm:text-[22px]" />
+                          </StyledBadge>
+                        </IconButton>
+                      </Tooltip>
+                    </Link>
+
+                    {/* Wishlist */}
+                    <Link
+                      to="/wishlist"
+                      className="hidden sm:inline-block p-1 sm:p-2"
+                    >
+                      <Tooltip title="Wishlist">
+                        <IconButton
+                          aria-label="wishlist"
+                          size="small"
+                          className="icon-btn"
+                        >
+                          <StyledBadge badgeContent={0} color="secondary">
+                            <FaRegHeart className="text-gray-700 hover:text-emerald-700 text-[16px] sm:text-[18px]" />
+                          </StyledBadge>
+                        </IconButton>
+                      </Tooltip>
+                    </Link>
+
+                    {/* Profile Dropdown */}
+                    {isLoggedIn && <ProfileDropdown />}
+                  </div>
+                </div>
               </div>
 
-              {/* Cart */}
-              <Link to="/cart-view">
-                <Tooltip title="Cart">
-                  <IconButton aria-label="cart">
-                    <StyledBadge
-                      badgeContent={totalCartItem}
-                      sx={{
-                        "& .MuiBadge-badge": {
-                          backgroundColor: "#28a745", // custom green
-                          color: "white",
-                        },
-                      }}
-                    >
-                      <ShoppingCartIcon className="!text-gray-700" />
-                    </StyledBadge>
-                  </IconButton>
-                </Tooltip>
-              </Link>
-
-              {/* Wishlist */}
-              <Link to="/wishlist">
-                <Tooltip title="Wishlist">
-                  <IconButton aria-label="wishlist">
-                    <StyledBadge badgeContent={0} color="secondary">
-                      <FaRegHeart className="!text-gray-700" />
-                    </StyledBadge>
-                  </IconButton>
-                </Tooltip>
-              </Link>
+              {/* Header Row 2: Mobile Search */}
+              <div className="lg:hidden mt-2 sm:mt-3">
+                <Searchbox />
+              </div>
             </div>
           </div>
 
-          {/* Mobile Search */}
-          <div className="md:!hidden !px-4 !pb-3">
-            <Searchbox />
+          {/* Desktop Navigation */}
+          <div className="hidden lg:block border-t border-emerald-50 bg-white">
+            <Navigation />
           </div>
-        </div>
-
-        {/* Navigation */}
-        <div className="!hidden md:!block">
-          <Navigation />
         </div>
 
         {/* Mobile Navigation Menu */}
         {mobileMenuOpen && (
-          <div className="md:!hidden !bg-white !border-t !border-gray-200">
-            <div className="!px-4 !py-2">
+          <div className="lg:hidden bg-white border-t border-emerald-100 animate-slideDown shadow-lg">
+            <div className="px-4 py-4 space-y-2">
+              {/* Mobile User Section */}
               {isLoggedIn ? (
-                <div className="!space-y-3 !py-4 !border-b !border-gray-100">
-                  <div className="!flex !items-center !justify-between">
-                    <Link
-                      className="!text-gray-700 hover:!text-[var(--hover-color)] !font-medium"
-                      to="/profile"
-                    >
-                      {user?.username || "Loading..."}
-                    </Link>
+                <div className="pb-4 border-b border-emerald-100">
+                  <div className="flex items-center justify-between gap-3 mb-4">
+                    <div>
+                      <p className="text-xs text-emerald-600 mb-1">
+                        Logged in as
+                      </p>
+                      <p className="text-sm font-semibold text-emerald-700">
+                        {user?.username || "User"}
+                      </p>
+                    </div>
                     <ProfileDropdown />
                   </div>
-
-                  {/* View Orders Link in Mobile Menu */}
                   <Link
                     to="/my-orders"
-                    className="!flex !items-center !text-gray-700 hover:!text-[var(--hover-color)] !transition-colors !duration-200 !text-sm !mt-2"
+                    className="flex items-center gap-2 text-emerald-700 hover:text-emerald-600 hover:bg-emerald-50 transition-all duration-200 text-sm py-2 px-3 rounded-lg font-medium"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    <Package className="!w-4 !h-4 !mr-2" />
+                    <Package className="w-4 h-4" />
                     My Orders
+                  </Link>
+                  <Link
+                    to="/profile"
+                    className="flex items-center gap-2 text-emerald-700 hover:text-emerald-600 hover:bg-emerald-50 transition-all duration-200 text-sm py-2 px-3 rounded-lg font-medium"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                      />
+                    </svg>
+                    My Profile
                   </Link>
                 </div>
               ) : (
-                <div className="!flex !space-x-4 !py-2 !border-b !border-gray-100">
+                <div className="pb-4 border-b border-emerald-100 space-y-2">
                   <NavLink
-                    className="!text-gray-700 hover:!text-[var(--hover-color)]"
+                    className="block text-emerald-700 hover:text-emerald-600 hover:bg-emerald-50 transition-all duration-200 text-sm py-2 px-3 rounded-lg font-medium"
                     to="/login"
+                    onClick={() => setMobileMenuOpen(false)}
                   >
                     Login
                   </NavLink>
                   <NavLink
-                    className="!text-gray-700 hover:!text-[var(--hover-color)]"
+                    className="block text-emerald-700 hover:text-emerald-600 hover:bg-emerald-50 transition-all duration-200 text-sm py-2 px-3 rounded-lg font-medium"
                     to="/register"
+                    onClick={() => setMobileMenuOpen(false)}
                   >
                     Register
                   </NavLink>
                 </div>
               )}
-              <Navigation mobile />
+
+              {/* Mobile Navigation */}
+              <Navigation
+                mobile={true}
+                closeMenu={() => setMobileMenuOpen(false)}
+              />
             </div>
           </div>
         )}
-      </div>
+      </header>
     </>
   );
 };
