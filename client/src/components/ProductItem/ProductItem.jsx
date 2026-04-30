@@ -149,7 +149,7 @@ const ProductItem = ({ product }) => {
 
             {/* Discount Badge */}
             {product.discount > 0 && (
-              <span className="absolute top-3 left-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-bold px-3 py-1 rounded-full z-10 shadow-md">
+              <span className="absolute top-3 left-3 bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-full z-10 shadow-md">
                 {product.discount}% OFF
               </span>
             )}
@@ -182,7 +182,7 @@ const ProductItem = ({ product }) => {
                   e.preventDefault();
                   handleDialogOpen();
                 }}
-                className="w-10 h-10 rounded-full bg-white text-gray-700 flex items-center justify-center hover:bg-gray-50 hover:text-[var(--hover-color)] transition-all duration-300 shadow-md"
+                className="w-10 h-10 rounded-full bg-white text-gray-700 flex items-center justify-center hover:bg-gray-50 hover:text-emerald-600 transition-all duration-300 shadow-md"
               >
                 <MdOutlineZoomOutMap className="text-sm" />
               </button>
@@ -219,25 +219,12 @@ const ProductItem = ({ product }) => {
               )}
             </div>
 
-            <Button
-              variant="outlined"
-              fullWidth
-              className="py-2.5 transition-all duration-300 rounded-xl font-medium hidden md:block"
-              sx={{
-                borderColor: "#059669",
-                color: "#059669",
-                borderWidth: "1px",
-                "&:hover": {
-                  backgroundColor: "#059669",
-                  color: "white",
-                  borderColor: "#059669",
-                  borderWidth: "1px",
-                },
-              }}
+            <button
+              className="w-full py-2.5 px-4 border border-emerald-600 text-emerald-600 rounded-xl font-medium transition-all duration-300 hover:bg-emerald-600 hover:text-white hidden md:block"
               onClick={(e) => handleAddToCart(e, product._id)}
             >
               Add to Cart
-            </Button>
+            </button>
           </div>
         </div>
       </Link>

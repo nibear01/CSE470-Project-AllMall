@@ -137,7 +137,7 @@ const Checkout = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--hover-color)]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
       </div>
     );
   }
@@ -177,16 +177,16 @@ const Checkout = () => {
               You will receive a confirmation email shortly. Your order will be
               delivered within 3-5 business days.
             </p>
-            <div className="flex gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
               <Link
                 to="/products"
-                className="px-6 py-3 bg-[var(--hover-color)] text-white rounded-lg hover:bg-[var(--hover-color-dark)] transition-colors"
+                className="px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors font-medium text-center"
               >
                 Continue Shopping
               </Link>
               <Link
                 to="/my-orders"
-                className="px-6 py-3 border border-[var(--hover-color)] text-[var(--hover-color)] rounded-lg hover:bg-[var(--hover-color-light)] transition-colors"
+                className="px-6 py-3 border border-emerald-600 text-emerald-600 rounded-lg hover:bg-emerald-50 transition-colors font-medium text-center"
               >
                 View Orders
               </Link>
@@ -212,7 +212,7 @@ const Checkout = () => {
           {/* Left Column */}
           <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 order-last lg:order-first">
             <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
-              <FaUser className="mr-2 text-[var(--hover-color)]" />
+              <FaUser className="mr-2 text-emerald-500" />
               Shipping Information
             </h2>
 
@@ -228,7 +228,7 @@ const Checkout = () => {
                     required
                     value={formData.firstName}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--hover-color)] focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                   />
                 </div>
                 <div>
@@ -241,7 +241,7 @@ const Checkout = () => {
                     required
                     value={formData.lastName}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--hover-color)] focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -256,7 +256,7 @@ const Checkout = () => {
                   required
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--hover-color)] focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 />
               </div>
 
@@ -271,7 +271,7 @@ const Checkout = () => {
                   required
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--hover-color)] focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 />
               </div>
 
@@ -286,7 +286,7 @@ const Checkout = () => {
                   rows={3}
                   value={formData.address}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--hover-color)] focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 />
               </div>
 
@@ -301,7 +301,7 @@ const Checkout = () => {
                     required
                     value={formData.city}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--hover-color)] focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                   />
                 </div>
                 <div>
@@ -314,7 +314,7 @@ const Checkout = () => {
                     required
                     value={formData.zipCode}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--hover-color)] focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -322,19 +322,19 @@ const Checkout = () => {
               {/* Payment Method */}
               <div className="pt-6 border-t border-gray-200">
                 <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
-                  <FaLock className="mr-2 text-[var(--hover-color)]" />
+                  <FaLock className="mr-2 text-emerald-500" />
                   Payment Method
                 </h2>
 
                 <div className="space-y-3">
-                  <label className="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:border-[var(--hover-color)] transition-colors">
+                  <label className="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:bg-emerald-500 hover:text-white transition-colors">
                     <input
                       type="radio"
                       name="paymentMethod"
                       value="cod"
                       checked={formData.paymentMethod === "cod"}
                       onChange={handleInputChange}
-                      className="text-[var(--hover-color)] focus:ring-[var(--hover-color)]"
+                      className="text-emerald-500 focus:ring-emerald-500"
                     />
                     <div className="ml-3 flex items-center">
                       <FaMoneyBillWave className="text-green-600 mr-2" />
@@ -380,7 +380,7 @@ const Checkout = () => {
               <button
                 type="submit"
                 disabled={cartItems.length === 0}
-                className="w-full py-3 px-6 bg-[var(--hover-color)] text-white rounded-lg font-semibold hover:bg-white
+                className="w-full py-3 px-6 bg-emerald-500 text-white rounded-lg font-semibold hover:bg-emerald-600
                 border hover:border-emerald-500 hover:text-emerald-500 
                 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
@@ -400,7 +400,7 @@ const Checkout = () => {
                 <p className="text-gray-500 mb-4">Your cart is empty</p>
                 <Link
                   to="/products"
-                  className="text-[var(--hover-color)] hover:text-[var(--hover-color-dark)]"
+                  className="text-emerald-500 hover:text-emerald-600"
                 >
                   Continue Shopping
                 </Link>

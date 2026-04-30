@@ -30,7 +30,7 @@ const Profile = () => {
         <div className="flex gap-2 justify-end">
           <button
             onClick={() => toast.dismiss()}
-            className="px-4 py-2 bg-gray-200 text-gray-800  rounded-lg hover:bg-gray-300 transition-colors font-[6px]"
+            className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors text-sm font-medium"
           >
             Cancel
           </button>
@@ -38,7 +38,7 @@ const Profile = () => {
             onClick={async () => {
               try {
                 const deleteUser = await axios.delete(
-                  `api/auth/user/${user._id}`
+                  `api/auth/user/${user._id}`,
                 );
                 if (deleteUser.request.statusText === "OK") {
                   logoutUser();
@@ -52,7 +52,7 @@ const Profile = () => {
                 toast.dismiss();
               }
             }}
-            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-[6px]"
+            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-medium"
           >
             Delete Account
           </button>
@@ -64,12 +64,12 @@ const Profile = () => {
         draggable: false,
         closeButton: false,
         className: "rounded-xl shadow-xl",
-      }
+      },
     );
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-6 sm:py-8 px-3 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 py-6 sm:py-8 px-3 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-8 animate-slideInDown">
@@ -133,10 +133,8 @@ const Profile = () => {
           <div className="lg:col-span-2 space-y-6">
             {/* Profile Card */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-              <div className="bg-gradient-to-r from-emerald-500 to-emerald-600 p-6 text-gray-800">
-                <h2 className="text-xl font-semibold">
-                  Personal Information
-                </h2>
+              <div className="bg-linear-to-r from-emerald-500 to-emerald-600 p-6 text-gray-800">
+                <h2 className="text-xl font-semibold">Personal Information</h2>
                 <p className="text-emerald-500">Manage your account details</p>
               </div>
 
@@ -209,9 +207,9 @@ const Profile = () => {
 
             {/* Account Stats Card */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-              <div className="bg-gradient-to-r from-gray-700 to-gray-800 p-6 text-white">
-                <h2 className="text-xl font-semibold">Account Statistics</h2>
-                <p className="text-gray-300">
+              <div className="bg-linear-to-r from-gray-700 to-gray-800 p-6 text-white">
+                <h2 className="text-xl font-semibold text-black">Account Statistics</h2>
+                <p className="text-gray-400 bg-gray-100 inline-block px-2 py-1 rounded-full text-xs mt-1">
                   Your activity and membership details
                 </p>
               </div>
