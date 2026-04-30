@@ -49,9 +49,9 @@ const Wishlist = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      toast.success("Item removed from wishlist");
+      toast.success("❌ Item removed from wishlist");
       setWishlistItems((prev) =>
-        prev.filter((item) => item.product._id !== productId),
+        prev.filter((item) => item.product?._id !== productId),
       );
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to remove item");
@@ -113,7 +113,7 @@ const Wishlist = () => {
         className="flex items-center justify-center min-h-[60vh]"
       >
         <div className="text-center">
-          <div className="inline-block w-12 h-12 border-4 border-t-[var(--hover-color)] border-gray-200 rounded-full animate-spin"></div>
+          <div className="inline-block w-12 h-12 border-4 border-t-emerald-600 border-gray-200 rounded-full animate-spin"></div>
           <p className="mt-4 text-gray-600 text-lg">Loading your wishlist...</p>
         </div>
       </motion.div>
@@ -224,7 +224,7 @@ const Wishlist = () => {
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
                           onClick={() => handleAddToCart(item.product)}
-                          className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-[var(--hover-color)] hover:text-white transition-colors"
+                          className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-emerald-600 hover:text-white transition-colors"
                           title="Add to Cart"
                         >
                           <FaShoppingCart className="w-4 h-4" />
@@ -233,7 +233,7 @@ const Wishlist = () => {
                         <motion.button
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
-                          className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-[var(--hover-color)] hover:text-white transition-colors"
+                          className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-emerald-600 hover:text-white transition-colors"
                           title="View Details"
                         >
                           <FaEye className="w-4 h-4" />
@@ -251,14 +251,14 @@ const Wishlist = () => {
                     </Link>
 
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-2xl font-bold text-[var(--hover-color)]">
-                        ${item.product?.price?.toFixed(2) || "0.00"}
+                      <span className="text-2xl font-bold text-emerald-600">
+                        Tk {item.product?.price?.toFixed(2) || "0.00"}
                       </span>
                       <span
                         className={`text-sm px-2 py-1 rounded-full ${
                           item.product?.stock > 0
-                            ? "!bg-green-100 text-green-800"
-                            : "!bg-red-100 text-red-800"
+                            ? "bg-green-100 text-green-800"
+                            : "bg-red-100 text-red-800"
                         }`}
                       >
                         {item.product?.stock > 0 ? "In Stock" : "Out of Stock"}
@@ -272,9 +272,8 @@ const Wishlist = () => {
                         whileTap={{ scale: 0.98 }}
                         onClick={() => handleAddToCart(item.product)}
                         disabled={item.product?.stock <= 0}
-                        className="flex-1 px-4 py-2 bg-[var(--hover-color)] text-white rounded-lg hover:bg-white border  
-                        disabled:opacity-50 hover:text-emerald-500 hover:border-emerald-500
-                        disabled:cursor-not-allowed transition-colors text-sm font-medium"
+                        className="flex-1 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 border-2 border-emerald-600
+                        disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-medium"
                       >
                         Add to Cart
                       </motion.button>

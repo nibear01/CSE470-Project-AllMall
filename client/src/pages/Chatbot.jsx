@@ -78,7 +78,7 @@ const Chatbot = () => {
     <>
       {/* Chatbot Floating Button */}
       <button
-        className="fixed bottom-6 right-6 bg-emerald-500 text-white p-4 rounded-full shadow-2xl z-[1000] hover:scale-110 transition-transform duration-300 border-2 border-white"
+        className="fixed bottom-6 right-6 bg-emerald-500 text-white p-4 rounded-full shadow-2xl z-1000 hover:scale-110 transition-transform duration-300 border-2 border-white"
         onClick={toggleChat}
         aria-label="Open chat"
       >
@@ -94,12 +94,12 @@ const Chatbot = () => {
 
       {/* Chat Window */}
       <div
-        className={`fixed h-[550px] bottom-24 right-5 w-[350px] bg-white 
-          rounded-2xl shadow-2xl z-[999] flex flex-col overflow-hidden transition-all duration-500 ease-in-out border border-emerald-200
+        className={`fixed bottom-24 right-4 sm:right-5 w-[95vw] sm:w-[350px] max-h-[70vh] sm:h-[550px] bg-white 
+          rounded-2xl shadow-2xl z-999 flex flex-col overflow-hidden transition-all duration-500 ease-in-out border border-emerald-200
           ${
             isOpen
-              ? "!translate-y-0 opacity-100 visible"
-              : "!translate-y-40 opacity-0 invisible"
+              ? "translate-y-0 opacity-100 visible"
+              : "translate-y-40 opacity-0 invisible"
           }`}
       >
         {/* Header with Gradient */}
@@ -110,12 +110,8 @@ const Chatbot = () => {
               <span className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white"></span>
             </div>
             <div>
-              <h3 className="font-bold text-lg">
-                AllMall Assistant
-              </h3>
-              <p className="text-xs text-emerald-100">
-                Online • Ready to help
-              </p>
+              <h3 className="font-bold text-lg">AllMall Assistant</h3>
+              <p className="text-xs text-emerald-100">Online • Ready to help</p>
             </div>
           </div>
           <button

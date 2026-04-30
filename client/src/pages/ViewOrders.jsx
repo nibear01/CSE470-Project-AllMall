@@ -201,7 +201,7 @@ const ViewOrders = () => {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-50">
         <div className="text-center">
-          <div className="inline-block w-12 h-12 border-4 border-t-[var(--hover-color)] border-gray-200 rounded-full animate-spin"></div>
+          <div className="inline-block w-12 h-12 border-4 border-t-emerald-600 border-gray-200 rounded-full animate-spin"></div>
           <p className="mt-4 text-gray-600 text-lg">Loading your orders...</p>
         </div>
       </div>
@@ -245,7 +245,7 @@ const ViewOrders = () => {
               className="p-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 transition-colors duration-200"
             >
               <RefreshCw
-                className={`w-4 h-4 ${refreshing ? "!animate-spin" : ""}`}
+                className={`w-4 h-4 ${refreshing ? "animate-spin" : ""}`}
               />
             </button>
           </div>
@@ -297,7 +297,7 @@ const ViewOrders = () => {
                       <p className="text-gray-600 text-sm mb-2">
                         Placed on {formatDate(order.createdAt)}
                       </p>
-                      <p className="text-lg font-bold text-[var(--hover-color)]">
+                      <p className="text-lg font-bold text-emerald-600">
                         {formatCurrency(order.totalAmount)}
                       </p>
                     </div>
@@ -387,7 +387,7 @@ const ViewOrders = () => {
                         <span className="text-sm font-medium text-gray-700">
                           Tracking Number:
                         </span>
-                        <span className="text-sm font-mono text-[var(--hover-color)]">
+                        <span className="text-sm font-mono text-emerald-600">
                           {selectedOrder.trackingNumber}
                         </span>
                       </div>
@@ -520,7 +520,7 @@ const ViewOrders = () => {
                     <div className="border-t border-gray-200 pt-3 mt-3">
                       <div className="flex justify-between text-base font-semibold">
                         <span className="text-gray-900">Total:</span>
-                        <span className="text-[var(--hover-color)]">
+                        <span className="text-emerald-600">
                           {formatCurrency(selectedOrder.totalAmount)}
                         </span>
                       </div>

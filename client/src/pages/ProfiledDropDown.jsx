@@ -32,11 +32,11 @@ const ProfileDropdown = () => {
             user?.image ? `${url}${user.image}` : `/src/assets/demo_user.png`
           }
           alt="Profile"
-          className="rounded-full h-9 w-9 sm:h-10 sm:w-10 object-cover border-2 shadow-md transition-all duration-300 border-[var(--hover-color)] hover:scale-105"
+          className="rounded-full h-9 w-9 sm:h-10 sm:w-10 object-cover border-2 shadow-md transition-all duration-300 border-emerald-600 hover:scale-105"
         />
         <ChevronDown
           className={`w-4 h-4 text-gray-600 transition-transform duration-300 ${
-            isOpen ? "!rotate-180" : ""
+            isOpen ? "rotate-180" : ""
           }`}
         />
       </button>
@@ -45,8 +45,8 @@ const ProfileDropdown = () => {
       <div
         className={`absolute right-0 z-50 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg overflow-hidden transition-all duration-300 ease-in-out ${
           isOpen
-            ? "!opacity-100 scale-100 translate-y-0"
-            : "!opacity-0 scale-95 -translate-y-2 pointer-events-none"
+            ? "opacity-100 scale-100 translate-y-0"
+            : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
         }`}
       >
         {isOpen && (
