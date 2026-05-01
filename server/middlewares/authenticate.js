@@ -13,8 +13,16 @@ const authenticateUser = async (req, res, next) => {
 
     const token = authHeader.split(" ")[1].trim();
 
-    // Verify token
+    // Verify access token
     const decoded = jwt.verify(token, process.env.JWT_TOKEN);
+
+    // Check if token is an access token
+    if (decoded.type !== "access") {
+      return res.status(403).json({
+        success: false,
+        message: "Invalid token type. Access token required.",
+      });
+    }
 
     // Fetch user from DB to ensure it exists and get latest info
     const user = await User.findById(decoded.userId);
@@ -34,6 +42,14 @@ const authenticateUser = async (req, res, next) => {
 
     next();
   } catch (error) {
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({
+        success: false,
+        message: "Access token expired. Please refresh your token.",
+        code: "TOKEN_EXPIRED",
+      });
+    }
+
     console.error("Authentication error:", error);
     res.status(403).json({
       success: false,

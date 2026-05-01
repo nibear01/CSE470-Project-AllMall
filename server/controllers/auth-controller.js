@@ -13,15 +13,24 @@ const home = async (req, res) => {
 
 const register = async (req, res) => {
   try {
-    // console.log(req.body);
-
     const { username, email, phone, password } = req.body;
 
-    const userExist = await User.findOne({ email });
-
-    if (userExist) {
-      return res.status(400).json({ msg: "User Already Exists" });
+    // Validate input
+    if (!username || !email || !phone || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required",
+      });
     }
+
+    const userExist = await User.findOne({ email });
+    if (userExist) {
+      return res.status(400).json({
+        success: false,
+        message: "User already exists with this email",
+      });
+    }
+
     const saltround = 10;
     const hash_password = await bcrypt.hash(password, saltround);
 
@@ -32,15 +41,28 @@ const register = async (req, res) => {
       password: hash_password,
     });
 
-    res.status(200).json({
-      msg: userCreated,
-      token: await userCreated.generateToken(),
-      userId: userCreated._id.toString(),
+    // Generate both tokens
+    const accessToken = await userCreated.generateAccessToken();
+    const refreshToken = await userCreated.generateRefreshToken();
+
+    res.status(201).json({
+      success: true,
+      message: "Registration successful",
+      user: {
+        userId: userCreated._id.toString(),
+        username: userCreated.username,
+        email: userCreated.email,
+        isAdmin: userCreated.isAdmin,
+      },
+      accessToken,
+      refreshToken,
     });
-    // res.status(201).send("registration running");
   } catch (error) {
-    // res.status(500).json("internal  server error")
-    console.log(error);
+    console.error("Registration error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error during registration",
+    });
   }
 };
 
@@ -49,32 +71,50 @@ const login = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res
-        .status(400)
-        .json({ msg: "Please provide both email and password" });
+      return res.status(400).json({
+        success: false,
+        message: "Please provide both email and password",
+      });
     }
 
     const userExist = await User.findOne({ email });
-
     if (!userExist) {
-      return res.status(400).json({ msg: "Invalid Credentials" });
+      return res.status(401).json({
+        success: false,
+        message: "Invalid credentials",
+      });
     }
 
     const isMatch = await bcrypt.compare(password, userExist.password);
-
     if (!isMatch) {
-      return res.status(400).json({ msg: "Invalid Credentials" });
+      return res.status(401).json({
+        success: false,
+        message: "Invalid credentials",
+      });
     }
 
+    // Generate both tokens
+    const accessToken = await userExist.generateAccessToken();
+    const refreshToken = await userExist.generateRefreshToken();
+
     res.status(200).json({
-      msg: "Login SuccessFull",
-      token: await userExist.generateToken(),
-      userId: userExist._id.toString(),
-      username: userExist.username.toString(),
+      success: true,
+      message: "Login successful",
+      user: {
+        userId: userExist._id.toString(),
+        username: userExist.username,
+        email: userExist.email,
+        isAdmin: userExist.isAdmin,
+      },
+      accessToken,
+      refreshToken,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ msg: "Internal Server Error" });
+    console.error("Login error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
   }
 };
 
@@ -113,7 +153,7 @@ const update = async (req, res) => {
           __dirname,
           "..",
           "uploads",
-          userExist.image.split("/").pop()
+          userExist.image.split("/").pop(),
         );
         if (fs.existsSync(oldImagePath)) {
           fs.unlinkSync(oldImagePath);

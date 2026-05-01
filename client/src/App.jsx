@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "./Store/Auth";
+import { useEffect } from "react";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import Home from "./pages/Home";
@@ -26,6 +27,11 @@ import "./index.css";
 function App() {
   const { user, isLoggedIn } = useAuth();
   const location = useLocation();
+
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   const isAuthPage =
     location.pathname === "/login" || location.pathname === "/register";
@@ -88,7 +94,7 @@ function App() {
         />
         <Route
           path="/my-orders"
-          element={isLoggedIn ? <ViewOrders/> : <Navigate to="/" replace />}
+          element={isLoggedIn ? <ViewOrders /> : <Navigate to="/" replace />}
         />
         <Route
           path="/checkout"

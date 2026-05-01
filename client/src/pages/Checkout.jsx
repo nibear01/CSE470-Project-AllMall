@@ -381,7 +381,7 @@ const Checkout = () => {
                 type="submit"
                 disabled={cartItems.length === 0}
                 className="w-full py-3 px-6 bg-emerald-500 text-white rounded-lg font-semibold hover:bg-emerald-600
-                border hover:border-emerald-500 hover:text-emerald-500 
+                border hover:border-emerald-500  
                 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 Place Order

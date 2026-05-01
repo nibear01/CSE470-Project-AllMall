@@ -1,40 +1,88 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 
-const userschema = new mongoose.Schema({
-  username: {
-    type: String,
-    require: true,
+const userschema = new mongoose.Schema(
+  {
+    username: {
+      type: String,
+      require: true,
+    },
+    email: {
+      type: String,
+      require: true,
+    },
+    phone: {
+      type: String,
+      require: true,
+    },
+    password: {
+      type: String,
+      require: true,
+    },
+    description: {
+      type: String,
+      default: "",
+    },
+    image: {
+      type: String,
+      default: "",
+    },
+    address: {
+      type: String,
+      default: "AboyNagar, Dhaka-Bangladesh",
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+    refreshToken: {
+      type: String,
+      default: null,
+    },
   },
-  email: {
-    type: String,
-    require: true,
-  },
-  phone: {
-    type: String,
-    require: true,
-  },
-  password: {
-    type: String,
-    require: true,
-  },
-  description: {
-    type: String,
-    default: "",
-  },
-  image: {
-    type: String, 
-    default: "",
-  },
-  address : {
-    type: String,
-    default: "AboyNagar, Dhaka-Bangladesh"
-  },
-  isAdmin: {
-    type: Boolean,
-    default: false,
-  },
-}, {timestamps: true} );
+  { timestamps: true },
+);
+
+//Access Token (short-lived)
+userschema.methods.generateAccessToken = async function () {
+  try {
+    return jwt.sign(
+      {
+        userId: this._id.toString(),
+        email: this.email,
+        isAdmin: this.isAdmin,
+        type: "access",
+      },
+      process.env.JWT_TOKEN,
+      {
+        expiresIn: "15m",
+      },
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//Refresh Token (long-lived)
+userschema.methods.generateRefreshToken = async function () {
+  try {
+    const refreshToken = jwt.sign(
+      {
+        userId: this._id.toString(),
+        type: "refresh",
+      },
+      process.env.REFRESH_TOKEN_SECRET || process.env.JWT_TOKEN,
+      {
+        expiresIn: "7d",
+      },
+    );
+    this.refreshToken = refreshToken;
+    await this.save();
+    return refreshToken;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 //JSON web tokens
 userschema.methods.generateToken = async function () {
@@ -48,7 +96,7 @@ userschema.methods.generateToken = async function () {
       process.env.JWT_TOKEN,
       {
         expiresIn: "1d",
-      }
+      },
     );
   } catch (error) {
     console.log(error);
@@ -57,4 +105,3 @@ userschema.methods.generateToken = async function () {
 
 const User = new mongoose.model("User", userschema);
 module.exports = User;
-
