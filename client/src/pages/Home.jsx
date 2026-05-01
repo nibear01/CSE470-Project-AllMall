@@ -1,6 +1,7 @@
 import HomeCatSlider from "../components/HomeCatSlider/HomeCatSlider";
 import HomeSlider from "../components/HomeSlider/HomeSlider";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Home.css";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -9,9 +10,27 @@ import Chatbot from "./Chatbot";
 
 const Home = () => {
   const [value, setValue] = useState(0);
+  const navigate = useNavigate();
+
+  const categories = [
+    "fashion",
+    "electronics",
+    "bags",
+    "footwear",
+    "groceries",
+    "beauty",
+    "wellness",
+    "jewellery",
+  ];
+
+  // Reset tab value when component mounts
+  useEffect(() => {
+    setValue(0);
+  }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    navigate(`/category/${categories[newValue]}`);
   };
 
   return (
@@ -22,7 +41,7 @@ const Home = () => {
       <section className="bg-white popular-products-section">
         <div className="popular-products-header">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full gap-3 sm:gap-4 md:gap-6">
-            <div className="left-sec w-full md:w-auto">
+            <div className="left-sec w-full md:w-auto flex-1">
               <h2 className="font-bold text-2xl sm:text-3xl md:text-4xl lg:text-4xl leading-tight text-gray-900">
                 Popular Products
               </h2>
@@ -35,7 +54,7 @@ const Home = () => {
               </p>
             </div>
 
-            <div className="right-sec w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
+            <div className="right-sec w-full md:w-auto overflow-x-auto pb-2 md:pb-0 md:shrink-0">
               <Tabs
                 value={value}
                 onChange={handleChange}
@@ -54,6 +73,10 @@ const Home = () => {
                   "& .MuiTabs-indicator": {
                     height: 3,
                     borderRadius: "1px",
+                    backgroundColor: "#059669",
+                  },
+                  "& .MuiTab-root.Mui-selected": {
+                    color: "#059669 !important",
                   },
                 }}
               >

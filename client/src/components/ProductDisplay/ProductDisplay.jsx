@@ -229,14 +229,14 @@ const ProductDisplay = () => {
         >
           <Link
             to="/"
-            className="hover:text-emerald-600 transition-colors duration-300 font-medium"
+            className="hover:text-emerald-600 transition-colors duration-300 font-normal"
           >
             Home
           </Link>
           <span className="mx-3 text-gray-400">/</span>
           <Link
             to="/products"
-            className="hover:text-emerald-600 transition-colors duration-300 font-medium"
+            className="hover:text-emerald-600 transition-colors duration-300 font-normal"
           >
             Products
           </Link>
@@ -431,7 +431,7 @@ const ProductDisplay = () => {
                 whileTap={{ scale: 0.98 }}
                 onClick={() => handleAddToCart(product._id)}
                 disabled={product.status === "inactive"}
-                className="flex-1 py-4 bg-linear-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed text-lg"
+                className="flex-1 py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed text-lg"
               >
                 <FaShoppingCart size={24} />
                 Add to Cart
@@ -441,7 +441,7 @@ const ProductDisplay = () => {
                 whileTap={{ scale: 0.98 }}
                 onClick={handleBuyNow}
                 disabled={product.status === "inactive"}
-                className="flex-1 py-4 border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white font-bold rounded-xl shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-lg"
+                className="flex-1 py-4 border border-emerald-500 text-emerald-500 hover:bg-emerald-500 hover:text-white font-bold rounded-xl shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-lg"
               >
                 Buy Now
               </motion.button>
