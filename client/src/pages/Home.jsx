@@ -19,47 +19,83 @@ const Home = () => {
       <HomeSlider />
       <HomeCatSlider />
 
-      <section className="bg-white">
-        <div className="py-4 sm:py-6 lg:py-8 bg-white">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-[95%] sm:w-[90%] lg:w-[85%] mx-auto px-4 sm:px-0">
-            <div className="left-sec mb-4 md:mb-0">
-              <h2 className="font-3xl text-lg sm:text-xl lg:text-2xl">
+      <section className="bg-white popular-products-section">
+        <div className="popular-products-header">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full gap-3 sm:gap-4 md:gap-6">
+            <div className="left-sec w-full md:w-auto">
+              <h2 className="font-bold text-2xl sm:text-3xl md:text-4xl lg:text-4xl leading-tight text-gray-900">
                 Popular Products
               </h2>
-              <h4 className="text-sm sm:text-base text-gray-600">
-                Do not miss the current offers until the end of {new Date().toLocaleString('default', { month: 'long' })}.
-              </h4>
+              <p className="text-sm sm:text-base text-gray-500 mt-2 sm:mt-3 font-medium">
+                Discover trending items loved by our customers
+              </p>
+              <p className="text-xs sm:text-sm text-gray-400 mt-1">
+                Limited offers until the end of{" "}
+                {new Date().toLocaleString("default", { month: "long" })}.
+              </p>
             </div>
 
-            <div className="right-sec w-full md:w-auto">
+            <div className="right-sec w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
               <Tabs
                 value={value}
                 onChange={handleChange}
                 variant="scrollable"
                 scrollButtons="auto"
                 allowScrollButtonsMobile
-                aria-label="scrollable auto tabs example"
+                aria-label="product categories"
                 sx={{
                   "& .MuiTabs-scrollButtons": {
                     "&.Mui-disabled": { opacity: 0.3 },
                   },
+                  "& .MuiTabs-scroller": {
+                    overflowX: "auto",
+                    scrollBehavior: "smooth",
+                  },
+                  "& .MuiTabs-indicator": {
+                    height: 3,
+                    borderRadius: "1px",
+                  },
                 }}
               >
-                <Tab label="Fashion" className="text-xs sm:text-sm" />
-                <Tab label="Electronics" className="text-xs sm:text-sm" />
-                <Tab label="Bags" className="text-xs sm:text-sm" />
-                <Tab label="Footwear" className="text-xs sm:text-sm" />
-                <Tab label="Groceries" className="text-xs sm:text-sm" />
-                <Tab label="Beauty" className="text-xs sm:text-sm" />
-                <Tab label="Wellness" className="text-xs sm:text-sm" />
-                <Tab label="Jewellery" className="text-xs sm:text-sm" />
+                <Tab
+                  label="Fashion"
+                  className="text-xs sm:text-sm md:text-base min-w-fit!"
+                />
+                <Tab
+                  label="Electronics"
+                  className="text-xs sm:text-sm md:text-base min-w-fit!"
+                />
+                <Tab
+                  label="Bags"
+                  className="text-xs sm:text-sm md:text-base min-w-fit!"
+                />
+                <Tab
+                  label="Footwear"
+                  className="text-xs sm:text-sm md:text-base min-w-fit!"
+                />
+                <Tab
+                  label="Groceries"
+                  className="text-xs sm:text-sm md:text-base min-w-fit!"
+                />
+                <Tab
+                  label="Beauty"
+                  className="text-xs sm:text-sm md:text-base min-w-fit!"
+                />
+                <Tab
+                  label="Wellness"
+                  className="text-xs sm:text-sm md:text-base min-w-fit!"
+                />
+                <Tab
+                  label="Jewellery"
+                  className="text-xs sm:text-sm md:text-base min-w-fit!"
+                />
               </Tabs>
             </div>
           </div>
         </div>
 
-        <div className="w-[95%] sm:w-[90%] lg:w-[85%] mx-auto px-4 sm:px-0">
-          <ProductSlider items={5} />
+        <div className="popular-products-content">
+          <ProductSlider />
         </div>
 
         <Chatbot />

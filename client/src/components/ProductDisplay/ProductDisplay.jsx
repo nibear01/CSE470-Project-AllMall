@@ -145,17 +145,17 @@ const ProductDisplay = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-linear-to-br from-gray-50 via-gray-100 to-emerald-50">
+      <div className="flex flex-col items-center justify-center h-screen bg-linear-to-br from-gray-50 via-gray-100 to-emerald-50">
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
           className="text-center"
         >
-          <CircularProgress size={80} thickness={4} sx={{ color: "#059669" }} />
-          <p className="text-gray-700 text-lg mt-6 font-medium">
-            Loading product details...
-          </p>
+          <CircularProgress size={70} thickness={2} sx={{ color: "#059669" }} />
         </motion.div>
+        <p className="text-gray-700 text-lg mt-6 font-medium">
+          Loading product details...
+        </p>
       </div>
     );
   }
